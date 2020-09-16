@@ -7,4 +7,8 @@ import { Component } from '@angular/core'
 })
 export class AppComponent {
   title = 'gluon-core'
+
+  enable = true
+
+  qid: number = 0
 }
