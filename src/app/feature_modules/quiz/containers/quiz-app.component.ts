@@ -8,7 +8,6 @@ import { QUIZ_STATE } from '../services/quiz-provider.service'
     <div>
       <div *ngIf="!isAvailable">Loading ...</div>
       <div *ngIf="isAvailable">
-        <h1>QID: {{ quizId }}</h1>
         <app-quiz-header></app-quiz-header>
       </div>
     </div>
