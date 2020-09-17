@@ -1,12 +1,16 @@
 import { Component, Inject, Input } from '@angular/core'
-import { QuizState, QUIZ_STATE } from '../services/quiz-provider.service'
+import { QuizState } from '../models/interfaces'
+import { QUIZ_STATE } from '../services/quiz-provider.service'
 
 @Component({
   selector: 'app-quiz',
   template: `
     <div>
-      <h1>QID: {{ quizId }}</h1>
-      <app-quiz-header></app-quiz-header>
+      <div *ngIf="!isAvailable">Loading ...</div>
+      <div *ngIf="isAvailable">
+        <h1>QID: {{ quizId }}</h1>
+        <app-quiz-header></app-quiz-header>
+      </div>
     </div>
   `,
   styles: [``],
@@ -15,6 +19,10 @@ export class QuizAppComponent {
   @Input()
   set quizId(value: string) {
     this.service.qid = value
+  }
+
+  get isAvailable(): boolean {
+    return this.service.isAvailable
   }
 
   constructor(@Inject(QUIZ_STATE) private service: QuizState) {}

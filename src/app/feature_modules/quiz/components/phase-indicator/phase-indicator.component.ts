@@ -2,13 +2,13 @@ import { Component, Input } from '@angular/core'
 
 @Component({
   selector: 'app-phase-indicator',
-  template: ``,
+  template: ` <div>Phase {{ currentPhase }} / {{ phasesCount }}</div>`,
   styles: [``],
 })
 export class PhaseIndicatorComponent {
   @Input()
-  public phasesCount = 0
+  phasesCount = 0
 
   @Input()
-  public currentPhase = 0
+  currentPhase = 0
 }

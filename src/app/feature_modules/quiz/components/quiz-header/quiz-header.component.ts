@@ -1,9 +1,8 @@
-import { Component, Inject, Input } from '@angular/core'
-import { QuizProvider, QuizState, QUIZ_STATE } from '../../services/quiz-provider.service'
+import { Component, Input } from '@angular/core'
 
 @Component({
   selector: 'app-quiz-header',
-  template: ` <div>App: {{ service.qid }}</div> `,
+  template: ` <div>Quiz Header: {{ quizName }} - {{ exerciseName }}</div> `,
   styles: [``],
 })
 export class QuizHeaderComponent {
@@ -12,6 +11,4 @@ export class QuizHeaderComponent {
 
   @Input()
   exerciseName: string = 'exercise name'
-
-  constructor(@Inject(QUIZ_STATE) public service: QuizState) {}
 }

@@ -1,9 +1,10 @@
+import { QuestionType } from './enums'
+import { MainQuestion, PhaseStack, Question } from './interfaces'
+
 export const dummy_data = {
   Q01: {
     title: '',
-    author: '',
     content: '',
-    image_url: '',
     /**
      * correct_answer.
      * - number: if one correct answer only
@@ -43,4 +44,32 @@ export const dummy_data = {
       },
     ],
   },
+}
+
+export const realDummyData = <MainQuestion>{
+  title: 'Hello',
+
+  content: 'Lorem Ipsum',
+
+  correctAnswer: '100',
+
+  answers: null,
+
+  type: QuestionType.TEXT,
+
+  helps: <any>{
+    phaseOne: <PhaseStack>{
+      openQuestion: '',
+      subQuestions: <Question[]>[
+        {
+          content: '',
+          correctAnswer: '200',
+          answers: null,
+          type: QuestionType.TEXT,
+        },
+      ],
+    },
+  },
+
+  followUpQuestions: <Question[]>[],
 }
