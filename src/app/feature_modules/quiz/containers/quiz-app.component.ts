@@ -1,15 +1,5 @@
-import { Component, Input } from '@angular/core'
-import { QuizFacade } from '../services/quiz-facade.service'
-import {
-  QUIZ_STATE,
-  DummyQuizState,
-  QuizState,
-} from '../services/quiz-state.service'
-
-export const quizFacadeFactory = (
-  quizState: QuizState,
-  self: QuizAppComponent
-) => new QuizFacade(quizState, self.quizId)
+import { Component, Inject, Input } from '@angular/core'
+import { QuizState, QUIZ_STATE } from '../services/quiz-provider.service'
 
 @Component({
   selector: 'app-quiz',
@@ -20,21 +10,12 @@ export const quizFacadeFactory = (
     </div>
   `,
   styles: [``],
-  providers: [
-    {
-      provide: QUIZ_STATE,
-      useValue: DummyQuizState,
-    },
-    {
-      provide: QuizFacade,
-      useFactory: quizFacadeFactory,
-      deps: [QUIZ_STATE, QuizAppComponent],
-    },
-  ],
 })
 export class QuizAppComponent {
   @Input()
-  quizId: string = ''
+  set quizId(value: string) {
+    this.service.qid = value
+  }
 
-  constructor() {}
+  constructor(@Inject(QUIZ_STATE) private service: QuizState) {}
 }

@@ -4,5 +4,5 @@
   <button (click)="enable = !enable">Switch</button>
   <input type="number" [(ngModel)]="qid" min="0" max="10" />
 
-  <app-quiz *ngIf="enable" [quizId]="qid"></app-quiz>
+  <app-quiz *ngIf="enable" [quizId]="qid.toString()"></app-quiz>
 </div>
