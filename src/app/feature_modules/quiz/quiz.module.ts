@@ -6,9 +6,10 @@ import { QuizAppComponent } from './containers/quiz-app.component'
 import { DummyQuizProvider, QUIZ_STATE } from './services/quiz-provider.service'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   exports: [QuizAppComponent],
   declarations: [
     // Containers

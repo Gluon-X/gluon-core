@@ -7,7 +7,12 @@ export interface QuizPlayable {
 
   readonly title?: string
 
+  // TODO Considering whether `mainQuestion`, `answer` and `isCorrect` be encapsulated inside class
   readonly mainQuestion?: BaseQuestion
+
+  readonly answer?: number | number[] | string
+
+  readonly isCorrect?: boolean
 
   readonly state: QuizState
 
