@@ -33,9 +33,7 @@ export class DummyQuizProvider implements QuizPlayable {
   private _qid?: string = null
 
   set qid(value: string) {
-    if (this._qid === value) {
-      return
-    }
+    if (this._qid === value) return
     this.reset()
     this._qid = value
     if (isNullOrUndefined(value)) {
@@ -46,7 +44,7 @@ export class DummyQuizProvider implements QuizPlayable {
     /**
      * TODO what if realDummyData[value] is unavailable??
      */
-    this.parse(realDummyData[value])
+    setTimeout(() => this.parse(realDummyData[value]), 3000)
   }
 
   get qid(): string {
@@ -57,6 +55,18 @@ export class DummyQuizProvider implements QuizPlayable {
 
   get mainQuestion(): BaseQuestion {
     return this._mainQuestion
+  }
+
+  private _answer?: number | number[] | string | string[] = null
+
+  get answer(): number | number[] | string | string[] | null {
+    return this._answer
+  }
+
+  get isCorrect(): boolean | null {
+    return isNullOrUndefined(this.answer)
+      ? null
+      : this.answer === this._mainQuestion.correctAnswer
   }
 
   get title(): string {
@@ -92,10 +102,10 @@ export class DummyQuizProvider implements QuizPlayable {
     if (
       isNullOrUndefined(answer) ||
       (this.state !== QuizState.HELP && this.state !== QuizState.READY)
-    ) {
+    )
       return
-    }
-    this._state = QuizState.FOLLOW_UP
+    this._answer = answer
+    if (this.isCorrect) this._state = QuizState.FOLLOW_UP
     /**
      * TODO:  negative numbers or numbers greater than len of available answers
      * TODO:  duplicate numbers in number[]
@@ -104,9 +114,7 @@ export class DummyQuizProvider implements QuizPlayable {
   }
 
   enableHelper() {
-    if (this.state === QuizState.READY) {
-      this._state = QuizState.HELP
-    }
+    if (this.state === QuizState.READY) this._state = QuizState.HELP
   }
 
   private parse(question: MainQuestion) {

@@ -63,7 +63,7 @@ export const realDummyData = {
         openQuestion: '',
         subQuestions: [
           {
-            content: '',
+            content: '120',
             correctAnswer: '200',
             answers: null,
             type: QuestionType.TEXT,

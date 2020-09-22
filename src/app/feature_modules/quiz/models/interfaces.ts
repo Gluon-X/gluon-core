@@ -23,8 +23,10 @@ export interface QuizPlayable {
 export interface BaseQuestion {
   content: string
 
+  imageURL?: string
+
   // hold available answers to pick, this field is null if `type` is TEXT.
-  answers?: string
+  answers?: string[]
 
   type: QuestionType
 }

@@ -6,14 +6,26 @@ import { QUIZ_STATE } from '../services/quiz-provider.service'
 @Component({
   selector: 'app-quiz',
   template: `
-    <div>
-      <div *ngIf="!isAvailable">Loading ...</div>
-      <div *ngIf="isAvailable">
-        <app-quiz-header></app-quiz-header>
+    <div [ngSwitch]="service.state">
+      <div class="centering" *ngSwitchCase="'EMPTY'">Loading ...</div>
+      <div class="centering" *ngSwitchCase="'FOLLOW_UP'"></div>
+      <div *ngSwitchDefault>
+        <app-quiz-header [exerciseName]="service.title"></app-quiz-header>
+        <app-quiz-showcase
+          [question]="service.mainQuestion"
+        ></app-quiz-showcase>
       </div>
     </div>
   `,
-  styles: [``],
+  styles: [
+    `
+      .centering {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    `,
+  ],
 })
 export class QuizAppComponent {
   @Input()
@@ -25,5 +37,5 @@ export class QuizAppComponent {
     return this.service.state !== QuizState.EMPTY
   }
 
-  constructor(@Inject(QUIZ_STATE) private service: QuizPlayable) {}
+  constructor(@Inject(QUIZ_STATE) public service: QuizPlayable) {}
 }
