@@ -1,6 +1,4 @@
-import { Component, Inject } from '@angular/core'
-import { QuizState } from '../models/interfaces';
-import { QUIZ_STATE } from '../services/quiz-provider.service';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-answer-card',
@@ -8,5 +6,5 @@ import { QUIZ_STATE } from '../services/quiz-provider.service';
   styles: [``],
 })
 export class AnswerCardComponent {
-  constructor(@Inject(QUIZ_STATE) private service: QuizState) {}
+  constructor() {}
 }

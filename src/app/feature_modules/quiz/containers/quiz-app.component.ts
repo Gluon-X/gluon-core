@@ -1,5 +1,6 @@
 import { Component, Inject, Input } from '@angular/core'
-import { QuizState } from '../models/interfaces'
+import { QuizState } from '../models/enums'
+import { QuizPlayable } from '../models/interfaces'
 import { QUIZ_STATE } from '../services/quiz-provider.service'
 
 @Component({
@@ -21,8 +22,8 @@ export class QuizAppComponent {
   }
 
   get isAvailable(): boolean {
-    return this.service.isAvailable
+    return this.service.state !== QuizState.EMPTY
   }
 
-  constructor(@Inject(QUIZ_STATE) private service: QuizState) {}
+  constructor(@Inject(QUIZ_STATE) private service: QuizPlayable) {}
 }

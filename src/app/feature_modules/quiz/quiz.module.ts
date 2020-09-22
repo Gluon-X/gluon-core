@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common'
 import { PhaseIndicatorComponent } from './components/phase-indicator/phase-indicator.component'
 import { QuizHeaderComponent } from './components/quiz-header/quiz-header.component'
 import { QuizAppComponent } from './containers/quiz-app.component'
-import { DummyQuizProvider, QuizProvider, QUIZ_STATE } from './services/quiz-provider.service'
+import {
+  DummyQuizProvider,
+  QUIZ_STATE,
+} from './services/quiz-provider.service'
+import { AnswerCardComponent } from './containers/answer-card.component'
 
 @NgModule({
   imports: [CommonModule],
@@ -12,6 +16,7 @@ import { DummyQuizProvider, QuizProvider, QUIZ_STATE } from './services/quiz-pro
     QuizAppComponent,
     PhaseIndicatorComponent,
     QuizHeaderComponent,
+    AnswerCardComponent,
   ],
   providers: [
     {
