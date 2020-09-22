@@ -8,8 +8,8 @@ import { BaseQuestion } from '../models/interfaces'
     <h3>Exercise</h3>
     <p>{{ question.content }}</p>
 
-    <div *ngIf="question.answers">
-      <p *ngFor="let answer of question.answers; let index = index">
+    <div *ngIf="question.availableAnswers">
+      <p *ngFor="let answer of question.availableAnswers; let index = index">
         {{ index }}) {{ answer }}
       </p>
     </div>

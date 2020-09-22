@@ -52,9 +52,9 @@ export const realDummyData = {
 
     content: 'Lorem Ipsum',
 
-    correctAnswer: '100',
+    correctAnswers: '100',
 
-    answers: null,
+    availableAnswers: null,
 
     type: QuestionType.TEXT,
 
@@ -64,8 +64,8 @@ export const realDummyData = {
         subQuestions: [
           {
             content: '120',
-            correctAnswer: '200',
-            answers: null,
+            correctAnswers: '200',
+            availableAnswers: null,
             type: QuestionType.TEXT,
           },
         ] as Question[],

@@ -1,5 +1,31 @@
-import { FollowUpQuestionProvider, HelpProvider } from './classes'
+import {
+  FollowUpQuestionProvider,
+  HelpProvider,
+  MainQuestionProvider,
+} from './classes'
 import { QuestionType, QuizState } from './enums'
+
+export interface QuestionControlProvider {
+  isCompleted: boolean
+
+  questionIndex: number
+
+  questionsCount: number
+
+  hint?: string
+
+  question?: BaseQuestion
+
+  answer?: number | number[] | string
+
+  isCorrect?: boolean
+
+  next()
+
+  previous()
+
+  submit(answer: number | number[] | string)
+}
 
 export interface QuizPlayable {
   // id of current question
@@ -7,20 +33,13 @@ export interface QuizPlayable {
 
   readonly title?: string
 
-  // TODO Considering whether `mainQuestion`, `answer` and `isCorrect` be encapsulated inside class
-  readonly mainQuestion?: BaseQuestion
-
-  readonly answer?: number | number[] | string
-
-  readonly isCorrect?: boolean
+  mainQuestion?: MainQuestionProvider
 
   readonly state: QuizState
 
   helper?: HelpProvider
 
   followUpProvider?: FollowUpQuestionProvider
-
-  submit(choice: number | number[] | string)
 
   enableHelper(): void
 }
@@ -31,7 +50,7 @@ export interface BaseQuestion {
   imageURL?: string
 
   // hold available answers to pick, this field is null if `type` is TEXT.
-  answers?: string[]
+  availableAnswers?: string[]
 
   type: QuestionType
 }
@@ -44,7 +63,7 @@ export interface Question extends BaseQuestion {
    * - string: if correct answer is a text
    * - string[]: answer is a text, but multiple correct inputs
    */
-  correctAnswer: number | number[] | string | string[]
+  correctAnswers: number | number[] | string | string[]
 }
 
 export interface PhaseStack {

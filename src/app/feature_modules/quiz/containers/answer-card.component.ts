@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { BaseQuestion, QuizPlayable } from '../models/interfaces'
+import { MainQuestionProvider } from '../models/classes'
 
 @Component({
   selector: 'app-answer-card',
@@ -14,6 +14,12 @@ import { BaseQuestion, QuizPlayable } from '../models/interfaces'
       </div>
       <div *ngSwitchDefault>Default =))</div>
     </div>
+
+    <div>
+      <button (click)="submit()">Submit</button>
+      <br />
+      <button (click)="emitHelp()">Help component works!</button>
+    </div>
   `,
   styles: [``],
 })
@@ -22,14 +28,18 @@ export class AnswerCardComponent {
    * TODO Why pass the entire QuizPlayable instance will we can only pass Question instance instead?
    */
   @Input()
-  question: BaseQuestion
+  question: MainQuestionProvider
 
   @Output()
-  submitAnswer = new EventEmitter<number | number[] | string>()
+  help = new EventEmitter<void>()
 
   input: string = ''
 
   submit() {
-    this.submitAnswer.emit(this.input)
+    this.question.submit(this.input)
+  }
+
+  emitHelp() {
+    this.help.emit()
   }
 }

@@ -1,7 +1,6 @@
 import { Component, Inject, Input } from '@angular/core'
 import { QuizPlayable } from '../models/interfaces'
 import { QUIZ_STATE } from '../services/quiz-provider.service'
-import { isNull } from '../../../shared'
 
 @Component({
   selector: 'app-quiz',
@@ -18,9 +17,11 @@ import { isNull } from '../../../shared'
         ></app-quiz-showcase>
         <h5>{{ hint }}</h5>
         <app-answer-card
-          (submitAnswer)="service.submit($event)"
+          (help)="service.enableHelper()"
           [question]="service.mainQuestion"
         ></app-answer-card>
+
+        <div *ngIf="service.state == 'HELP'">Help!!!</div>
       </div>
     </div>
   `,
@@ -47,11 +48,7 @@ export class QuizAppComponent {
   }
 
   get hint(): string {
-    const isCorrect = this.service.isCorrect
-    if (isNull(isCorrect) || isCorrect) {
-      return ''
-    }
-    return 'Incorrect answer'
+    return this.service.mainQuestion.hint
   }
 
   constructor(@Inject(QUIZ_STATE) public service: QuizPlayable) {}
