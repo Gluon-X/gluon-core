@@ -1,7 +1,7 @@
 import { QuestionType } from './enums'
 import { MainQuestion, PhaseStack, Question } from './interfaces'
 
-export const dummy_data = {
+export const dummyData = {
   Q01: {
     title: '',
     content: '',
@@ -46,30 +46,32 @@ export const dummy_data = {
   },
 }
 
-export const realDummyData = <MainQuestion>{
-  title: 'Hello',
+export const realDummyData = {
+  Q01: {
+    title: 'Hello',
 
-  content: 'Lorem Ipsum',
+    content: 'Lorem Ipsum',
 
-  correctAnswer: '100',
+    correctAnswer: '100',
 
-  answers: null,
+    answers: null,
 
-  type: QuestionType.TEXT,
+    type: QuestionType.TEXT,
 
-  helps: <any>{
-    phaseOne: <PhaseStack>{
-      openQuestion: '',
-      subQuestions: <Question[]>[
-        {
-          content: '',
-          correctAnswer: '200',
-          answers: null,
-          type: QuestionType.TEXT,
-        },
-      ],
-    },
-  },
+    helps: {
+      phaseOne: {
+        openQuestion: '',
+        subQuestions: [
+          {
+            content: '120',
+            correctAnswer: '200',
+            answers: null,
+            type: QuestionType.TEXT,
+          },
+        ] as Question[],
+      } as PhaseStack,
+    } as any,
 
-  followUpQuestions: <Question[]>[],
+    followUpQuestions: [] as Question[],
+  } as MainQuestion,
 }

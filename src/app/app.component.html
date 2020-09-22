@@ -1,8 +1,3 @@
-<h1>Angular Architecture</h1>
-
-<div>
-  <button (click)="enable = !enable">Switch</button>
-  <input type="number" [(ngModel)]="qid" min="0" max="10" />
-
-  <app-quiz *ngIf="enable" [quizId]="qid.toString()"></app-quiz>
+<div class="container">
+  <app-quiz [quizId]="qid"></app-quiz>
 </div>
