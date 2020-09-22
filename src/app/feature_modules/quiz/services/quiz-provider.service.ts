@@ -133,4 +133,5 @@ export class DummyQuizProvider implements QuizPlayable {
     this._followUpProvider = null
     this._enableHelp = false
   }
+
 }
