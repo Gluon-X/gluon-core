@@ -10,36 +10,44 @@ import {
   isNotUndefined,
   isNull,
   isNullOrUndefined,
+  isUndefined,
 } from '../../../shared'
+import { isNotNullOrUndefined } from 'codelyzer/util/isNotNullOrUndefined'
 
-export class MainQuestionProvider implements Question {
-  private _answer?: number | number[] | string
+export class QuestionProvider implements Question {
+  get isCompleted(): boolean {
+    return isNotNull(this.answer) && this.isCorrect
+  }
 
-  get answer(): number | number[] | string | null {
+  public get answer(): number | number[] | string | null {
     return this._answer
   }
 
-  get isCorrect(): boolean | null {
+  public get isCorrect(): boolean | null {
     const answer = this._answer
 
     if (isNull(answer)) return null
-    if (typeof answer === 'string') {
-      return Array.isArray(answer)
-        ? isNotUndefined(
-            (this.correctAnswers as string[]).find((v) => v === answer)
-          )
-        : this.correctAnswers === answer
+    switch (typeof answer) {
+      case 'string':
+        return Array.isArray(this.correctAnswers)
+          ? isNotUndefined(
+              (this.correctAnswers as string[]).find((v) => v === answer)
+            )
+          : this.correctAnswers === answer
+      case 'number':
+        return Array.isArray(this.correctAnswers)
+          ? isNotUndefined(
+              (this.correctAnswers as number[]).find((v) => v === answer)
+            )
+          : this.correctAnswers === answer
+      default:
+        // TODO should this return null?
+        return null
     }
   }
 
-  private _hint?: string
-
   get hint(): string | null {
     return this._hint
-  }
-
-  get isCompleted(): boolean {
-    return isNotNull(this.answer) && this.isCorrect
   }
 
   constructor(
@@ -50,9 +58,15 @@ export class MainQuestionProvider implements Question {
     public readonly correctAnswers: number | number[] | string | string[]
   ) {}
 
-  static fromBaseQuestion(base: Question): MainQuestionProvider {
+  // TODO the following code blocks are duplicated.
+  // extended fields
+  private _answer?: number | number[] | string
+
+  private _hint?: string
+
+  static fromBaseQuestion(base: Question): QuestionProvider {
     if (isNullOrUndefined(base)) return null
-    return new MainQuestionProvider(
+    return new QuestionProvider(
       base.availableAnswers,
       base.content,
       base.imageURL,
@@ -99,25 +113,67 @@ export class HelpProvider implements QuestionControlProvider {
 }
 
 export class FollowUpQuestionProvider implements QuestionControlProvider {
-  isCompleted: boolean
+  private readonly _questions: QuestionProvider[]
 
-  constructor(private _questions: Question[]) {}
+  get isCompleted(): boolean {
+    return isUndefined(this._questions.find((q) => !q.isCompleted))
+  }
 
-  answer: number | number[] | string
+  constructor(questions: Question[]) {
+    this._questions = isNotNullOrUndefined(questions)
+      ? questions
+          .filter(isNotNullOrUndefined)
+          .map(QuestionProvider.fromBaseQuestion)
+      : []
+  }
 
-  hint: string
+  get question(): QuestionProvider | null {
+    return this._questions.length > 0
+      ? this._questions[this.questionIndex]
+      : null
+  }
 
-  isCorrect: boolean
+  get answer(): number | number[] | string | null {
+    return this.question?.answer
+  }
 
-  question: BaseQuestion
+  get hint(): string | null {
+    return this.question?.hint
+  }
 
-  questionIndex: number
+  get isCorrect(): boolean | null {
+    return this.question?.isCorrect
+  }
 
-  questionsCount: number
+  private _questionIndex = 0
 
-  next() {}
+  get questionIndex(): number {
+    return this._questionIndex
+  }
 
-  previous() {}
+  get questionsCount(): number {
+    return this._questions?.length
+  }
 
-  submit(answer: number | number[] | string) {}
+  get nextAvailable(): boolean {
+    return (
+      this._questions.length > 0 && this.questionIndex < this.questionsCount - 1
+    )
+  }
+
+  get prevAvailable(): boolean {
+    return this.questionIndex > 0
+  }
+
+  next() {
+    if (this.nextAvailable) this._questionIndex++
+  }
+
+  previous() {
+    if (this.prevAvailable) this._questionIndex--
+  }
+
+  submit(answer: number | number[] | string) {
+    this._questions[this.questionIndex].submit(answer)
+  }
 }

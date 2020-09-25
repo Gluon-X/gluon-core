@@ -3,7 +3,7 @@ import { isNull, isNullOrUndefined } from 'src/app/shared'
 import {
   FollowUpQuestionProvider,
   HelpProvider,
-  MainQuestionProvider,
+  QuestionProvider,
 } from '../models/classes'
 import { realDummyData } from '../models/dummy_data'
 import { QuizState } from '../models/enums'
@@ -13,7 +13,7 @@ export const QUIZ_STATE = new InjectionToken<QuizPlayable>('quiz.state')
 
 @Injectable()
 export class QuizProvider implements QuizPlayable {
-  mainQuestion?: MainQuestionProvider
+  mainQuestion?: QuestionProvider
 
   state: QuizState
 
@@ -55,9 +55,9 @@ export class DummyQuizProvider implements QuizPlayable {
     return this._qid
   }
 
-  private _mainQuestion?: MainQuestionProvider = null
+  private _mainQuestion?: QuestionProvider = null
 
-  get mainQuestion(): MainQuestionProvider {
+  get mainQuestion(): QuestionProvider {
     return this._mainQuestion
   }
 
@@ -70,11 +70,6 @@ export class DummyQuizProvider implements QuizPlayable {
   private _enableHelp = false
 
   get state(): QuizState {
-    /**
-     * should not use this.followUpProvider getter here.
-     * since the getter method also use this getter.
-     * which may cause looping functions.
-     */
     const main = this.mainQuestion
 
     if (isNull(main)) return QuizState.EMPTY
@@ -118,7 +113,7 @@ export class DummyQuizProvider implements QuizPlayable {
   }
 
   private parse(question: MainQuestion) {
-    this._mainQuestion = MainQuestionProvider.fromBaseQuestion(question)
+    this._mainQuestion = QuestionProvider.fromBaseQuestion(question)
     this._helper = new HelpProvider(question.helps)
     this._followUpProvider = new FollowUpQuestionProvider(
       question.followUpQuestions

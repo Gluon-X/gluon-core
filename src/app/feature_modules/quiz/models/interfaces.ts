@@ -1,7 +1,7 @@
 import {
   FollowUpQuestionProvider,
   HelpProvider,
-  MainQuestionProvider,
+  QuestionProvider,
 } from './classes'
 import { QuestionType, QuizState } from './enums'
 
@@ -33,7 +33,7 @@ export interface QuizPlayable {
 
   readonly title?: string
 
-  mainQuestion?: MainQuestionProvider
+  mainQuestion?: QuestionProvider
 
   readonly state: QuizState
 
