@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "gluon-core"
+    }
+  },
+  "defaultProject": "gluon-core",
+  "cli": {
+    "analytics": false
+  }
 }
