@@ -1,0 +1,20 @@
+<!-- <h3>Exercise</h3>
+<p>{{ question.content }}</p>
+
+<div *ngIf="question.availableAnswers">
+  <p *ngFor="let answer of question.availableAnswers; let index = index">
+    {{ index }}) {{ answer }}
+  </p>
+</div> -->
+
+<div class="container">
+  <div class="m-4">
+    <div *ngFor="let question of this.listOfQuestion" class="mt-2">
+      <label class="inline-flex items-center">
+          <input type="radio" class="form-radio" name="radio" [value]='question'>
+          <span class="ml-2">{{question}}</span>
+      </label>
+  </div>
+  </div>
+
+</div>
