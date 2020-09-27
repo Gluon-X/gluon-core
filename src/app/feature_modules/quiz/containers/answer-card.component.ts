@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { MainQuestionProvider } from '../models/classes'
+import { QuestionProvider } from '../models/classes'
 
 @Component({
   selector: 'app-answer-card',
@@ -28,7 +28,7 @@ export class AnswerCardComponent {
    * TODO Why pass the entire QuizPlayable instance will we can only pass Question instance instead?
    */
   @Input()
-  question: MainQuestionProvider
+  question: QuestionProvider
 
   @Output()
   help = new EventEmitter<void>()
