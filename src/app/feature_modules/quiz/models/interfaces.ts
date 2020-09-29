@@ -1,6 +1,6 @@
 import {
-  FollowUpQuestionProvider,
-  HelpProvider,
+  MultiQuestionsProvider,
+  MultiPhasesProvider,
   QuestionProvider,
 } from './classes'
 import { QuestionType, QuizState } from './enums'
@@ -20,6 +20,10 @@ export interface QuestionControlProvider {
 
   isCorrect?: boolean
 
+  nextAvailable: boolean
+
+  prevAvailable: boolean
+
   next()
 
   previous()
@@ -33,13 +37,13 @@ export interface QuizPlayable {
 
   readonly title?: string
 
-  mainQuestion?: QuestionProvider
+  readonly mainQuestion?: QuestionProvider
 
   readonly state: QuizState
 
-  helper?: HelpProvider
+  readonly helper?: MultiPhasesProvider
 
-  followUpProvider?: FollowUpQuestionProvider
+  readonly followUpProvider?: MultiQuestionsProvider
 
   enableHelper(): void
 }
