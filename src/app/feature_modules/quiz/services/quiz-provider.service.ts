@@ -88,21 +88,6 @@ export class DummyQuizProvider implements QuizPlayable {
     return this._followUpProvider
   }
 
-  // submit(answer: string | number | number[]) {
-  // if (
-  //   isNullOrUndefined(answer) ||
-  //   (this.state !== QuizState.HELP && this.state !== QuizState.READY)
-  // )
-  //   return
-  // this._answer = answer
-  // if (this.isCorrect) this._state = QuizState.FOLLOW_UP
-  /**
-   * TODO:  negative numbers or numbers greater than len of available answers
-   * TODO:  duplicate numbers in number[]
-   * TODO:  is empty string available????
-   */
-  // }
-
   enableHelper() {
     // if (this.state === QuizState.READY) this._state = QuizState.HELP
     this._enableHelp = true
