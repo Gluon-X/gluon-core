@@ -1,9 +1,9 @@
 import { Injectable, InjectionToken } from '@angular/core'
 import { isNull, isNullOrUndefined } from 'src/app/shared'
 import {
-  FollowUpQuestionProvider,
-  HelpProvider,
-  MainQuestionProvider,
+  MultiQuestionsProvider,
+  MultiPhasesProvider,
+  QuestionProvider,
 } from '../models/classes'
 import { realDummyData } from '../models/dummy_data'
 import { QuizState } from '../models/enums'
@@ -13,19 +13,15 @@ export const QUIZ_STATE = new InjectionToken<QuizPlayable>('quiz.state')
 
 @Injectable()
 export class QuizProvider implements QuizPlayable {
-  mainQuestion?: MainQuestionProvider
+  mainQuestion?: QuestionProvider
 
   state: QuizState
 
-  helper?: HelpProvider
+  helper?: MultiPhasesProvider
 
-  followUpProvider?: FollowUpQuestionProvider
+  followUpProvider?: MultiQuestionsProvider
 
   qid: string = ''
-
-  // submit(choice: string | number | number[]) {
-  //   throw new Error('Method not implemented.')
-  // }
 
   enableHelper(): void {
     throw new Error('Method not implemented.')
@@ -55,9 +51,9 @@ export class DummyQuizProvider implements QuizPlayable {
     return this._qid
   }
 
-  private _mainQuestion?: MainQuestionProvider = null
+  private _mainQuestion?: QuestionProvider = null
 
-  get mainQuestion(): MainQuestionProvider {
+  get mainQuestion(): QuestionProvider {
     return this._mainQuestion
   }
 
@@ -70,11 +66,6 @@ export class DummyQuizProvider implements QuizPlayable {
   private _enableHelp = false
 
   get state(): QuizState {
-    /**
-     * should not use this.followUpProvider getter here.
-     * since the getter method also use this getter.
-     * which may cause looping functions.
-     */
     const main = this.mainQuestion
 
     if (isNull(main)) return QuizState.EMPTY
@@ -85,32 +76,17 @@ export class DummyQuizProvider implements QuizPlayable {
     return this._enableHelp ? QuizState.HELP : QuizState.READY
   }
 
-  private _helper?: HelpProvider = null
+  private _helper?: MultiPhasesProvider = null
 
-  get helper(): HelpProvider {
+  get helper(): MultiPhasesProvider {
     return this._helper
   }
 
-  private _followUpProvider?: FollowUpQuestionProvider = null
+  private _followUpProvider?: MultiQuestionsProvider = null
 
-  get followUpProvider(): FollowUpQuestionProvider {
+  get followUpProvider(): MultiQuestionsProvider {
     return this._followUpProvider
   }
-
-  // submit(answer: string | number | number[]) {
-  // if (
-  //   isNullOrUndefined(answer) ||
-  //   (this.state !== QuizState.HELP && this.state !== QuizState.READY)
-  // )
-  //   return
-  // this._answer = answer
-  // if (this.isCorrect) this._state = QuizState.FOLLOW_UP
-  /**
-   * TODO:  negative numbers or numbers greater than len of available answers
-   * TODO:  duplicate numbers in number[]
-   * TODO:  is empty string available????
-   */
-  // }
 
   enableHelper() {
     // if (this.state === QuizState.READY) this._state = QuizState.HELP
@@ -118,9 +94,9 @@ export class DummyQuizProvider implements QuizPlayable {
   }
 
   private parse(question: MainQuestion) {
-    this._mainQuestion = MainQuestionProvider.fromBaseQuestion(question)
-    this._helper = new HelpProvider(question.helps)
-    this._followUpProvider = new FollowUpQuestionProvider(
+    this._mainQuestion = QuestionProvider.fromBaseQuestion(question)
+    this._helper = new MultiPhasesProvider(question.helps)
+    this._followUpProvider = new MultiQuestionsProvider(
       question.followUpQuestions
     )
     this._title = question.title
@@ -133,5 +109,4 @@ export class DummyQuizProvider implements QuizPlayable {
     this._followUpProvider = null
     this._enableHelp = false
   }
-
 }

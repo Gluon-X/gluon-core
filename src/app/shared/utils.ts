@@ -11,3 +11,11 @@ export const isNullOrUndefined = (value?: any) =>
 
 export const isNeitherNullNorUndefined = (value?: any) =>
   !isNullOrUndefined(value)
+
+export const isStrings = (value?: any) =>
+  Array.isArray(value) &&
+  isUndefined((value as any[]).find((a) => typeof a !== 'string'))
+
+export const isNumbers = (value?: any) =>
+  Array.isArray(value) &&
+  isUndefined((value as any[]).find((a) => typeof a !== 'number'))
