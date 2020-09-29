@@ -1,24 +1,43 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
+import * as express from 'express'
+import * as bodyParser from 'body-parser'
 
+// App routes
+import { appRoutes } from './routes/app.routes'
 
-// Start writing Firebase Functions
-// https://firebase.google.com/docs/functions/typescript
-const db = admin.initializeApp().firestore();
-export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
-});
+const PORT = process.env.PORT || 3000
 
-export const getQuiz = functions.https.onRequest(async(req,res)=>{
-  try {
-    let result = db.collection('').doc
-
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send();
-  }
+// Connect with firebase
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  databaseURL: 'https://enq-mobile.firebaseio.com',
 })
-//this is the get all quiz
 
+// Express app
+class ExpressApp {
+  public app: express.Application
 
+  constructor() {
+    this.app = express()
+    this._init()
+  }
+
+  // Init configs
+  private _init() {
+    // tslint:disable-next-line: deprecation
+    this.app.use(bodyParser.json())
+    // tslint:disable-next-line: deprecation
+    this.app.use(bodyParser.urlencoded({ extended: false }))
+  }
+}
+
+const app = new ExpressApp().app
+
+// Use app routes
+app.use('/api/v1', appRoutes)
+
+// Listen Express app
+app.listen(PORT, () => console.log(`server running on port ${PORT}`))
+
+export const gluonApi = functions.https.onRequest(app)
