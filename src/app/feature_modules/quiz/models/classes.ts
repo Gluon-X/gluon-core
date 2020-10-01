@@ -364,9 +364,8 @@ export class MultiPhasesProvider implements QuestionControlProvider {
   private readonly _phases: PhaseStackProvider[]
 
   constructor(_helps: { [phaseName: string]: PhaseStack }) {
-    this._phases = Object.entries(_helps ?? {}).map(
-      // @ts-ignore
-      PhaseStackProvider.fromPhaseStack
+    this._phases = Object.keys(_helps ?? {}).map((phaseName) =>
+      PhaseStackProvider.fromPhaseStack(phaseName, _helps[phaseName])
     )
   }
 

@@ -191,9 +191,6 @@ describe('MultiPhasesProvider tests', () => {
 
     provider.previous()
     assertPhaseOneFirstQuestionAnswerCorrectly(provider)
-
-    provider.next()
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
   })
 
   it('first question second phase', () => {
@@ -393,7 +390,7 @@ describe('MultiPhasesProvider tests', () => {
     assertPhaseTwoSecondQuestionAnswerCorrectly(provider)
 
     provider.previous()
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
+    assertPhaseTwoFirstQuestionAnswerCorrectly(provider)
   })
 
   it('third question correct third phase', () => {
@@ -406,6 +403,7 @@ describe('MultiPhasesProvider tests', () => {
     provider.submit([1, 2])
     provider.next()
     provider.submit(0)
+    provider.next()
     provider.submit([1, 2])
     provider.next()
     provider.submit('hello_world')
