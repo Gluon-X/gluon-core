@@ -312,7 +312,7 @@ export class MultiPhasesProvider implements QuestionControlProvider {
   }
 
   get currentPhaseName(): string | null {
-    return this._currentPhase?.phaseName
+    return isNull(this._currentPhase) ? null : this._currentPhase.phaseName
   }
 
   get phasesCount(): number {
@@ -320,31 +320,31 @@ export class MultiPhasesProvider implements QuestionControlProvider {
   }
 
   get questionIndex(): number | null {
-    return this._currentPhase?.questionIndex
+    return isNull(this._currentPhase) ? null : this._currentPhase.questionIndex
   }
 
   get questionsCount(): number | null {
-    return this._currentPhase?.questionsCount
+    return isNull(this._currentPhase) ? null : this._currentPhase.questionsCount
   }
 
   get openQuestion(): string | null {
-    return this._currentPhase?.openQuestion
+    return isNull(this._currentPhase) ? null : this._currentPhase.openQuestion
   }
 
   get hint(): string | null {
-    return this._currentPhase?.hint
+    return isNull(this._currentPhase) ? null : this._currentPhase.hint
   }
 
   get question(): BaseQuestion | null {
-    return this._currentPhase?.question
+    return isNull(this._currentPhase) ? null : this._currentPhase.question
   }
 
   get answer(): PossibleInputAnswer | null {
-    return this._currentPhase?.answer
+    return isNull(this._currentPhase) ? null : this._currentPhase.answer
   }
 
   get isCorrect(): boolean | null {
-    return this._currentPhase?.isCorrect
+    return isNull(this._currentPhase) ? null : this._currentPhase.isCorrect
   }
 
   get nextAvailable(): boolean {
