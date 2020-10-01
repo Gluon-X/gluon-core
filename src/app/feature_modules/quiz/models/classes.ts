@@ -161,18 +161,13 @@ export class QuestionProvider implements Question {
   protected isValidAnswer(answer: PossibleInputAnswer): boolean {
     if (isNullOrUndefined(answer)) return false
     const type = typeof answer
-    if (type === 'number' && this.type === QuestionType.SINGLE_CHOICE) {
-      if (
-        QuestionProvider.isInRange(
-          this.availableAnswers.length,
-          answer as number
-        )
+    if (type === 'number' && this.type === QuestionType.SINGLE_CHOICE)
+      return QuestionProvider.isInRange(
+        this.availableAnswers.length,
+        answer as number
       )
-        return true
-      else return false
-    }
     if (type === 'string' && this.type === QuestionType.TEXT) return true
-    if (
+    return (
       isNumbers(answer) &&
       (answer as number[]).length > 0 &&
       this.type === QuestionType.MULTIPLE_CHOICES &&
@@ -181,8 +176,6 @@ export class QuestionProvider implements Question {
         answer as number[]
       )
     )
-      return true
-    return false
   }
 
   submit(answer: PossibleInputAnswer) {
@@ -201,18 +194,17 @@ export class MultiQuestionsProvider implements QuestionControlProvider {
   private readonly _questions: QuestionProvider[]
 
   get isCompleted(): boolean {
-    return isUndefined(this._questions.find((q) => !q.isCompleted))
+    let result = true
+    for (const q of this._questions) result &&= q.isCompleted
+    return result
   }
 
   constructor(questions: Question[]) {
-    /**
-     * TODO filter out nullable els in _questions. What if after filtered, _questions is empty?
-     */
-    this._questions = isNotNullOrUndefined(questions)
-      ? questions
-          .filter(isNotNullOrUndefined)
-          .map(QuestionProvider.fromBaseQuestion)
-      : []
+    // `questions` field will not be NULL
+    this._questions =
+      questions
+        ?.map(QuestionProvider.fromBaseQuestion)
+        .filter(isNotNullOrUndefined) ?? []
   }
 
   get question(): Question | null {
@@ -244,12 +236,19 @@ export class MultiQuestionsProvider implements QuestionControlProvider {
   }
 
   get questionsCount(): number {
-    return this._questions?.length
+    // `null check` operator is uneccessary since `_questions` will never be NULL;
+    // at least empty, check `constructor`.
+    return this._questions.length
   }
 
   get nextAvailable(): boolean {
     return (
-      this._questions.length > 0 && this.questionIndex < this.questionsCount - 1
+      // at least one question
+      this._questions.length > 0 &&
+      // next question is available
+      this.questionIndex < this.questionsCount - 1 &&
+      // current question is completed
+      this._question.isCompleted
     )
   }
 
@@ -259,10 +258,12 @@ export class MultiQuestionsProvider implements QuestionControlProvider {
 
   next() {
     if (this.nextAvailable) this._questionIndex++
+    else console.error('Next question is not available')
   }
 
   previous() {
     if (this.prevAvailable) this._questionIndex--
+    else console.error('Previous question is not available')
   }
 
   submit(answer: PossibleInputAnswer) {
@@ -271,20 +272,26 @@ export class MultiQuestionsProvider implements QuestionControlProvider {
 }
 
 class PhaseStackProvider extends MultiQuestionsProvider {
-  readonly phaseName: string
+  readonly phaseName?: string
 
-  readonly openQuestion: string
+  readonly openQuestion?: string
 
   constructor(phaseName: string, phaseStack: PhaseStack) {
     super(phaseStack?.subQuestions)
     this.phaseName = phaseName
     this.openQuestion = phaseStack?.openQuestion
   }
+
+  public static fromPhaseStack(phaseName: string, value: PhaseStack) {
+    return new PhaseStackProvider(phaseName, value)
+  }
 }
 
 export class MultiPhasesProvider implements QuestionControlProvider {
   get isCompleted(): boolean {
-    return isUndefined(this._phases.find((p) => !p.isCompleted))
+    let result = true
+    for (const p of this._phases) result &&= p.isCompleted
+    return result
   }
 
   private _currentPhaseIndex = 0
@@ -293,11 +300,11 @@ export class MultiPhasesProvider implements QuestionControlProvider {
     return this._currentPhaseIndex
   }
 
-  private get _currentPhase(): PhaseStackProvider {
+  private get _currentPhase(): PhaseStackProvider | null {
     return this.phasesCount > 0 ? this._phases[this.currentPhaseIndex] : null
   }
 
-  get currentPhaseName(): string {
+  get currentPhaseName(): string | null {
     return this._currentPhase?.phaseName
   }
 
@@ -305,11 +312,11 @@ export class MultiPhasesProvider implements QuestionControlProvider {
     return this._phases.length
   }
 
-  get questionIndex(): number {
+  get questionIndex(): number | null {
     return this._currentPhase?.questionIndex
   }
 
-  get questionsCount(): number {
+  get questionsCount(): number | null {
     return this._currentPhase?.questionsCount
   }
 
@@ -334,39 +341,41 @@ export class MultiPhasesProvider implements QuestionControlProvider {
   }
 
   get nextAvailable(): boolean {
-    // TODO implement this
-    return true
+    return (
+      // at least one phase
+      this._currentPhase?.nextAvailable ||
+      // or next phase available and current phase is completed
+      (this.currentPhaseIndex < this.phasesCount - 1 &&
+        this._currentPhase?.isCompleted)
+    )
   }
 
   get prevAvailable(): boolean {
-    // TODO implement this
-    return true
+    return this._currentPhase?.prevAvailable || this.currentPhaseIndex > 0
   }
 
   private readonly _phases: PhaseStackProvider[]
 
   constructor(_helps: { [phaseName: string]: PhaseStack }) {
-    this._phases = isNotNullOrUndefined(_helps)
-      ? Object.keys(_helps).map((k) => new PhaseStackProvider(k, _helps[k]))
-      : []
+    this._phases = Object.entries(_helps ?? {}).map(
+      // @ts-ignore
+      PhaseStackProvider.fromPhaseStack
+    )
   }
 
   next() {
-    const currentPhase = this._currentPhase
-
-    if (!currentPhase.isCompleted) return
-    if (currentPhase.nextAvailable) currentPhase.next()
-    else if (this.nextAvailable) this._currentPhaseIndex += 1
+    if (!this.nextAvailable) return
+    if (this._currentPhase.nextAvailable) this._currentPhase.next()
+    else this._currentPhaseIndex += 1
   }
 
   previous() {
-    const currentPhase = this._currentPhase
-
-    if (currentPhase.prevAvailable) currentPhase.previous()
-    else if (this.prevAvailable) this._currentPhaseIndex -= 1
+    if (!this.prevAvailable) return
+    if (this._currentPhase.prevAvailable) this._currentPhase.previous()
+    else this._currentPhaseIndex -= 1
   }
 
   submit(answer: PossibleInputAnswer) {
-    this._currentPhase.submit(answer)
+    this._currentPhase?.submit(answer)
   }
 }

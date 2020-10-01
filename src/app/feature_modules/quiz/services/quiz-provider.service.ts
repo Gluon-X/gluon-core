@@ -1,8 +1,8 @@
 import { Injectable, InjectionToken } from '@angular/core'
 import { isNull, isNullOrUndefined } from 'src/app/shared'
 import {
-  MultiQuestionsProvider,
   MultiPhasesProvider,
+  MultiQuestionsProvider,
   QuestionProvider,
 } from '../models/classes'
 import { realDummyData } from '../models/dummy_data'
@@ -65,10 +65,12 @@ export class DummyQuizProvider implements QuizPlayable {
 
   private _enableHelp = false
 
+  private _isError = false
+
   get state(): QuizState {
     const main = this.mainQuestion
 
-    if (isNull(main)) return QuizState.EMPTY
+    if (isNull(main)) return this._isError ? QuizState.ERROR : QuizState.EMPTY
     if (main.isCompleted)
       return this.followUpProvider.isCompleted
         ? QuizState.FINISHED
@@ -95,6 +97,11 @@ export class DummyQuizProvider implements QuizPlayable {
 
   private parse(question: MainQuestion) {
     this._mainQuestion = QuestionProvider.fromBaseQuestion(question)
+    if (isNull(this._mainQuestion)) {
+      console.log(`An error occurred while parsing data`)
+      this._isError = true
+      return
+    }
     this._helper = new MultiPhasesProvider(question.helps)
     this._followUpProvider = new MultiQuestionsProvider(
       question.followUpQuestions
@@ -108,5 +115,6 @@ export class DummyQuizProvider implements QuizPlayable {
     this._helper = null
     this._followUpProvider = null
     this._enableHelp = false
+    this._isError = false
   }
 }

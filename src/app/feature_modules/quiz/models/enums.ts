@@ -5,6 +5,9 @@ export enum QuestionType {
 }
 
 export enum QuizState {
+  // An error occurred while parsing data
+  ERROR = 'ERROR',
+
   // No data available.
   EMPTY = 'EMPTY',
 
