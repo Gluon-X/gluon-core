@@ -76,7 +76,7 @@ export class QuestionProvider implements Question {
     }
     switch (base.type) {
       case QuestionType.SINGLE_CHOICE:
-        if (this.isInvalidSingleChoiceQuestion(base)) {
+        if (QuestionProvider.isInvalidSingleChoiceQuestion(base)) {
           console.error(`Invalid single choice question input.`)
           return null
         }
@@ -106,7 +106,10 @@ export class QuestionProvider implements Question {
           // at least 1 correct answer
           (correctAnswers as number[]).length > 0 &&
           // correct answers indices must exist in available answers
-          this.isInRange(availableAnswers.length, correctAnswers as number[])
+          QuestionProvider.isInRange(
+            availableAnswers.length,
+            correctAnswers as number[]
+          )
         )
           break
         return null
@@ -142,13 +145,17 @@ export class QuestionProvider implements Question {
       // single choice question allows one correct answer index only
       typeof base.correctAnswers !== 'number' ||
       // correct answer index must be within available answers' indices
-      !this.isInRange(base.availableAnswers.length, base.correctAnswers)
+      !QuestionProvider.isInRange(
+        base.availableAnswers.length,
+        base.correctAnswers
+      )
     )
   }
 
   private static isInRange(length: number, value: number | number[]): boolean {
     if (typeof value === 'number') return value < length && value >= 0
-    for (const num of value) if (!this.isInRange(length, num)) return false
+    for (const num of value)
+      if (!QuestionProvider.isInRange(length, num)) return false
     return true
   }
 
@@ -218,15 +225,15 @@ export class MultiQuestionsProvider implements QuestionControlProvider {
   }
 
   get answer(): PossibleInputAnswer | null {
-    return this._question?.answer
+    return isNull(this._question) ? null : this._question?.answer
   }
 
   get hint(): string | null {
-    return this._question?.hint
+    return isNull(this._question) ? null : this._question?.hint
   }
 
   get isCorrect(): boolean | null {
-    return this._question?.isCorrect
+    return isNull(this._question) ? null : this._question?.isCorrect
   }
 
   private _questionIndex = 0
