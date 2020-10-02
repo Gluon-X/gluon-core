@@ -1,6 +1,6 @@
-import { Component, Inject, Input, Self } from '@angular/core'
+import { Component, Inject, Input } from '@angular/core'
 import { QuizPlayable } from '../models/interfaces'
-import { QUIZ_STATE, QuizHandler } from '../services/quiz-provider.service'
+import { QUIZ_STATE } from '../services/quiz-provider.service'
 
 @Component({
   selector: 'app-quiz',
@@ -40,13 +40,6 @@ import { QUIZ_STATE, QuizHandler } from '../services/quiz-provider.service'
       }
     `,
   ],
-
-  providers: [
-    {
-      provide: QUIZ_STATE,
-      useClass: QuizHandler,
-    },
-  ],
 })
 export class QuizAppComponent {
   @Input()
@@ -58,5 +51,5 @@ export class QuizAppComponent {
     return this.service.mainQuestion.hint
   }
 
-  constructor(@Self() @Inject(QUIZ_STATE) public service: QuizPlayable) {}
+  constructor(@Inject(QUIZ_STATE) public service: QuizPlayable) {}
 }
