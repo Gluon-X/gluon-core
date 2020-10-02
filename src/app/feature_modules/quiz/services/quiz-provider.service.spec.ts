@@ -1,8 +1,8 @@
 import { QuizState } from '../models/enums'
 import { QuizPlayable } from '../models/interfaces'
-import { DummyQuizProvider } from './quiz-provider.service'
+import { QuizHandler, QuizStorage } from './quiz-provider.service'
 
-const createInstance = (): QuizPlayable => new DummyQuizProvider()
+const createInstance = (): QuizPlayable => new QuizHandler(new QuizStorage())
 
 describe('Dummy quiz provider test suite', () => {
   describe('Initialization behaviours', () => {
@@ -31,7 +31,6 @@ describe('Dummy quiz provider test suite', () => {
        * ------|-----
        * -3 -1 0 1 3
        */
-
       // const service = createInstance()
       //
       // // Try with number
