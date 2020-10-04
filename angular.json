@@ -34,7 +34,6 @@
               "src/styles.scss"
             ],
             "scripts": []
-            
           },
           "configurations": {
             "production": {
@@ -130,6 +129,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "gluon-core"
+    }
+  },
+  "defaultProject": "gluon-core",
+  "cli": {
+    "analytics": false
+  }
 }
