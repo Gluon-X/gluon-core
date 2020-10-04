@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { PhaseIndicatorComponent } from './components/phase-indicator/phase-indicator.component'
+import { PhaseIndicatorComponent } from './components/phase/phase-indicator/phase-indicator.component'
 import { QuizHeaderComponent } from './components/quiz-header/quiz-header.component'
 import { QuizAppComponent } from './containers/quiz-app/quiz-app.component'
 import {
@@ -13,6 +13,9 @@ import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule } from '@angular/forms';
 import { AnswerListViewComponent } from './components/answers-type/list/answer-type-list.component'
 import {AnswerTextViewComponent } from "./components/answers-type/input-box/answer-type-input-box.component";
+import { QuizPhaseWrapperComponent } from './containers/quiz-phase-wrapper/quiz-phase-wrapper.component';
+import { PhaseLayoutComponent } from './components/phase/phase-layout/phase-layout.component';
+import { AnswearTypeComponent } from './components/answers-type/answer-type.componet'
 @NgModule({
   imports: [CommonModule, FormsModule],
   exports: [QuizAppComponent],
@@ -26,7 +29,10 @@ import {AnswerTextViewComponent } from "./components/answers-type/input-box/answ
     AnswerCardComponent,
     QuizShowcaseComponent,
     AnswerListViewComponent,
-    AnswerTextViewComponent
+    AnswerTextViewComponent,
+    QuizPhaseWrapperComponent,
+    PhaseLayoutComponent,
+    AnswearTypeComponent
 
     // Attribute Directives
   ],
