@@ -12,7 +12,7 @@ import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule } from '@angular/forms';
 import { AnswerListViewComponent } from './components/answers-type/list/answer-type-list.component'
-
+import {AnswerTextViewComponent } from "./components/answers-type/input-box/answer-type-input-box.component";
 @NgModule({
   imports: [CommonModule, FormsModule],
   exports: [QuizAppComponent],
@@ -26,6 +26,7 @@ import { AnswerListViewComponent } from './components/answers-type/list/answer-t
     AnswerCardComponent,
     QuizShowcaseComponent,
     AnswerListViewComponent,
+    AnswerTextViewComponent
 
     // Attribute Directives
   ],

@@ -1,20 +1,51 @@
-<div style="min-width: 1200px;">
-  <app-quiz-header 
-  [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'" 
-  [go_back_chapter]="'Number Theory'" 
-  [quiz_title]="'Integer Sequences'"></app-quiz-header>
-  
-  <div class="question-container flex flex-row justify-between" style="height: 80vh;">
-      <div class="right-area bg-blue-300 shadow-md" style="flex:7">
+<div [ngSwitch]="service.state">
+<div>
+  <!-- <div class="centering" *ngSwitchCase="'EMPTY'">Loading ...</div>
+  <div class="centering" *ngSwitchCase="'FOLLOW_UP'">Following up round  </div> -->
+  <div *ngSwitchDefault>
+    <div #contentBox style="min-width: 1200px;">
+      <div #mainQuestionRef>
+        <app-quiz-header [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'" [go_back_chapter]="'Number Theory'"
+        [quiz_title]="this.fakeData.title"></app-quiz-header>
+    
+      <div class="question-container flex flex-row justify-between" style="min-height: 50vh;">
+        <div style="min-width: 10vw;" class=" hover:bg-blue-700 duration-200">
+          <!-- Will be wiki ui -->
+        </div>
+        <div class="question-content left-area border-gray-300" style="padding: 3rem;min-width: 60vw; border-right: 2px; border-style: inset;">
           <!-- <h3>TODO IMPLEMT DIF kind of answear type</h3> -->
+          <div style="overflow-wrap: break-word" class="duration-700 text-lg">{{fakeData.content}}</div>
+          <div class="w-full flex flex-row justify-center">
+            <img style="width: 60%;" src="../../../../../assets/images/dev/exercises-11-6-1-center.png" alt="" srcset="">
+
+          </div>
+        </div>
+
+        <div class="answer-box right-area" style="min-width: 25vw;">
+          <!-- TODO IMPLENT INPUT TYPE ANSER -->
+          <div *ngIf="this.fakeData.type == 'TEXT';else listView">
+            <app-quiz-answer-type-input-text></app-quiz-answer-type-input-text>
+          </div>
+          <ng-template #listView>
+            <app-quiz-answer-type-list>
+            </app-quiz-answer-type-list>
+          </ng-template>
+          <div class="flex flex-row justify-between px-3 m-4">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Kiểm tra kết quả
+            </button>
+            <button (click)="toggleHelp()" class="bg-gray-200 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">Trợ giúp</button>  
+          </div>
+
+        </div>
       </div>
-      <div class="left-area bg-gray-100" style="flex:4">
-          <app-quiz-answer-type-list>
-          </app-quiz-answer-type-list>
+      </div>
+      <div #helpQuestionRef class="help-container">
+        <div #quizhelp class="help-box w-full h-screen" *ngIf="this.enableHelp">
+        </div>
       </div>
   </div>
-  
-  <div class="help-container"></div>
+</div>
 </div>
 
 
