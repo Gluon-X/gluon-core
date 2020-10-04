@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common'
 import { PhaseIndicatorComponent } from './components/phase-indicator/phase-indicator.component'
 import { QuizHeaderComponent } from './components/quiz-header/quiz-header.component'
 import { QuizAppComponent } from './containers/quiz-app/quiz-app.component'
-import { DummyQuizProvider, QUIZ_STATE } from './services/quiz-provider.service'
+import {
+  QUIZ_STATE,
+  QuizHandler,
+  QuizStorage,
+} from './services/quiz-provider.service'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule } from '@angular/forms';
@@ -26,9 +30,10 @@ import { AnswerListViewComponent } from './components/answers-type/list/answer-t
     // Attribute Directives
   ],
   providers: [
+    QuizStorage,
     {
       provide: QUIZ_STATE,
-      useClass: DummyQuizProvider,
+      useClass: QuizHandler,
     },
   ],
 })
