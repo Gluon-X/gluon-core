@@ -1,0 +1,15 @@
+<!-- <app-phase-indicator></app-phase-indicator> -->
+<!-- 10 60 30 % -->
+<!-- Render Single Help [subQuestions]-->
+<div>
+    <div class="w-full text-lg font-bold p-8">
+        Giải thích ✌️
+    </div>
+    <div *ngFor="let item of getPhaseList(); let i = index">
+        <app-phase-layout *ngIf="this.phaseData != null"
+        [phaseQuestions]="this.phaseData[item].subQuestions"
+        [openQuestion]="this.phaseData[item].openQuestion">
+        </app-phase-layout>
+        <div class="w-full bg-blue-600">{{i}} + ☝️ + {{item}}</div>
+    </div>
+</div>
