@@ -26,6 +26,8 @@ export class QuizAppComponent {
   }
 
   constructor(@Inject(QUIZ_STATE) public service: QuizPlayable) { 
+    //TODO core feature calling to services
+    // INPUT OUTPUT TO CHILD
   }
 
   toggleHelp(){
