@@ -17,6 +17,7 @@ export class QuizStorage {
     return new Promise<MainQuestion>((resolve, reject) => {
       setTimeout(() => {
         const data = realDummyData[qid]
+        console.log(data)
         if (isNullOrUndefined(data)) reject()
         else resolve(data)
       }, 1000)
@@ -36,11 +37,12 @@ export class QuizHandler implements QuizPlayable {
       this._qid = null
       return
     }
+    this.parse(realDummyData[value])
     // fetching data from https server
-    this._quizStorage
-      .get(value)
-      .then(this.parse)
-      .catch(() => (this._isError = true))
+    // this._quizStorage
+    //   .get(value)
+    //   .then(this.parse)
+    //   .catch(() => (this._isError = true))
   }
 
   get qid(): string {
