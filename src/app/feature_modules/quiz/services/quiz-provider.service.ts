@@ -17,7 +17,6 @@ export class QuizStorage {
     return new Promise<MainQuestion>((resolve, reject) => {
       setTimeout(() => {
         const data = realDummyData[qid]
-        console.log(data)
         if (isNullOrUndefined(data)) reject()
         else resolve(data)
       }, 1000)
