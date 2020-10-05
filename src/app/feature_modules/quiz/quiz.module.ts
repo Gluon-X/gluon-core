@@ -10,14 +10,15 @@ import {
 } from './services/quiz-provider.service'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AnswerListViewComponent } from './components/answers-type/list/answer-type-list.component'
 import {AnswerTextViewComponent } from "./components/answers-type/input-box/answer-type-input-box.component";
 import { QuizPhaseWrapperComponent } from './containers/quiz-phase-wrapper/quiz-phase-wrapper.component';
 import { PhaseLayoutComponent } from './components/phase/phase-layout/phase-layout.component';
 import { AnswearTypeComponent } from './components/answers-type/answer-type.componet'
+
 @NgModule({
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,ReactiveFormsModule],
   exports: [QuizAppComponent],
   declarations: [
     // Containers
@@ -38,10 +39,6 @@ import { AnswearTypeComponent } from './components/answers-type/answer-type.comp
   ],
   providers: [
     QuizStorage,
-    {
-      provide: QUIZ_STATE,
-      useClass: QuizHandler,
-    },
   ],
 })
 export class QuizModule {}
