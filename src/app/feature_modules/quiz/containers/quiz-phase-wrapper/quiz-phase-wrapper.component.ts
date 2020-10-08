@@ -4,7 +4,9 @@ import {
   MultiPhasesProvider,
   MultiQuestionsProvider,
 } from '../../models/classes'
+import { realDummyData } from '../../models/dummy_data'
 import { PhaseStack } from '../../models/interfaces'
+
 @Component({
   // Render [subQuestions] xN
   selector: 'app-quiz-phase-wrapper',
@@ -13,7 +15,7 @@ import { PhaseStack } from '../../models/interfaces'
 })
 export class QuizPhaseWrapperComponent implements OnInit {
   @Input() phaseProvider: MultiPhasesProvider
-  @Input() multiQuestionProvider: MultiQuestionsProvider
+  // @Input() multiQuestionProvider: MultiQuestionsProvider
   constructor() {}
 
   ngOnInit(): void {}
@@ -21,10 +23,10 @@ export class QuizPhaseWrapperComponent implements OnInit {
     return Array(this.phaseProvider.phasesCount).fill(0)
   }
 
-  test() {
-    this.phaseProvider.submit(2)
-    this.phaseProvider.isCorrect
+  // onChoosePhase() {}
+
+  submitAnswear(asnwear: number | number[] | string) {
+    this.phaseProvider.submit(asnwear)
     this.phaseProvider.next()
-    this.phaseProvider.submit(1)
   }
 }

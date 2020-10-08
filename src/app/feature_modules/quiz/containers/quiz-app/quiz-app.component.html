@@ -50,6 +50,7 @@
                 [answearType]="service.mainQuestion.type"
                 (enableHelp)="toggleHelp()"
                 [hasHelp]="true"
+                (onSubmit)="checkAnswear()"
                 [answearContent]="service.mainQuestion.answer"
               ></app-quiz-answear-type>
             </div>

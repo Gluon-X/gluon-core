@@ -8,9 +8,15 @@
       <div *ngFor="let item of getPhaseList(); let i = index">{{ i }}</div>
     </div>
   </div>
-  <button class="bg-gray-700 text-lg font-bold p-6" (click)="test()">
+  <!-- <button class="bg-gray-700 text-lg font-bold p-6" (click)="submitAnswear()">
     NEXT
-  </button>
+  </button> -->
+  <app-phase-layout
+    (onSubmit)="this.submitAnswear($event)"
+    [openQuestion]="this.phaseProvider.openQuestion"
+    [phaseQuestions]="[this.phaseProvider.question]"
+  >
+  </app-phase-layout>
 </div>
 
 <!-- <div *ngFor="let item of getPhaseList(); let i = index"> -->

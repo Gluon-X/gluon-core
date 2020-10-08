@@ -1,17 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Question } from '../../../models/interfaces';
+import { ThrowStmt } from '@angular/compiler'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Question } from '../../../models/interfaces'
 
 @Component({
   selector: 'app-phase-layout',
   templateUrl: './phase-layout.component.html',
-  styleUrls: ['./phase-layout.component.scss']
+  styleUrls: ['./phase-layout.component.scss'],
 })
 export class PhaseLayoutComponent implements OnInit {
-  @Input() openQuestion:string;
-  @Input() phaseQuestions:Array<Question>;
-  constructor() { }
+  @Input() openQuestion: string
+  @Input() phaseQuestions: Array<Question>
+  @Output() onSubmit = new EventEmitter()
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  submit(answear) {
+    this.onSubmit.emit(answear)
   }
-
 }

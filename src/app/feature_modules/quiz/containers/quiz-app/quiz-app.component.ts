@@ -3,6 +3,7 @@ import { QuizPlayable } from '../../models/interfaces'
 import { QuizHandler, QUIZ_STATE } from '../../services/quiz-provider.service'
 import { QuestionType } from '../../models/enums'
 import { realDummyData } from '../../models/dummy_data'
+import { ThrowStmt } from '@angular/compiler'
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz-app.component.html',
@@ -43,5 +44,10 @@ export class QuizAppComponent {
         block: 'start',
       })
     }, 100)
+  }
+
+  checkAnswear() {
+    this.service.mainQuestion.submit('97.5±0.5')
+    console.log(this.service.mainQuestion.isCorrect)
   }
 }

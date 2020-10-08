@@ -10,11 +10,24 @@
 <div class="container">
   <div class="m-4">
     <!--Hmmm-->
-    <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm" (select)="handleChange($event)">
-      <div *ngFor="let question of this.listOfQuestions;let i =index" class="mt-2">
-        <label class="inline-flex items-center">
-          <input type="radio" class="form-radio" name="radio" [value]='question'>
-          <span class="ml-2">{{question}}</span>
+    <form
+      ngNoForm
+      [formGroup]="this.inputForm"
+      #radioForm="ngForm"
+      (select)="handleChange($event)"
+    >
+      <div
+        *ngFor="let question of this.listOfQuestions; let i = index"
+        class="mt-2"
+      >
+        <label class="inline-flex items-center" (click)="this.handleChange(i)">
+          <input
+            type="radio"
+            class="form-radio"
+            name="radio"
+            [value]="question"
+          />
+          <span class="ml-2">{{ question }}</span>
         </label>
       </div>
     </form>
