@@ -5,17 +5,18 @@
   <div class="w-full flex flex-row justify-between p-4">
     <div class="text-lg font-bold">Giải thích ✌️</div>
     <div class="flex flex-row">
-      <div *ngFor="let item of getPhaseList(); let i = index">{{ i }}</div>
+      <div [ngClass]="{'current-phase':this.phaseProvider.currentPhaseIndex == i}" style="font-size: 1.2rem;"
+        *ngFor="let item of getPhaseList(); let i = index">{{ i }}</div>
     </div>
   </div>
   <!-- <button class="bg-gray-700 text-lg font-bold p-6" (click)="submitAnswear()">
-    NEXT
+    NEXTß
   </button> -->
-  <app-phase-layout
-    (onSubmit)="this.submitAnswear($event)"
-    [openQuestion]="this.phaseProvider.openQuestion"
-    [phaseQuestions]="[this.phaseProvider.question]"
-  >
+  <div>
+    🐞 Debug Correct Answer : {{getDebugAnswear()}}
+  </div>
+  <app-phase-layout (onSubmit)="this.submitAnswear($event)" [openQuestion]="this.phaseProvider.openQuestion"
+    [phaseQuestions]="[this.phaseProvider.question]">
   </app-phase-layout>
 </div>
 
