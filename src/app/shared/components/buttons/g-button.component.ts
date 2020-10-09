@@ -16,7 +16,7 @@ interface ButtonOption {
   template: `
     <button
       *ngIf="options.type === 0"
-      class="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400 focus:outline-none focus:border-blue-600 focus:shadow-outline-blue active:bg-blue-400 transition ease-in-out duration-150"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       type="button"
       style="transition: all .15s ease"
     >
@@ -25,7 +25,7 @@ interface ButtonOption {
 
     <button
       *ngIf="options.type === 1"
-      class="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-blue-600 bg-white hover:bg-blue-600 hover:text-white focus:outline-none focus:border-blue-600 focus:shadow-outline-blue active:bg-blue-400 transition ease-in-out duration-150"
+      class="bg-white hover:bg-blue-500 hover:text-white text-blue-500 font-bold py-2 px-4 rounded"
       type="button"
       style="transition: all .15s ease"
     >

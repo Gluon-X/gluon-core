@@ -62,7 +62,7 @@ import { Component, Input } from '@angular/core'
             <span class="inline-flex rounded-md shadow-sm">
               <a
                 routerLink=""
-                class="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400 focus:outline-none focus:border-blue-600 focus:shadow-outline-blue active:bg-blue-400 transition ease-in-out duration-150"
+                class="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:border-blue-600 focus:shadow-outline-blue active:bg-blue-400 transition ease-in-out duration-150"
               >
                 Sign up
               </a>
@@ -164,6 +164,6 @@ import { Component, Input } from '@angular/core'
 export class GNavBarComponent {
   @Input() menu: Array<{
     router: string
-    title: string
+    title: string,
   }>
 }
