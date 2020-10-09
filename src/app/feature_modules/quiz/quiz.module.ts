@@ -15,7 +15,9 @@ import { AnswerListViewComponent } from './components/answers-type/list/answer-t
 import {AnswerTextViewComponent } from "./components/answers-type/input-box/answer-type-input-box.component";
 import { QuizPhaseWrapperComponent } from './containers/quiz-phase-wrapper/quiz-phase-wrapper.component';
 import { PhaseLayoutComponent } from './components/phase/phase-layout/phase-layout.component';
-import { AnswearTypeComponent } from './components/answers-type/answer-type.componet'
+import { AnswearTypeComponent } from './components/answers-type/answer-type.componet';
+import { QuizMainQuestionComponent } from './containers/quiz-main-question/quiz-main-question.component';
+import { QuizWikiComponent } from './components/quiz-wiki/quiz-wiki.component'
 
 @NgModule({
   imports: [CommonModule, FormsModule,ReactiveFormsModule],
@@ -33,7 +35,9 @@ import { AnswearTypeComponent } from './components/answers-type/answer-type.comp
     AnswerTextViewComponent,
     QuizPhaseWrapperComponent,
     PhaseLayoutComponent,
-    AnswearTypeComponent
+    AnswearTypeComponent,
+    QuizMainQuestionComponent,
+    QuizWikiComponent
 
     // Attribute Directives
   ],

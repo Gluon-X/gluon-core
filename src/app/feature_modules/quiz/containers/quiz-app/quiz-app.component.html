@@ -5,66 +5,13 @@
     <div *ngSwitchDefault>
       <div #contentBox style="min-width: 1200px" class="shadow-md">
         <div #mainQuestionRef>
-          <app-quiz-header
-            [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'"
-            [go_back_chapter]="'Number Theory'"
-            [quiz_title]="service.title"
-          ></app-quiz-header>
-
-          <div
-            class="question-container flex flex-row justify-between"
-            style="min-height: 50vh"
-          >
-            <div style="min-width: 10%" class="hover:bg-blue-700 duration-200">
-              <!-- Will be wiki ui -->
-            </div>
-            <div
-              class="question-content left-area border-gray-300"
-              style="
-                padding: 3rem;
-                min-width: 60%;
-                border-right: 2px;
-                border-style: inset;
-              "
-            >
-              <!-- <h3>TODO IMPLEMT DIF kind of answear type</h3> -->
-              <div
-                style="overflow-wrap: break-word"
-                class="duration-700 text-lg transition: all .15s ease"
-              >
-                {{ service.mainQuestion.content }}
-              </div>
-              <div class="w-full flex flex-row justify-center">
-                <img
-                  style="width: 60%"
-                  src="../../../../../assets/images/dev/exercises-11-6-1-center.png"
-                  alt=""
-                  srcset=""
-                />
-              </div>
-            </div>
-
-            <div class="answer-box right-area" style="min-width: 30%">
-              <!-- TODO IMPLENT INPUT TYPE ANSER -->
-              <div>
-                🐞 Correct Answear : {{ service.mainQuestion.correctAnswers }}
-              </div>
-              <app-quiz-answear-type
-                [answearType]="service.mainQuestion.type"
-                (enableHelp)="toggleHelp()"
-                [hasHelp]="true"
-                (onSubmit)="checkAnswear()"
-                [answearContent]="service.mainQuestion.answer"
-              ></app-quiz-answear-type>
-            </div>
-          </div>
+          <app-quiz-main-question (onHelp)="this.toggleHelp()" (onMainQuestionSubmition)="this.checkAnswear($event)"
+            [mainQuestionProvider]="this.service.mainQuestion" [quizTitle]="this.service.title">
+          </app-quiz-main-question>
         </div>
         <div #helpQuestionRef class="help-container">
           <div #quizhelp class="help-box h-screen mt-8" *ngIf="this.enableHelp">
-            <!-- {{fakeData.helps['phaseOne'].openQuestion}} -->
-            <app-quiz-phase-wrapper
-              [phaseProvider]="service.helper"
-            ></app-quiz-phase-wrapper>
+            <app-quiz-phase-wrapper [phaseProvider]="service.helper"></app-quiz-phase-wrapper>
           </div>
         </div>
       </div>
@@ -94,4 +41,4 @@ Following up round
 <div *ngIf="service.state == 'HELP'">Help!!!</div>
 </div>
 </div> -->
-</div>
+  <!-- </div> -->

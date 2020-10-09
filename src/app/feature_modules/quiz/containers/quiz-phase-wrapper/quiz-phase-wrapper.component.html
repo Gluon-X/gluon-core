@@ -1,30 +1,16 @@
-<!-- <app-phase-indicator></app-phase-indicator> -->
-<!-- 10 60 30 % -->
-<!-- Render Single Help [subQuestions]-->
 <div>
-  <div class="w-full flex flex-row justify-between p-4">
+  <div class="w-full flex flex-row justify-between">
     <div class="text-lg font-bold">Giải thích ✌️</div>
     <div class="flex flex-row">
       <div [ngClass]="{'current-phase':this.phaseProvider.currentPhaseIndex == i}" style="font-size: 1.2rem;"
         *ngFor="let item of getPhaseList(); let i = index">{{ i }}</div>
     </div>
   </div>
-  <!-- <button class="bg-gray-700 text-lg font-bold p-6" (click)="submitAnswear()">
-    NEXTß
-  </button> -->
   <div>
     🐞 Debug Correct Answer : {{getDebugAnswear()}}
+    <app-phase-layout (onSubmit)="this.submitAnswear($event)" [openQuestion]="this.phaseProvider.openQuestion"
+      [phaseQuestions]="[this.phaseProvider.question]">
+    </app-phase-layout>
   </div>
-  <app-phase-layout (onSubmit)="this.submitAnswear($event)" [openQuestion]="this.phaseProvider.openQuestion"
-    [phaseQuestions]="[this.phaseProvider.question]">
-  </app-phase-layout>
-</div>
 
-<!-- <div *ngFor="let item of getPhaseList(); let i = index"> -->
-<!-- <app-phase-layout *ngIf="this.phaseData != null"
-        [phaseQuestions]="this.phaseData[item].subQuestions"
-        [openQuestion]="this.phaseData[item].openQuestion">
-        </app-phase-layout>
-        <div class="w-full bg-blue-600">{{i}} + ☝️ + {{item}}</div>
-    </div> -->
-<!-- </div> -->
+</div>

@@ -19,7 +19,7 @@ export class QuizAppComponent {
   answearType: QuestionType
   @ViewChild('helpQuestionRef') quizHelpBox: ElementRef<HTMLElement>
 
-  enableHelp = true
+  enableHelp = false;
   @Input()
   set quizId(value: string) {
     this.service.qid = value
@@ -46,8 +46,8 @@ export class QuizAppComponent {
     }, 100)
   }
 
-  checkAnswear() {
-    this.service.mainQuestion.submit('97.5±0.5')
+  checkAnswear(event) {
+    this.service.mainQuestion.submit(event)
     console.log(this.service.mainQuestion.isCorrect)
   }
 }
