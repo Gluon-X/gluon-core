@@ -58,7 +58,7 @@ class DefaultMultiBoxesProvider extends PhaseProvider {
   constructor(phase: Phase) {
     super(phase)
     this._boxes = phase?.boxes
-      ?.map(DefaultMultiBoxesProvider._transformBox) ?? []
+      ?.map(QuestionProvider.fromBox) ?? []
   }
 
   get count(): number {
@@ -126,10 +126,6 @@ class DefaultMultiBoxesProvider extends PhaseProvider {
   private readonly _boxes: Box[]
 
   private _index = 0
-
-  private static _transformBox(b: Box): Box {
-    return b?.type === BoxType.DISPLAY ? b : QuestionProvider.fromBaseQuestion(b as Question)
-  }
 
   next() {
     if (this.nextAvailable) this._index++

@@ -76,7 +76,7 @@ export class QuizHandler implements QuizPlayable {
   }
 
   private parse(question: Quiz) {
-    this._coreQuestion = QuestionProvider.fromBaseQuestion(question.core)
+    this._coreQuestion = QuestionProvider.fromBox(question.core)
     if (isUndefined(this._coreQuestion)) {
       console.log(`An error occurred while parsing data`)
       this._isError = true

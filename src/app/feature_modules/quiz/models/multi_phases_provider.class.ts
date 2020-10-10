@@ -1,4 +1,4 @@
-import { Box, Phase, PossibleInputAnswer, Submitable } from './interfaces.new'
+import { Box, Phase, PossibleInputAnswer, Question, Submitable } from './interfaces.new'
 import { PhaseProvider } from './multi_questions_provider.class'
 import { isNotUndefined } from '../../../shared'
 

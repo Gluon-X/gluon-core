@@ -1,6 +1,6 @@
-import { Choice, MultipleChoices, PossibleInputAnswer, Question, ShortAnswer, Submitable } from './interfaces.new'
+import { Box, Choice, MultipleChoices, PossibleInputAnswer, Question, ShortAnswer, Submitable } from './interfaces.new'
 import { BoxType } from './enums.new'
-import { isNotUndefined, isNullOrUndefined } from '../../../shared'
+import { isNotUndefined, isNullOrUndefined, isUndefined } from '../../../shared'
 
 // Acts as substitution to `QuestionProvider`
 export abstract class QuestionProvider implements Submitable<PossibleInputAnswer>, Question {
@@ -19,7 +19,7 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
   }
 
   get isHelpExist(): boolean {
-    return isNotUndefined(this._question?.help)
+    return isNotUndefined(this._question.help)
   }
 
   get help(): string | undefined {
@@ -27,30 +27,38 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
   }
 
   // Fields inherit from `Submitable`
-  readonly submission?: PossibleInputAnswer
+  abstract get submission(): PossibleInputAnswer | undefined
 
-  readonly explanation?: string
+  abstract get explanation(): string | undefined
 
-  readonly isCorrect?: boolean
+  abstract get isCorrect(): boolean | undefined
 
   get isCompleted(): boolean {
     return this.isCorrect ?? false
   }
 
-  protected _question?: Question
+  protected readonly _question?: Question
 
   private _isHelpEnabled = false
 
-  static fromBaseQuestion(question: Question): QuestionProvider | undefined {
-    if (isNullOrUndefined(question)) return undefined
-    switch (question.type) {
+  /**
+   * Parse a displayable box object to `QuestionProvider` instance if its type is not `DISPLAYABLE`
+   *
+   * @param box indicate a displayable object
+   * @return Box if `type` is `DISPLAYABLE`
+   * @return ShortAnswerProvider if `type` is `SHORT_ANSWER`
+   * @return MultipleChoicesProvider if `type` is `MULTIPLE_CHOICES`
+   */
+  static fromBox(box: Box): Box | QuestionProvider | undefined {
+    if (isUndefined(box?.type)) return undefined
+    switch (box.type) {
       case BoxType.SHORT_ANSWER:
-        return new ShortAnswerProvider(question as ShortAnswer)
+        return new ShortAnswerProvider(box as ShortAnswer)
       case BoxType.MULTIPLE_CHOICES:
-        if ((question as MultipleChoices).choices?.length > 0)
-          return new MultipleChoicesProvider(question as MultipleChoices)
+        if ((box as MultipleChoices).choices?.length > 0)
+          return new MultipleChoicesProvider(box as MultipleChoices)
     }
-    return undefined
+    return box
   }
 
   abstract submit(answer: PossibleInputAnswer): boolean
@@ -60,37 +68,71 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
   }
 }
 
-export class ShortAnswerProvider extends QuestionProvider implements Submitable<string> {
-  readonly submission?: string
+export class ShortAnswerProvider extends QuestionProvider implements Submitable<string | number> {
+  private _submission?: number | string
 
-  readonly explanation?: string
+  get submission(): string | undefined {
+    return `${this._submission}`
+  }
 
-  readonly isCorrect: boolean
+  get explanation(): string | undefined {
+    return undefined
+  }
 
-  // readonly answer: string | number
+  get isCorrect(): boolean | undefined {
+    const answer = this._submission
+    const type = typeof answer
 
-  readonly approx: number
+    if (typeof this._question.answer === 'string' && type === 'string')
+      return true
+    let lowerBoundary = 0
+    let upperBoundary = 0
+    if (isNotUndefined(this.approx)) {
+      lowerBoundary = (this._question.answer as number) - this.approx
+      upperBoundary = (this._question.answer as number) + this.approx
+    }
+    return lowerBoundary <= answer && answer <= upperBoundary
+  }
+
+  get approx(): number | undefined {
+    return this._question.approx
+  }
 
   constructor(protected readonly _question: ShortAnswer) {
     super()
   }
 
-  submit(answer: string): boolean {
-    if (typeof answer !== 'string') return false
-    // TODO implement this
+  submit(answer: string | number): boolean {
+    const type = typeof answer
+    if (type !== 'string' && type !== 'number') return false
+    this._submission = answer
     return true
   }
 
 }
 
 export class MultipleChoicesProvider extends QuestionProvider implements Submitable<number> {
-  readonly submission?: number
+  private _submission?: number
 
-  readonly explanation?: string
+  get submission(): number | undefined {
+    return this._submission
+  }
 
-  readonly isCorrect: boolean
+  get explanation(): string | undefined {
+    return isUndefined(this.submission) ?
+      undefined :
+      this._question.choices[this._submission].explanation
+  }
 
-  readonly choices: Choice[]
+  get isCorrect(): boolean | undefined {
+    return isNotUndefined(this._submission) ?
+      this._question.choices[this._submission].isCorrect :
+      undefined
+  }
+
+  get choices(): Choice[] {
+    return this._question.choices
+  }
 
   constructor(protected readonly _question: MultipleChoices) {
     super()
@@ -98,7 +140,8 @@ export class MultipleChoicesProvider extends QuestionProvider implements Submita
 
   submit(answer: number): boolean {
     if (typeof answer !== 'number') return false
-    // TODO implement this
+    if (this.choices.length - 1 < answer || answer < 0) return false
+    this._submission = answer
     return true
   }
 
