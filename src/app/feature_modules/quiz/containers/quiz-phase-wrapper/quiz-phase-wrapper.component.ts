@@ -17,21 +17,19 @@ import { PhaseStack } from '../../models/interfaces'
 export class QuizPhaseWrapperComponent implements OnInit {
   @Input() phaseProvider: MultiPhasesProvider
   // @Input() multiQuestionProvider: MultiQuestionsProvider
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   getPhaseList() {
     return Array(this.phaseProvider.phasesCount).fill(0)
   }
-
-  // onChoosePhase() {}
 
   submitAnswear(asnwear: number | number[] | string) {
     this.phaseProvider.submit(asnwear)
     this.phaseProvider.next()
   }
   getDebugAnswear() {
-    let answear = (this.phaseProvider.question as Question).correctAnswers;
+    const answear = (this.phaseProvider.question as Question).correctAnswers
     return answear
   }
 }
