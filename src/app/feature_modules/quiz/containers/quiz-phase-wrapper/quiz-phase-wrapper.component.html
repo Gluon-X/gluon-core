@@ -1,9 +1,12 @@
 <div style="padding-left: 3rem;">
   <div class="w-full flex flex-row justify-between p-4">
-    <div class="text-lg font-bold">Giải thích ✌️</div>
+    <div class="text-lg font-bold text-center flex items-center">Giải thích ✌️</div>
     <div class="flex flex-row">
-      <div [ngClass]="{'current-phase':this.phaseProvider.currentPhaseIndex == i}" style="font-size: 1.2rem;"
-        *ngFor="let item of getPhaseList(); let i = index">{{ i }}</div>
+      <div [ngClass]="{'bg-blue-500' : this.phaseProvider.currentPhaseIndex == i}" style="font-size: 1.2rem;"
+        class="rounded-full h-8 w-8 flex items-center justify-center text-white font-bold"
+        *ngFor="let item of getPhaseList(); let i = index">
+        {{ i }}
+      </div>
     </div>
   </div>
   <div>
