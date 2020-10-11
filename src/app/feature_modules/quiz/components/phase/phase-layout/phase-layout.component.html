@@ -1,0 +1,16 @@
+<div #phaseOpenQuestion class="text-xl font-normal" style="max-width: 70%">{{ this.openQuestion }}</div>
+<div *ngFor="let eachPhaseContent of this.phaseQuestions; let i = index">
+  <!--TODO PHASE [INDEX] -> QUETION [INDEX]-->
+  <div class="question-left-view flex flex-row justify-between border-gray-300"
+    style="min-height: 60%; border-style: inset">
+    <div class="question-content left-area text-lg border-gray-300 p-4 border-r-2"
+      style="min-width: 70%; border-style: inset">
+      {{ this.eachPhaseContent.content }}
+    </div>
+    <div class="answear-right-view" style="min-width: 30%">
+      <app-quiz-answear-type (onSubmit)="this.submit($event)" [answearContent]="this.eachPhaseContent.availableAnswers"
+        [answearType]="this.eachPhaseContent.type">
+      </app-quiz-answear-type>
+    </div>
+  </div>
+</div>
