@@ -3,9 +3,9 @@ import { isNullOrUndefined, isUndefined } from 'src/app/shared'
 import { QuizState } from '../models/enums'
 import { realDummyData } from '../models/dummy_data.new'
 import { Quiz, QuizPlayable } from '../models/interfaces.new'
-import { QuestionProvider } from '../models/question_provider.class'
+import { QuestionProvider } from '../models'
 import { MultiPhasesProvider } from '../models'
-import { PhaseProvider } from '../models'
+import { MultiBoxesProvider } from '../models'
 
 export const QUIZ_STATE = new InjectionToken<QuizPlayable>('quiz.state')
 
@@ -49,7 +49,7 @@ export class QuizHandler implements QuizPlayable {
 
     if (isUndefined(main)) return this._isError ? QuizState.ERROR : QuizState.EMPTY
     if (main.isCompleted)
-      return this.followUpProvider.isCompleted
+      return this.followUpProvider?.isCompleted ?? true
         ? QuizState.FINISHED
         : QuizState.FOLLOW_UP
     return this._enableHelp ? QuizState.HELP : QuizState.READY
@@ -61,13 +61,10 @@ export class QuizHandler implements QuizPlayable {
     return this._helper
   }
 
-  private _followUpProvider?: PhaseProvider = undefined
+  private _followUpProvider?: MultiBoxesProvider = undefined
 
-  get followUpProvider(): PhaseProvider | undefined {
+  get followUpProvider(): MultiBoxesProvider | undefined {
     return this._followUpProvider
-  }
-
-  constructor() {
   }
 
   enableHelper() {
@@ -76,14 +73,14 @@ export class QuizHandler implements QuizPlayable {
   }
 
   private parse(question: Quiz) {
-    this._coreQuestion = QuestionProvider.fromBox(question.core)
+    this._coreQuestion = QuestionProvider.fromBox(question.core) as QuestionProvider
     if (isUndefined(this._coreQuestion)) {
       console.log(`An error occurred while parsing data`)
       this._isError = true
       return
     }
     this._helper = MultiPhasesProvider.fromPhases(question.helps)
-    this._followUpProvider = PhaseProvider.fromPhase(
+    this._followUpProvider = MultiBoxesProvider.fromPhase(
       question.followUp
     )
     this._title = question.title

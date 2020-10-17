@@ -2,7 +2,7 @@ import { BoxType } from './enums.new'
 import { QuizState } from './enums'
 import { MultiPhasesProvider } from './multi_phases_provider.class'
 import { QuestionProvider } from './question_provider.class'
-import { PhaseProvider } from './multi_questions_provider.class'
+import { MultiBoxesProvider } from './multi_boxes_provider.class'
 
 export type PossibleInputAnswer = number | string
 
@@ -42,7 +42,7 @@ export interface Submitable<T> {
 }
 
 export interface Question extends Box {
-  help?: string
+  hint?: string
 }
 
 export interface MultipleChoices extends Question {
@@ -85,7 +85,7 @@ export interface QuizPlayable {
 
   readonly helper?: MultiPhasesProvider
 
-  readonly followUpProvider?: PhaseProvider
+  readonly followUpProvider?: MultiBoxesProvider
 
   enableHelper(): void
 }

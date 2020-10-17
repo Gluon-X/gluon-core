@@ -153,7 +153,7 @@ export const realDummyData = {
             khí và kính. Chú ý rằng góc tới xấp xỉ 90◦. Ta \
             tính được góc của tia ló ra là`,
             availableAnswers: null,
-            help: 'nairsin(90◦) = nglasssin(rglass) → rglass = 41, 14◦',
+            hint: 'nairsin(90◦) = nglasssin(rglass) → rglass = 41, 14◦',
             answer: 41.14,
             approx: 0,
             type: BoxType.SHORT_ANSWER
@@ -165,7 +165,7 @@ export const realDummyData = {
             Snell thêm một lần nữa khi tia sáng truyền qua \
             mặt phân cách giữa kính và nước. Với giá trị đã \
             tính được ở trên, góc α = ...◦`,
-            help: 'nglasssin(41, 14◦) = nwatersin(α) → α = 48, 75◦',
+            hint: 'nglasssin(41, 14◦) = nwatersin(α) → α = 48, 75◦',
             answer: 48.75,
             approx: 0,
             type: BoxType.SHORT_ANSWER

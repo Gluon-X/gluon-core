@@ -7,23 +7,19 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
 
   // Fields inherit from `Question`
   get content(): string {
-    return this._question?.content
+    return this._question.content
   }
 
   get imageURL(): string {
-    return this._question?.imageURL
+    return this._question.imageURL
   }
 
   get type(): BoxType {
-    return this._question?.type
+    return this._question.type
   }
 
-  get isHelpExist(): boolean {
-    return isNotUndefined(this._question.help)
-  }
-
-  get help(): string | undefined {
-    return this._isHelpEnabled ? this._question?.help : undefined
+  get hint(): string | undefined {
+    return this._question.hint
   }
 
   // Fields inherit from `Submitable`
@@ -37,9 +33,8 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
     return this.isCorrect ?? false
   }
 
-  protected readonly _question?: Question
-
-  private _isHelpEnabled = false
+  // This should never be undefined or null.
+  protected readonly _question: Question
 
   /**
    * Parse a displayable box object to `QuestionProvider` instance if its type is not `DISPLAYABLE`
@@ -53,26 +48,33 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
     if (isUndefined(box?.type)) return undefined
     switch (box.type) {
       case BoxType.SHORT_ANSWER:
+        if (isNullOrUndefined((box as ShortAnswer).answer)) return undefined
         return new ShortAnswerProvider(box as ShortAnswer)
       case BoxType.MULTIPLE_CHOICES:
-        if ((box as MultipleChoices).choices?.length > 0)
-          return new MultipleChoicesProvider(box as MultipleChoices)
+        const choices: Choice[] = (box as MultipleChoices).choices
+        if (
+          isNullOrUndefined(choices) ||
+          choices?.length === 0
+        ) return undefined
+
+        // Contains at least one correct
+        let hasCorrect = false
+        for (const c of choices) hasCorrect ||= c.isCorrect
+        if (!hasCorrect) return undefined
+
+        return new MultipleChoicesProvider(box as MultipleChoices)
     }
     return box
   }
 
   abstract submit(answer: PossibleInputAnswer): boolean
-
-  enableHelp() {
-    this._isHelpEnabled = true
-  }
 }
 
 export class ShortAnswerProvider extends QuestionProvider implements Submitable<string | number> {
   private _submission?: number | string
 
   get submission(): string | undefined {
-    return `${this._submission}`
+    return isUndefined(this._submission) ? undefined : `${this._submission}`
   }
 
   get explanation(): string | undefined {
@@ -81,20 +83,21 @@ export class ShortAnswerProvider extends QuestionProvider implements Submitable<
 
   get isCorrect(): boolean | undefined {
     const answer = this._submission
+    if (isUndefined(answer)) return undefined
     const type = typeof answer
 
     if (typeof this._question.answer === 'string' && type === 'string')
-      return true
+      return this._question.answer === answer
     let lowerBoundary = 0
     let upperBoundary = 0
-    if (isNotUndefined(this.approx)) {
-      lowerBoundary = (this._question.answer as number) - this.approx
-      upperBoundary = (this._question.answer as number) + this.approx
+    if (isNotUndefined(this._approx)) {
+      lowerBoundary = (this._question.answer as number) - this._approx
+      upperBoundary = (this._question.answer as number) + this._approx
     }
     return lowerBoundary <= answer && answer <= upperBoundary
   }
 
-  get approx(): number | undefined {
+  private get _approx(): number | undefined {
     return this._question.approx
   }
 
@@ -105,6 +108,8 @@ export class ShortAnswerProvider extends QuestionProvider implements Submitable<
   submit(answer: string | number): boolean {
     const type = typeof answer
     if (type !== 'string' && type !== 'number') return false
+    if (type === 'string' && typeof this._question.answer === 'number')
+      answer = Number.parseFloat(answer as string)
     this._submission = answer
     return true
   }
@@ -119,19 +124,19 @@ export class MultipleChoicesProvider extends QuestionProvider implements Submita
   }
 
   get explanation(): string | undefined {
-    return isUndefined(this.submission) ?
-      undefined :
-      this._question.choices[this._submission].explanation
+    return this._submittedChoice?.explanation
   }
 
   get isCorrect(): boolean | undefined {
-    return isNotUndefined(this._submission) ?
-      this._question.choices[this._submission].isCorrect :
-      undefined
+    return this._submittedChoice?.isCorrect
   }
 
   get choices(): Choice[] {
     return this._question.choices
+  }
+
+  private get _submittedChoice(): Choice | undefined {
+    return this._question.choices[this._submission]
   }
 
   constructor(protected readonly _question: MultipleChoices) {

@@ -1,50 +1,44 @@
-import { Box, Phase, PossibleInputAnswer, Question, Submitable } from './interfaces.new'
-import { PhaseProvider } from './multi_questions_provider.class'
+import { Box, Phase, PossibleInputAnswer, Submitable } from './interfaces.new'
+import { MultiBoxesProvider } from './multi_boxes_provider.class'
 import { isNotUndefined } from '../../../shared'
 
 export abstract class MultiPhasesProvider implements Submitable<PossibleInputAnswer> {
   // Passing fields from `PhaseProvider`
-  get boxIndex(): number | undefined {
-    return this._current?.index
+  get boxIndex(): number {
+    return this._current.index
   }
 
-  get boxesCount(): number | undefined {
-    return this._current?.count
+  get boxesCount(): number {
+    return this._current.count
   }
 
-  get current(): Box | undefined {
-    return this._current?.current
+  get current(): Box {
+    return this._current.current
   }
 
   get explanation(): string | undefined {
-    return this._current?.explanation
+    return this._current.explanation
   }
 
-  get help(): string | undefined {
-    return this._current?.help
+  get hint(): string | undefined {
+    return this._current.hint
   }
 
   get isCorrect(): boolean | undefined {
-    return this._current?.isCorrect
-  }
-
-  get isHelpExist(): boolean | undefined {
-    return this._current?.isHelpExist
+    return this._current.isCorrect
   }
 
   get submission(): PossibleInputAnswer | undefined {
-    return this._current?.submission
+    return this._current.submission
   }
 
   get title(): string | undefined {
-    return this._current?.title
+    return this._current.title
   }
 
   get content(): string | undefined {
-    return this._current?.content
+    return this._current.content
   }
-
-  //
 
   abstract get count(): number
 
@@ -56,10 +50,13 @@ export abstract class MultiPhasesProvider implements Submitable<PossibleInputAns
 
   abstract get prevAvailable(): boolean
 
-  protected abstract get _current(): PhaseProvider | undefined
+  protected abstract get _current(): MultiBoxesProvider
 
-  static fromPhases(helpers: Phase[]): MultiPhasesProvider | undefined {
-    if (helpers?.length > 0) return new DefaultMultiPhasesProvider(helpers)
+  static fromPhases(phases: Phase[]): MultiPhasesProvider | undefined {
+    if (phases?.length > 0) {
+      const provider = new DefaultMultiPhasesProvider(phases)
+      return provider.count > 0 ? provider : undefined
+    }
     return undefined
   }
 
@@ -89,28 +86,28 @@ class DefaultMultiPhasesProvider extends MultiPhasesProvider {
   get nextAvailable(): boolean {
     return (
       // at least one phase
-      this._current?.nextAvailable ||
+      this._current.nextAvailable ||
       // or next phase available and current phase is completed
       (this.index < this.count - 1 &&
-        this._current?.isCompleted)
+        this._current.isCompleted)
     )
   }
 
   get prevAvailable(): boolean {
-    return this._current?.prevAvailable || this.index > 0
+    return this._current.prevAvailable || this.index > 0
   }
 
   private _index = 0
 
-  private readonly _phases: PhaseProvider[]
+  private readonly _phases: MultiBoxesProvider[]
 
-  protected get _current(): PhaseProvider | undefined {
+  protected get _current(): MultiBoxesProvider | undefined {
     return this._phases[this.index]
   }
 
   constructor(phases: Phase[]) {
     super()
-    this._phases = phases?.map(PhaseProvider.fromPhase)
+    this._phases = phases?.map(MultiBoxesProvider.fromPhase)
       .filter(isNotUndefined) ?? []
   }
 
@@ -127,7 +124,7 @@ class DefaultMultiPhasesProvider extends MultiPhasesProvider {
   }
 
   submit(answer: PossibleInputAnswer): boolean {
-    return this._current?.submit(answer)
+    return this._current.submit(answer)
   }
 
 }

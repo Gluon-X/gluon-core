@@ -1,263 +1,194 @@
-import { Question } from './interfaces'
-import { QuestionType } from './enums'
-import { QuestionProvider } from './classes'
+import { Box, MultipleChoices, Question, ShortAnswer } from './interfaces.new'
+import { MultipleChoicesProvider, QuestionProvider, ShortAnswerProvider } from './question_provider.class'
+import { BoxType } from './enums.new'
 
-const validDummyData: { [title: string]: Question } = {
-  singleChoice: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: 0,
-  },
-
-  multipleChoices: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [1, 2],
-  },
-
-  multiChoicesWithSingleCorrectAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: 0,
-  },
-
-  text: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: null,
-    type: QuestionType.TEXT,
-    correctAnswers: 'hello_world',
-  },
-
-  textWithMultipleCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: null,
-    type: QuestionType.TEXT,
-    correctAnswers: ['hello_world', 'konichiwa', 'xinchao'],
-  },
-
-  textWithAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.TEXT,
-    correctAnswers: 'hello_world',
-  },
-
-  textWithMultiChoicesCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: undefined,
-    type: QuestionType.TEXT,
-    correctAnswers: [0, 1],
-  },
-
-  textWithSingleChoicesCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.TEXT,
-    correctAnswers: 1,
-  },
+// BOX
+const box: Box = {
+  type: BoxType.DISPLAY,
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg'
 }
 
-const invalidDummyData: { [title: string]: Question } = {
-  // Single choice
-  singleChoiceWithNullCorrectAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: null,
-  },
-
-  singleChoiceWithUndefinedCorrectAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: undefined,
-  },
-
-  singleChoiceWithMultipleCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: [0, 1],
-  },
-
-  singleChoiceWithTextAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: 'hello_world',
-  },
-
-  singleChoiceWithNullAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: null,
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: 'hello_world',
-  },
-
-  singleChoiceWithUndefinedAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: undefined,
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: 'hello_world',
-  },
-
-  singleChoiceWithEmptyAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: [],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: 1,
-  },
-
-  singleChoiceWithCorrectAnswersOverflow: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: 4,
-  },
-
-  singleChoiceWithCorrectAnswersUnderflow: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.SINGLE_CHOICE,
-    correctAnswers: -1,
-  },
-
-  // Multiple choices
-  multiChoicesWithNullCorrectAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: null,
-  },
-
-  multiChoicesWithUndefinedCorrectAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: undefined,
-  },
-
-  multiChoicesWithSingleUnderflowAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: -1,
-  },
-
-  multiChoicesWithSingleOverflowAnswer: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: 4,
-  },
-
-  multiChoicesWithTextAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: 'hello_world',
-  },
-
-  multiChoicesWithNullAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: null,
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [0, 1],
-  },
-
-  multiChoicesWithUndefinedAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: undefined,
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [0, 1],
-  },
-
-  multiChoicesWithEmptyAvailableAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: [],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [0, 1],
-  },
-
-  multiChoicesWithEmptyCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [],
-  },
-
-  multiChoiceWithCorrectAnswersOverflow: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [4, 1],
-  },
-
-  multiChoiceWithCorrectAnswersUnderflow: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.MULTIPLE_CHOICES,
-    correctAnswers: [-1, 1],
-  },
-
-  // Text
-  textWithNullCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: null,
-    type: QuestionType.TEXT,
-    correctAnswers: null,
-  },
-
-  textWithUndefinedCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: null,
-    type: QuestionType.TEXT,
-    correctAnswers: undefined,
-  },
-
-  textWithEmptyCorrectAnswers: {
-    content: 'Content',
-    imageURL: 'https://somewhereonearth.com/cat.jpeg',
-    availableAnswers: ['A', 'B', 'C', 'D'],
-    type: QuestionType.TEXT,
-    correctAnswers: [],
-  },
+const boxWTypeShortAnswer: Box = {
+  type: BoxType.SHORT_ANSWER,
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg'
 }
 
-describe('QuestionProvider test suite', () => {
+const boxWTypeMultipleChoices: Box = {
+  type: BoxType.MULTIPLE_CHOICES,
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg'
+}
+
+// MULTIPLE-CHOICES
+const multipleChoicesCorrectWithNoHint: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [{
+    content: 'A',
+    isCorrect: false,
+    explanation: 'A'
+  }, {
+    content: 'B',
+    isCorrect: true,
+    explanation: 'B'
+  }, {
+    content: 'C',
+    isCorrect: false,
+    explanation: 'C'
+  }, {
+    content: 'D',
+    isCorrect: false,
+    explanation: 'D'
+  }],
+  type: BoxType.MULTIPLE_CHOICES
+}
+
+const multipleChoicesWithHint: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [{
+    content: 'A',
+    isCorrect: false,
+    explanation: 'A'
+  }, {
+    content: 'B',
+    isCorrect: true,
+    explanation: 'B'
+  }, {
+    content: 'C',
+    isCorrect: false,
+    explanation: 'C'
+  }, {
+    content: 'D',
+    isCorrect: false,
+    explanation: 'D'
+  }],
+  type: BoxType.MULTIPLE_CHOICES,
+  hint: 'Hello'
+}
+
+// empty choices
+const multipleChoicesWithEmptyChoices: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [],
+  type: BoxType.MULTIPLE_CHOICES
+}
+
+// one choice only -> Valid
+const multipleChoicesWithSingleChoice: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [{
+    content: 'A',
+    isCorrect: true,
+    explanation: 'A'
+  }],
+  type: BoxType.MULTIPLE_CHOICES
+}
+
+const multipleChoicesWTypeShortAnswer: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [{
+    content: 'A',
+    isCorrect: true,
+    explanation: 'A'
+  }],
+  type: BoxType.SHORT_ANSWER
+}
+
+const multipleChoicesWTypeBox: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [{
+    content: 'A',
+    isCorrect: true,
+    explanation: 'A'
+  }],
+  type: BoxType.DISPLAY
+}
+
+// no correct answer
+const multipleChoicesNoCorrect: MultipleChoices = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  choices: [{
+    content: 'A',
+    isCorrect: false,
+    explanation: 'A'
+  }, {
+    content: 'B',
+    isCorrect: false,
+    explanation: 'B'
+  }, {
+    content: 'C',
+    isCorrect: false,
+    explanation: 'C'
+  }, {
+    content: 'D',
+    isCorrect: false,
+    explanation: 'D'
+  }],
+  type: BoxType.MULTIPLE_CHOICES
+}
+
+// SHORT ANSWER
+const shortAnswerQuestion: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: 'Hello',
+  type: BoxType.SHORT_ANSWER
+}
+
+const shortAnswerWithHelp: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: 'Hello',
+  type: BoxType.SHORT_ANSWER,
+  hint: 'Hello'
+}
+
+// empty answer -> Valid
+const shortAnswerWithEmptyAnswer: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: '',
+  type: BoxType.SHORT_ANSWER
+}
+
+const shortAnswerWithNumericTypeAndNoApprox: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: 10,
+  type: BoxType.SHORT_ANSWER
+}
+
+const shortAnswerWithNumericTypeAndApprox: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: 10,
+  approx: 5,
+  type: BoxType.SHORT_ANSWER
+}
+
+const shortAnswerWTypeBox: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: 'Hello',
+  type: BoxType.DISPLAY
+}
+
+const shortAnswerWTypeMultipleChoices: ShortAnswer = {
+  content: 'Content',
+  imageURL: 'https://somewhereonearth.com/cat.jpeg',
+  answer: 'Hello',
+  type: BoxType.MULTIPLE_CHOICES
+}
+
+describe('New QuestionProvider test suite', () => {
   // Test utility functions
   const assertDataParseIntegrity = (
     data: Question,
@@ -265,508 +196,289 @@ describe('QuestionProvider test suite', () => {
   ) => {
     expect(provider.type).toEqual(data.type)
     expect(provider.content).toEqual(data.content)
-    expect(provider.correctAnswers).toEqual(data.correctAnswers)
-    expect(provider.availableAnswers).toEqual(data.availableAnswers)
     expect(provider.imageURL).toEqual(data.imageURL)
   }
 
-  const assertDataInitializationCorrect = (provider: QuestionProvider) => {
-    expect(provider.hint).toBeNull()
-    expect(provider.isCorrect).toBeNull()
-    expect(provider.answer).toBeNull()
+  const assertInitCorrectWithNoHint = (provider: QuestionProvider) => {
+    expect(provider.submission).toBeUndefined()
+    expect(provider.isCorrect).toBeUndefined()
+    expect(provider.hint).toBeUndefined()
+    expect(provider.explanation).toBeUndefined()
+    expect(provider.isCompleted).toBeFalse()
+    expect(provider.type).not.toEqual(BoxType.DISPLAY)
+  }
+
+  const assertInitCorrectWithHint = (provider: QuestionProvider) => {
+    expect(provider.submission).toBeUndefined()
+    expect(provider.isCorrect).toBeUndefined()
+    expect(provider.hint).not.toBeUndefined()
+    expect(provider.explanation).toBeUndefined()
     expect(provider.isCompleted).toBeFalse()
   }
 
+  const assertEqualChoices = (data: MultipleChoices, provider: MultipleChoicesProvider) => {
+    expect(provider.choices).toEqual(data.choices)
+    expect(provider.choices.length).toEqual(data.choices.length)
+    for (const index in provider.choices)
+      expect(provider.choices[index]).toEqual(data.choices[index])
+  }
+
   describe('Initialization', () => {
-    // Valid
-    it('should parse data correctly for single choice', () => {
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
 
-      assertDataParseIntegrity(data, provider)
-      assertDataInitializationCorrect(provider)
+    describe('with Multiple Choices instance as input', () => {
+      // Valid cases.
+      it('should parse multiple choices no help correctly', () => {
+        const data: Question = multipleChoicesCorrectWithNoHint
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeInstanceOf(MultipleChoicesProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithNoHint(provider as QuestionProvider)
+        assertEqualChoices(data as MultipleChoices, provider as MultipleChoicesProvider)
+      })
+
+      it('should parse multiple choices with hint correctly', () => {
+        const data: Question = multipleChoicesWithHint
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeInstanceOf(MultipleChoicesProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithHint(provider as QuestionProvider)
+        assertEqualChoices(data as MultipleChoices, provider as MultipleChoicesProvider)
+      })
+
+      it('should parse multiple choices w one choice correctly', () => {
+        const data: Question = multipleChoicesWithSingleChoice
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeInstanceOf(MultipleChoicesProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithNoHint(provider as QuestionProvider)
+        assertEqualChoices(data as MultipleChoices, provider as MultipleChoicesProvider)
+      })
+
+      // Invalid cases.
+      it('should return undefined for empty choices', () => {
+        const data: Question = multipleChoicesWithEmptyChoices
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeUndefined()
+      })
+
+      it('should return undefined for no correct choice', () => {
+        const data: Question = multipleChoicesNoCorrect
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeUndefined()
+      })
     })
 
-    it('should parse data correctly for multi choices', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
+    describe('with Short Answer as input', () => {
+      it('should parse short answer correctly', () => {
+        const data: Question = shortAnswerQuestion
+        const provider = QuestionProvider.fromBox(data)
 
-      assertDataParseIntegrity(data, provider)
-      assertDataInitializationCorrect(provider)
+        expect(provider).toBeInstanceOf(ShortAnswerProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithNoHint(provider as QuestionProvider)
+      })
+
+      it('should parse short answer w empty answer correctly', () => {
+        const data: Question = shortAnswerWithEmptyAnswer
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeInstanceOf(ShortAnswerProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithNoHint(provider as QuestionProvider)
+      })
+
+      it('should parse short answer w numeric answer correctly', () => {
+        const data: Question = shortAnswerWithNumericTypeAndNoApprox
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeInstanceOf(ShortAnswerProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithNoHint(provider as QuestionProvider)
+      })
+
+      it('should parse short answer w numeric answer & approx correctly', () => {
+        const data: Question = shortAnswerWithNumericTypeAndApprox
+        const provider = QuestionProvider.fromBox(data)
+
+        expect(provider).toBeInstanceOf(ShortAnswerProvider)
+        assertDataParseIntegrity(data, provider as QuestionProvider)
+        assertInitCorrectWithNoHint(provider as QuestionProvider)
+      })
     })
 
-    it('should parse correct answer type of `number` to single-element array', () => {
-      const data: Question = validDummyData.multiChoicesWithSingleCorrectAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
+    describe('with Box as input', () => {
+      it('should return box instance', () => {
+        const data: Question = box
+        const provider = QuestionProvider.fromBox(data)
 
-      expect(provider.type).toEqual(data.type)
-      expect(provider.content).toEqual(data.content)
-      expect(provider.correctAnswers).toEqual([data.correctAnswers] as number[])
-      expect(provider.availableAnswers).toEqual(data.availableAnswers)
-      expect(provider.imageURL).toEqual(data.imageURL)
-      assertDataInitializationCorrect(provider)
-    })
+        expect(provider).not.toBeInstanceOf(QuestionProvider)
+        expect(provider).not.toBeInstanceOf(ShortAnswerProvider)
+        expect(provider).not.toBeInstanceOf(MultipleChoicesProvider)
+        expect(data.content).toEqual(provider.content)
+        expect(data.type).toEqual(provider.type)
+        expect(data.imageURL).toEqual(provider.imageURL)
+      })
 
-    it('should parse data correctly for text', () => {
-      const data: Question = validDummyData.text
-      const provider = QuestionProvider.fromBaseQuestion(data)
+      it('should return undefined for box instance with type SHORT_ANSWER; because of the missing `answer` field.', () => {
+        const data: Question = boxWTypeShortAnswer
+        const provider = QuestionProvider.fromBox(data)
 
-      assertDataParseIntegrity(data, provider)
-      assertDataInitializationCorrect(provider)
-    })
+        expect(provider).toBeUndefined()
+      })
 
-    it('should parse data correctly for text with multiple correct answers', () => {
-      const data: Question = validDummyData.textWithMultipleCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
+      it('should return undefined for box instance with type MULTIPLE_CHOICES; because of the missing `choices` field.', () => {
+        const data: Question = boxWTypeMultipleChoices
+        const provider = QuestionProvider.fromBox(data)
 
-      assertDataParseIntegrity(data, provider)
-      assertDataInitializationCorrect(provider)
-    })
-
-    it('should parse data correctly for text with available answers', () => {
-      const data: Question = validDummyData.textWithAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      assertDataParseIntegrity(data, provider)
-      assertDataInitializationCorrect(provider)
-    })
-
-    it('should parse numbers into strings for text with multi-choices answers', () => {
-      const data: Question = validDummyData.textWithMultiChoicesCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider.type).toEqual(data.type)
-      expect(provider.content).toEqual(data.content)
-      expect(provider.correctAnswers).toEqual(
-        (data.correctAnswers as number[]).map((a) => a.toString())
-      )
-      expect(provider.availableAnswers).toEqual(data.availableAnswers)
-      expect(provider.imageURL).toEqual(data.imageURL)
-      assertDataInitializationCorrect(provider)
-    })
-
-    it('should parse numeric correct answer to single-element string array', () => {
-      const data: Question = validDummyData.textWithSingleChoicesCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider.type).toEqual(data.type)
-      expect(provider.content).toEqual(data.content)
-      expect(provider.correctAnswers).toEqual(data.correctAnswers.toString())
-      expect(provider.availableAnswers).toEqual(data.availableAnswers)
-      expect(provider.imageURL).toEqual(data.imageURL)
-      assertDataInitializationCorrect(provider)
-    })
-
-    // Invalid
-    it('should return null for null value of correct answers', () => {
-      const data: Question = invalidDummyData.singleChoiceWithNullCorrectAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for undefined value of correct answers', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithUndefinedCorrectAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question but multiple correct answers', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithMultipleCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question with text correct answer', () => {
-      const data: Question = invalidDummyData.singleChoiceWithTextAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question with null available answers', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithNullAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question with undefined available answers', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithUndefinedAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question with empty available answers', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithEmptyAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question with correct answer overflow', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithCorrectAnswersOverflow
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for single choice question with correct answer underflow', () => {
-      const data: Question =
-        invalidDummyData.singleChoiceWithCorrectAnswersUnderflow
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with null correct answers', () => {
-      const data: Question = invalidDummyData.multiChoicesWithNullCorrectAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with undefined correct answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithUndefinedCorrectAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with 1 overflow correct answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithSingleOverflowAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with 1 underflow correct answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithSingleUnderflowAnswer
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with textual correct answers', () => {
-      const data: Question = invalidDummyData.multiChoicesWithTextAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with null available answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithNullAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with undefined available answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithUndefinedAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with empty available answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithEmptyAvailableAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with empty correct answers', () => {
-      const data: Question =
-        invalidDummyData.multiChoicesWithEmptyCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with correct answers overflow', () => {
-      const data: Question =
-        invalidDummyData.multiChoiceWithCorrectAnswersOverflow
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for multi choices with correct answers underflow', () => {
-      const data: Question =
-        invalidDummyData.multiChoiceWithCorrectAnswersUnderflow
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for text with null correct answers', () => {
-      const data: Question = invalidDummyData.textWithNullCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for text with undefined correct answers', () => {
-      const data: Question = invalidDummyData.textWithUndefinedCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
-    })
-
-    it('should return null for text with empty correct answers', () => {
-      const data: Question = invalidDummyData.textWithEmptyCorrectAnswers
-      const provider = QuestionProvider.fromBaseQuestion(data)
-
-      expect(provider).toBeNull()
+        expect(provider).toBeUndefined()
+      })
     })
   })
 
-  describe('After submit incorrect', () => {
-    const assertIncorrectAnswer = (
-      provider: QuestionProvider,
-      answer: number | number[] | string
-    ) => {
-      expect(provider.answer).toEqual(answer)
-      expect(provider.isCorrect).toBeFalse()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint?.length).not.toBeNull()
-      expect(provider.hint?.length > 0).toBeTrue()
-    }
+  describe('In Action', () => {
+    describe('with Multiple Choices as input', () => {
 
-    // Valid
-    it('should also save the incorrect answer in single choice question', () => {
-      // Correct answer is 0
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 1
+      describe('with no hint', () => {
+        it('should not mark as complete when submit wrong answer', () => {
+          const provider = QuestionProvider.fromBox(multipleChoicesCorrectWithNoHint) as MultipleChoicesProvider
+          const choice = 0
+          const explanation = multipleChoicesCorrectWithNoHint.choices[choice].explanation
 
-      provider.submit(answer)
-      assertIncorrectAnswer(provider, answer)
+          provider.submit(choice)
+          expect(provider.submission).toEqual(choice)
+          expect(provider.isCorrect).toBeFalse()
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.explanation).toEqual(explanation)
+        })
+
+        it('should do nothing when submit string as input', () => {
+          const provider = QuestionProvider.fromBox(multipleChoicesCorrectWithNoHint) as QuestionProvider
+          const choice = '0'
+
+          provider.submit(choice)
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.submission).toBeUndefined()
+          expect(provider.isCorrect).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+        })
+
+        it('should mark as complete when submit correct answer', () => {
+          const provider = QuestionProvider.fromBox(multipleChoicesCorrectWithNoHint) as QuestionProvider
+          const choice = 1
+          const explanation = multipleChoicesCorrectWithNoHint.choices[choice].explanation
+
+          provider.submit(choice)
+          expect(provider.submission).toEqual(choice)
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.explanation).toEqual(explanation)
+        })
+
+        it('should do nothing when submit an index greater than the choices`s count.', () => {
+          const provider = QuestionProvider.fromBox(multipleChoicesCorrectWithNoHint) as QuestionProvider
+          const choice = 7
+
+          provider.submit(choice)
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.submission).toBeUndefined()
+          expect(provider.isCorrect).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+        })
+
+        it('should change states when first submit wrong and then submit correct', () => {
+          // Init
+          const provider = QuestionProvider.fromBox(multipleChoicesCorrectWithNoHint) as MultipleChoicesProvider
+
+          // Submit wrong answer
+          let choice = 0
+          let explanation = multipleChoicesCorrectWithNoHint.choices[choice].explanation
+
+          provider.submit(choice)
+          expect(provider.submission).toEqual(choice)
+          expect(provider.isCorrect).toBeFalse()
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.explanation).toEqual(explanation)
+
+          // Resubmit with correct answer
+          choice = 1
+          explanation = multipleChoicesCorrectWithNoHint.choices[choice].explanation
+
+          provider.submit(choice)
+          expect(provider.submission).toEqual(choice)
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.explanation).toEqual(explanation)
+        })
+      })
+
+      describe('with hint', () => {
+        // TODO implement this
+      })
     })
 
-    it('should also save the incorrect answer in multi choice question, one of the two answers is incorrect.', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [1, 3]
+    describe('with Short Answer as input', () => {
 
-      provider.submit(answer)
-      assertIncorrectAnswer(provider, answer)
-    })
+      describe('with `answer` is of numeric type', () => {
 
-    it('should also save the incorrect answer in multi choice question, both answers is incorrect.', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [0, 3]
+        it('should not mark as complete when submit wrong answer', () => {
+          // TODO implement this
+        })
 
-      provider.submit(answer)
-      assertIncorrectAnswer(provider, answer)
-    })
+        it('should mark as complete when submit correct answer', () => {
+          // TODO implement this
+        })
 
-    it('should also save the numeric answer in multi choices question by converting it into numbers', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer: number = 0
+        it('should parse string submission to number and conversion successful', () => {
+          // TODO implement this
+        })
 
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
+        it('should parse string submission to number and conversion failed', () => {
+          // TODO implement this
+        })
 
-    it('should also save the incorrect answer in textual question', () => {
-      const data: Question = validDummyData.text
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 'yoo'
+        it('should allow string submission when answer is string', () => {
+          // TODO implement this
+        })
 
-      provider.submit(answer)
-      assertIncorrectAnswer(provider, answer)
-    })
+        it('should change states when first submit wrong and then submit correct', () => {
+          // TODO implement this
+        })
 
-    // Invalid: do nothing
-    it('should do nothing when submit numbers to single choice question', () => {
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [0, 1]
+        it('should mark as correct when submit with upper approx boundary', () => {
+          // TODO implement this
+        })
 
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
+        it('should mark as correct when submit with lower approx boundary', () => {
+          // TODO implement this
+        })
 
-    it('should do nothing when submit text to single choice question', () => {
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 'hello'
+      })
 
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
+      describe('with `answer` is of string type', () => {
 
-    it('should do nothing when submit an index greater than length of available answers to single choice question', () => {
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 5
+        it('should not mark as complete when submit wrong answer', () => {
+          // TODO implement this
+        })
 
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
+        it('should convert numeric submission to string', () => {
+          // TODO implement this
+        })
 
-    it('should do nothing when submit an index smaller than 0 to single choice question', () => {
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = -1
+        it('should change states when first submit wrong and then submit correct', () => {
+          // TODO implement this
+        })
 
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should exclude index greater than length of available answers to multi choices question', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [1, 5]
-
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should exclude both indices greater than length of available answers to multi choices question', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [7, 5]
-
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should exclude the index smaller than 0 to multi choices question', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [1, -5]
-
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should exclude both indices smaller than 0 to multi choices question', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [-1, -5]
-
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should do nothing when submit text to multi choice question', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 'hello'
-
-      provider.submit(answer)
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should do nothing when submit a number to text question', () => {
-      const data: Question = validDummyData.text
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 0
-
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-
-    it('should do nothing when submit numbers to text question', () => {
-      const data: Question = validDummyData.text
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [0, 1]
-
-      expect(provider.answer).toBeNull()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.hint).toBeNull()
-    })
-  })
-
-  describe('After submit correct', () => {
-    const assertCorrectAnswer = (
-      provider: QuestionProvider,
-      answer: number | number[] | string
-    ) => {
-      expect(provider.answer).toEqual(answer)
-      expect(provider.isCorrect).toBeTrue()
-      expect(provider.isCompleted).toBeTrue()
-      expect(provider.hint).toBeNull()
-    }
-
-    it('should also save the correct answer in single choice question', () => {
-      // Correct answer is 0
-      const data: Question = validDummyData.singleChoice
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 0
-
-      provider.submit(answer)
-      assertCorrectAnswer(provider, answer)
-    })
-
-    it('should also save the correct answer in multi choice question', () => {
-      const data: Question = validDummyData.multipleChoices
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = [1, 2]
-
-      provider.submit(answer)
-      assertCorrectAnswer(provider, answer)
-    })
-
-    it('should also save the correct answer in textual question', () => {
-      const data: Question = validDummyData.text
-      const provider = QuestionProvider.fromBaseQuestion(data)
-      const answer = 'hello_world'
-
-      provider.submit(answer)
-      assertCorrectAnswer(provider, answer)
+        it('should mark as complete when submit correct answer', () => {
+          // TODO implement this
+        })
+      })
     })
   })
 })

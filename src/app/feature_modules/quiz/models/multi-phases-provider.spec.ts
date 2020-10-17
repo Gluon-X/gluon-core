@@ -1,412 +1,296 @@
-import { PhaseStack } from './interfaces'
-import { QuestionType } from './enums'
-import { MultiPhasesProvider } from './classes'
+import { MultiPhasesProvider } from './multi_phases_provider.class'
+import { Box, MultipleChoices, Phase, ShortAnswer } from './interfaces.new'
+import { BoxType } from './enums.new'
 
-const validDummyData: { [phaseName: string]: PhaseStack } = {
-  phaseOne: {
-    openQuestion: 'what is phase one?',
-    subQuestions: [
-      {
-        content: 'Content',
-        imageURL: 'https://somewhereonearth.com/cat.jpeg',
-        availableAnswers: ['A', 'B', 'C', 'D'],
-        type: QuestionType.SINGLE_CHOICE,
-        correctAnswers: 0,
-      },
-    ],
+const boxes: Box[] = [
+  {
+    content: 'Content',
+    imageURL: 'https://somewhereonearth.com/cat.jpeg',
+    type: BoxType.DISPLAY
   },
 
-  phaseTwo: {
-    openQuestion: 'what is phase two?',
-    subQuestions: [
-      {
-        content: 'Content',
-        imageURL: 'https://somewhereonearth.com/cat.jpeg',
-        availableAnswers: ['A', 'B', 'C', 'D'],
-        type: QuestionType.SINGLE_CHOICE,
-        correctAnswers: 0,
-      },
-      {
-        content: 'Content',
-        imageURL: 'https://somewhereonearth.com/cat.jpeg',
-        availableAnswers: ['A', 'B', 'C', 'D'],
-        type: QuestionType.MULTIPLE_CHOICES,
-        correctAnswers: [1, 2],
-      },
-    ],
-  },
+  {
+    content: 'Content',
+    imageURL: 'https://somewhereonearth.com/cat.jpeg',
+    choices: [{
+      content: 'A',
+      isCorrect: false,
+      explanation: 'A'
+    }, {
+      content: 'B',
+      isCorrect: true,
+      explanation: 'B'
+    }, {
+      content: 'C',
+      isCorrect: false,
+      explanation: 'C'
+    }, {
+      content: 'D',
+      isCorrect: false,
+      explanation: 'D'
+    }],
+    hint: 'Hello',
+    type: BoxType.MULTIPLE_CHOICES
+  } as MultipleChoices,
 
-  phaseThree: {
-    openQuestion: 'what is phase three?',
-    subQuestions: [
-      {
-        content: 'Content',
-        imageURL: 'https://somewhereonearth.com/cat.jpeg',
-        availableAnswers: ['A', 'B', 'C', 'D'],
-        type: QuestionType.SINGLE_CHOICE,
-        correctAnswers: 0,
-      },
-      {
-        content: 'Content',
-        imageURL: 'https://somewhereonearth.com/cat.jpeg',
-        availableAnswers: ['A', 'B', 'C', 'D'],
-        type: QuestionType.MULTIPLE_CHOICES,
-        correctAnswers: [1, 2],
-      },
-      {
-        content: 'Content',
-        imageURL: 'https://somewhereonearth.com/cat.jpeg',
-        availableAnswers: null,
-        type: QuestionType.TEXT,
-        correctAnswers: 'hello_world',
-      },
-    ],
+  {
+    content: 'Content',
+    imageURL: 'https://somewhereonearth.com/cat.jpeg',
+    answer: 'Hello',
+    hint: 'Hello',
+    type: BoxType.SHORT_ANSWER
+  } as ShortAnswer
+]
+
+const phases: Phase[] = [
+  {
+    title: 'Phase One',
+    content: 'Phase One',
+    boxes: [boxes[0]]
   },
-}
+  {
+    title: 'Phase Two',
+    content: 'Phase Two',
+    boxes: [boxes[0], boxes[1]]
+  },
+  {
+    title: 'Phase Three',
+    content: 'Phase Three',
+    boxes
+  }
+]
 
 describe('MultiPhasesProvider tests', () => {
-  const assertEmptyPhasesList = (provider: MultiPhasesProvider) => {
-    expect(provider).not.toBeNull()
-    expect(provider.phasesCount).toEqual(0)
-    expect(provider.currentPhaseIndex).toEqual(0)
-    expect(provider.currentPhaseName).toBeNull()
-    expect(provider.prevAvailable).toBeFalse()
-    expect(provider.nextAvailable).toBeFalse()
-    expect(provider.answer).toBeNull()
-    expect(provider.hint).toBeNull()
-    expect(provider.isCompleted).toBeTrue()
-    expect(provider.isCorrect).toBeNull()
-    expect(provider.question).toBeNull()
-    expect(provider.questionIndex).toBeNull()
-    expect(provider.questionsCount).toBeNull()
-  }
-
-  it('should ', () => {
-    const provider = new MultiPhasesProvider(null)
-
-    assertEmptyPhasesList(provider)
-    provider.next()
-    assertEmptyPhasesList(provider)
-    provider.previous()
-    assertEmptyPhasesList(provider)
-  })
-
-  it('should ', () => {
-    const provider = new MultiPhasesProvider(undefined)
-
-    assertEmptyPhasesList(provider)
-    provider.next()
-    assertEmptyPhasesList(provider)
-    provider.previous()
-    assertEmptyPhasesList(provider)
-  })
-
-  it('should ', () => {
-    const provider = new MultiPhasesProvider({})
-
-    assertEmptyPhasesList(provider)
-    provider.next()
-    assertEmptyPhasesList(provider)
-    provider.previous()
-    assertEmptyPhasesList(provider)
-  })
-
-  it('first question first phase', () => {
-    const assertPhaseOneFirstQuestionNotAnswerYet = () => {
-      expect(provider).not.toBeNull()
-      expect(provider.phasesCount).toEqual(3)
-      expect(provider.currentPhaseIndex).toEqual(0)
-      expect(provider.currentPhaseName).toEqual('phaseOne')
-      expect(provider.prevAvailable).toBeFalse()
-      expect(provider.nextAvailable).toBeFalse()
-      expect(provider.answer).toBeNull()
-      expect(provider.hint).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.question).not.toBeNull()
-      expect(provider.questionIndex).toEqual(0)
-      expect(provider.questionsCount).toEqual(1)
-    }
-    const provider = new MultiPhasesProvider(validDummyData)
-
-    assertPhaseOneFirstQuestionNotAnswerYet()
-
-    provider.next()
-    assertPhaseOneFirstQuestionNotAnswerYet()
-
-    provider.previous()
-    assertPhaseOneFirstQuestionNotAnswerYet()
-  })
-
-  it('first question incorrect first phase', () => {
-    const assertPhaseOneFirstQuestionAnswerIncorrectly = () => {
-      expect(provider.phasesCount).toEqual(3)
-      expect(provider.currentPhaseIndex).toEqual(0)
-      expect(provider.currentPhaseName).toEqual('phaseOne')
-      expect(provider.prevAvailable).toBeFalse()
-      expect(provider.nextAvailable).toBeFalse()
-      expect(provider.answer).toEqual(1)
-      expect(provider.hint?.length).toBeGreaterThan(0)
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.isCorrect).toBeFalse()
-      expect(provider.question).not.toBeNull()
-      expect(provider.questionIndex).toEqual(0)
-      expect(provider.questionsCount).toEqual(1)
-    }
-
-    const provider = new MultiPhasesProvider(validDummyData)
-
-    provider.submit(1)
-    assertPhaseOneFirstQuestionAnswerIncorrectly()
-
-    provider.previous()
-    assertPhaseOneFirstQuestionAnswerIncorrectly()
-
-    provider.next()
-    assertPhaseOneFirstQuestionAnswerIncorrectly()
-  })
-
-  const assertPhaseOneFirstQuestionAnswerCorrectly = (
-    provider: MultiPhasesProvider
-  ) => {
-    expect(provider.phasesCount).toEqual(3)
-    expect(provider.currentPhaseIndex).toEqual(0)
-    expect(provider.currentPhaseName).toEqual('phaseOne')
+  const assertPhaseOneFirstBoxAsDisplayable = (provider: MultiPhasesProvider) => {
+    expect(provider).not.toBeUndefined()
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(0)
+    expect(provider.title).toEqual(phases[0].title)
+    expect(provider.content).toEqual(phases[0].content)
     expect(provider.prevAvailable).toBeFalse()
     expect(provider.nextAvailable).toBeTrue()
-    expect(provider.answer).toEqual(0)
-    expect(provider.hint).toBeNull()
+    expect(provider.submission).toBeUndefined()
+    expect(provider.hint).toBeUndefined()
     expect(provider.isCompleted).toBeFalse()
-    expect(provider.isCorrect).toBeTrue()
-    expect(provider.question).not.toBeNull()
-    expect(provider.questionIndex).toEqual(0)
-    expect(provider.questionsCount).toEqual(1)
+    expect(provider.isCorrect).toBeUndefined()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(0)
+    expect(provider.boxesCount).toEqual(1)
   }
 
-  it('first question correct first phase', () => {
-    const provider = new MultiPhasesProvider(validDummyData)
+  describe('with first phase', () => {
 
-    provider.submit(0)
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
+    it('should return undefined w passing null as param', () => {
+      const provider = MultiPhasesProvider.fromPhases(null)
 
-    provider.previous()
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
+      expect(provider).toBeUndefined()
+    })
+
+    it('should return undefined w passing undefined as param ', () => {
+      const provider = MultiPhasesProvider.fromPhases(undefined)
+
+      expect(provider).toBeUndefined()
+    })
+
+    it('should return undefined w passing empty as param ', () => {
+      const provider = MultiPhasesProvider.fromPhases([])
+
+      expect(provider).toBeUndefined()
+    })
+
+    it('first question first phase', () => {
+      const provider = MultiPhasesProvider.fromPhases(phases)
+
+      assertPhaseOneFirstBoxAsDisplayable(provider)
+
+      provider.previous()
+      assertPhaseOneFirstBoxAsDisplayable(provider)
+
+      provider.submit(0)
+      assertPhaseOneFirstBoxAsDisplayable(provider)
+
+      provider.submit('0')
+      assertPhaseOneFirstBoxAsDisplayable(provider)
+
+      provider.submit(undefined)
+      assertPhaseOneFirstBoxAsDisplayable(provider)
+
+      provider.submit(null)
+      assertPhaseOneFirstBoxAsDisplayable(provider)
+    })
+
   })
+
+  const assertPhaseTwoFirstBoxAsDisplayable = (provider: MultiPhasesProvider) => {
+    expect(provider).not.toBeUndefined()
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(1)
+    expect(provider.title).toEqual(phases[1].title)
+    expect(provider.content).toEqual(phases[1].content)
+    expect(provider.prevAvailable).toBeTrue()
+    expect(provider.nextAvailable).toBeTrue()
+    expect(provider.submission).toBeUndefined()
+    expect(provider.hint).toBeUndefined()
+    expect(provider.isCompleted).toBeFalse()
+    expect(provider.isCorrect).toBeUndefined()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(0)
+    expect(provider.boxesCount).toEqual(2)
+  }
 
   it('first question second phase', () => {
-    const assertPhaseTwoFirstQuestionNotAnswerYet = () => {
-      expect(provider.phasesCount).toEqual(3)
-      expect(provider.currentPhaseIndex).toEqual(1)
-      expect(provider.currentPhaseName).toEqual('phaseTwo')
-      expect(provider.prevAvailable).toBeTrue()
-      expect(provider.nextAvailable).toBeFalse()
-      expect(provider.answer).toBeNull()
-      expect(provider.hint).toBeNull()
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.isCorrect).toBeNull()
-      expect(provider.question).not.toBeNull()
-      expect(provider.questionIndex).toEqual(0)
-      expect(provider.questionsCount).toEqual(2)
-    }
+    const provider = MultiPhasesProvider.fromPhases(phases)
 
-    const provider = new MultiPhasesProvider(validDummyData)
-
-    provider.submit(0)
     provider.next()
-
-    assertPhaseTwoFirstQuestionNotAnswerYet()
+    assertPhaseTwoFirstBoxAsDisplayable(provider)
 
     provider.previous()
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
+    assertPhaseOneFirstBoxAsDisplayable(provider)
 
     provider.next()
-    assertPhaseTwoFirstQuestionNotAnswerYet()
+    assertPhaseTwoFirstBoxAsDisplayable(provider)
   })
 
-  it('first question incorrect second phase', () => {
-    const assertPhaseTwoFirstQuestionAnswerIncorrectly = () => {
-      expect(provider.phasesCount).toEqual(3)
-      expect(provider.currentPhaseIndex).toEqual(1)
-      expect(provider.currentPhaseName).toEqual('phaseTwo')
-      expect(provider.prevAvailable).toBeTrue()
-      expect(provider.nextAvailable).toBeFalse()
-      expect(provider.answer).toEqual(1)
-      expect(provider.hint?.length).toBeGreaterThan(0)
-      expect(provider.isCompleted).toBeFalse()
-      expect(provider.isCorrect).toBeFalse()
-      expect(provider.question).not.toBeNull()
-      expect(provider.questionIndex).toEqual(0)
-      expect(provider.questionsCount).toEqual(2)
-    }
+  const assertPhaseTwoSecondBoxAnswerCorrectly = (
+    provider: MultiPhasesProvider
+  ) => {
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(1)
+    expect(provider.title).toEqual(phases[1].title)
+    expect(provider.prevAvailable).toBeTrue()
+    expect(provider.nextAvailable).toBeTrue()
+    expect(provider.submission).toEqual(1)
+    expect(provider.hint).not.toBeUndefined()
+    expect(provider.explanation).not.toBeUndefined()
+    expect(provider.isCompleted).toBeFalse()
+    expect(provider.isCorrect).toBeTrue()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(1)
+    expect(provider.boxesCount).toEqual(2)
+  }
 
-    const provider = new MultiPhasesProvider(validDummyData)
+  it('should mark as correct when answer second box of second phase correctly', () => {
+    const provider = MultiPhasesProvider.fromPhases(phases)
 
-    provider.submit(0)
+    // P1 Q1
     provider.next()
+
+    // P2 Q1
+    provider.next()
+
+    // P2 Q2
     provider.submit(1)
 
-    assertPhaseTwoFirstQuestionAnswerIncorrectly()
+    assertPhaseTwoSecondBoxAnswerCorrectly(provider)
 
     provider.previous()
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
+    assertPhaseTwoFirstBoxAsDisplayable(provider)
 
     provider.next()
-    assertPhaseTwoFirstQuestionAnswerIncorrectly()
+    assertPhaseTwoSecondBoxAnswerCorrectly(provider)
   })
 
-  const assertPhaseTwoFirstQuestionAnswerCorrectly = (
+  const assertPhaseThreeFirstBoxAsDisplayable = (
     provider: MultiPhasesProvider
   ) => {
-    expect(provider.phasesCount).toEqual(3)
-    expect(provider.currentPhaseIndex).toEqual(1)
-    expect(provider.currentPhaseName).toEqual('phaseTwo')
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(2)
+    expect(provider.title).toEqual(phases[2].title)
+    expect(provider.content).toEqual(phases[2].content)
     expect(provider.prevAvailable).toBeTrue()
     expect(provider.nextAvailable).toBeTrue()
-    expect(provider.answer).toEqual(0)
-    expect(provider.hint).toBeNull()
+    expect(provider.submission).toBeUndefined()
+    expect(provider.hint).toBeUndefined()
     expect(provider.isCompleted).toBeFalse()
-    expect(provider.isCorrect).toBeTrue()
-    expect(provider.question).not.toBeNull()
-    expect(provider.questionIndex).toEqual(0)
-    expect(provider.questionsCount).toEqual(2)
+    expect(provider.isCorrect).toBeUndefined()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(0)
+    expect(provider.boxesCount).toEqual(3)
+    // TODO add more expectation. Current is not enough
   }
 
-  it('first question correct second phase', () => {
-    const provider = new MultiPhasesProvider(validDummyData)
-
-    provider.submit(0)
-    provider.next()
-    provider.submit(0)
-
-    assertPhaseTwoFirstQuestionAnswerCorrectly(provider)
-
-    provider.previous()
-    assertPhaseOneFirstQuestionAnswerCorrectly(provider)
-
-    provider.next()
-    assertPhaseTwoFirstQuestionAnswerCorrectly(provider)
-  })
-
-  const assertPhaseTwoSecondQuestionAnswerCorrectly = (
+  const assertPhaseThreeSecondBoxAnswerCorrectly = (
     provider: MultiPhasesProvider
   ) => {
-    expect(provider.phasesCount).toEqual(3)
-    expect(provider.currentPhaseIndex).toEqual(1)
-    expect(provider.currentPhaseName).toEqual('phaseTwo')
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(2)
+    expect(provider.title).toEqual(phases[2].title)
+    expect(provider.content).toEqual(phases[2].content)
     expect(provider.prevAvailable).toBeTrue()
     expect(provider.nextAvailable).toBeTrue()
-    expect(provider.answer).toEqual([1, 2])
-    expect(provider.hint).toBeNull()
+    expect(provider.submission).toEqual(1)
+    expect(provider.hint).not.toBeUndefined()
     expect(provider.isCompleted).toBeFalse()
     expect(provider.isCorrect).toBeTrue()
-    expect(provider.question).not.toBeNull()
-    expect(provider.questionIndex).toEqual(1)
-    expect(provider.questionsCount).toEqual(2)
-  }
-
-  it('second question correct second phase', () => {
-    const provider = new MultiPhasesProvider(validDummyData)
-
-    provider.submit(0)
-    provider.next()
-    provider.submit(0)
-    provider.next()
-    provider.submit([1, 2])
-
-    assertPhaseTwoSecondQuestionAnswerCorrectly(provider)
-
-    provider.previous()
-    assertPhaseTwoFirstQuestionAnswerCorrectly(provider)
-
-    provider.next()
-    assertPhaseTwoSecondQuestionAnswerCorrectly(provider)
-  })
-
-  const assertPhaseThreeFirstQuestionAnswerCorrectly = (
-    provider: MultiPhasesProvider
-  ) => {
-    expect(provider.phasesCount).toEqual(3)
-    expect(provider.currentPhaseIndex).toEqual(2)
-    expect(provider.currentPhaseName).toEqual('phaseThree')
-    expect(provider.prevAvailable).toBeTrue()
-    expect(provider.nextAvailable).toBeTrue()
-    expect(provider.answer).toEqual(0)
-    expect(provider.hint).toBeNull()
-    expect(provider.isCompleted).toBeFalse()
-    expect(provider.isCorrect).toBeTrue()
-    expect(provider.question).not.toBeNull()
-    expect(provider.questionIndex).toEqual(0)
-    expect(provider.questionsCount).toEqual(3)
-  }
-
-  const assertPhaseThreeSecondQuestionAnswerCorrectly = (
-    provider: MultiPhasesProvider
-  ) => {
-    expect(provider.phasesCount).toEqual(3)
-    expect(provider.currentPhaseIndex).toEqual(2)
-    expect(provider.currentPhaseName).toEqual('phaseThree')
-    expect(provider.prevAvailable).toBeTrue()
-    expect(provider.nextAvailable).toBeTrue()
-    expect(provider.answer).toEqual([1, 2])
-    expect(provider.hint).toBeNull()
-    expect(provider.isCompleted).toBeFalse()
-    expect(provider.isCorrect).toBeTrue()
-    expect(provider.question).not.toBeNull()
-    expect(provider.questionIndex).toEqual(1)
-    expect(provider.questionsCount).toEqual(3)
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(1)
+    expect(provider.boxesCount).toEqual(3)
+    // TODO add more expectation. Current is not enough
   }
 
   const assertPhaseThreeThirdQuestionAnswerCorrectly = (
     provider: MultiPhasesProvider
   ) => {
-    expect(provider.phasesCount).toEqual(3)
-    expect(provider.currentPhaseIndex).toEqual(2)
-    expect(provider.currentPhaseName).toEqual('phaseThree')
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(2)
+    expect(provider.title).toEqual(phases[2].title)
+    expect(provider.content).toEqual(phases[2].content)
     expect(provider.prevAvailable).toBeTrue()
     expect(provider.nextAvailable).toBeFalse()
-    expect(provider.answer).toEqual('hello_world')
-    expect(provider.hint).toBeNull()
+    expect(provider.submission).toEqual('Hello')
+    expect(provider.hint).not.toBeUndefined()
     expect(provider.isCompleted).toBeTrue()
     expect(provider.isCorrect).toBeTrue()
-    expect(provider.question).not.toBeNull()
-    expect(provider.questionIndex).toEqual(2)
-    expect(provider.questionsCount).toEqual(3)
+    expect(provider.boxIndex).toEqual(2)
+    expect(provider.boxesCount).toEqual(3)
+    // TODO add more expectation. Current is not enough
   }
 
-  it('first question correct third phase', () => {
-    const provider = new MultiPhasesProvider(validDummyData)
+  it('first question third phase', () => {
+    const provider = MultiPhasesProvider.fromPhases(phases)
 
-    provider.submit(0)
+    // First box First Phase
     provider.next()
-    provider.submit(0)
-    provider.next()
-    provider.submit([1, 2])
-    provider.next()
-    provider.submit(0)
 
-    assertPhaseThreeFirstQuestionAnswerCorrectly(provider)
+    // First box Second Phase
+    provider.next()
+
+    // Second box Second Phase
+    provider.submit(1)
+    provider.next()
+
+    // First box Third Phase
+    assertPhaseThreeFirstBoxAsDisplayable(provider)
 
     provider.previous()
-    assertPhaseTwoSecondQuestionAnswerCorrectly(provider)
+    assertPhaseTwoSecondBoxAnswerCorrectly(provider)
 
     provider.previous()
-    assertPhaseTwoFirstQuestionAnswerCorrectly(provider)
+    assertPhaseTwoFirstBoxAsDisplayable(provider)
   })
 
   it('third question correct third phase', () => {
-    const provider = new MultiPhasesProvider(validDummyData)
+    const provider = MultiPhasesProvider.fromPhases(phases)
 
-    provider.submit(0)
+    // First box First Phase
     provider.next()
-    provider.submit(0)
+
+    // First box Second Phase
     provider.next()
-    provider.submit([1, 2])
+
+    // Second box Second Phase
+    provider.submit(1)
     provider.next()
-    provider.submit(0)
+
+    // First box Third Phase
     provider.next()
-    provider.submit([1, 2])
+
+    // Second box Third Phase
+    provider.submit(1)
     provider.next()
-    provider.submit('hello_world')
+
+    // Third box Third Phase
+    provider.submit('Hello')
 
     assertPhaseThreeThirdQuestionAnswerCorrectly(provider)
 
@@ -414,12 +298,53 @@ describe('MultiPhasesProvider tests', () => {
     assertPhaseThreeThirdQuestionAnswerCorrectly(provider)
 
     provider.previous()
-    assertPhaseThreeSecondQuestionAnswerCorrectly(provider)
+    // assertPhaseThreeSecondBoxAnswerCorrectly(provider)
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(2)
+    expect(provider.title).toEqual(phases[2].title)
+    expect(provider.content).toEqual(phases[2].content)
+    expect(provider.prevAvailable).toBeTrue()
+    expect(provider.nextAvailable).toBeTrue()
+    expect(provider.submission).toEqual(1)
+    expect(provider.hint).not.toBeUndefined()
+    expect(provider.isCompleted).toBeTrue()
+    expect(provider.isCorrect).toBeTrue()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(1)
+    expect(provider.boxesCount).toEqual(3)
 
     provider.previous()
-    assertPhaseThreeFirstQuestionAnswerCorrectly(provider)
+    // assertPhaseThreeFirstBoxAsDisplayable(provider)
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(2)
+    expect(provider.title).toEqual(phases[2].title)
+    expect(provider.content).toEqual(phases[2].content)
+    expect(provider.prevAvailable).toBeTrue()
+    expect(provider.nextAvailable).toBeTrue()
+    expect(provider.submission).toBeUndefined()
+    expect(provider.hint).toBeUndefined()
+    expect(provider.isCompleted).toBeTrue()
+    expect(provider.isCorrect).toBeUndefined()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(0)
+    expect(provider.boxesCount).toEqual(3)
 
     provider.previous()
-    assertPhaseTwoSecondQuestionAnswerCorrectly(provider)
+    // assertPhaseTwoSecondBoxAnswerCorrectly(provider)
+
+    expect(provider.count).toEqual(3)
+    expect(provider.index).toEqual(1)
+    expect(provider.title).toEqual(phases[1].title)
+    expect(provider.prevAvailable).toBeTrue()
+    expect(provider.nextAvailable).toBeTrue()
+    expect(provider.submission).toEqual(1)
+    expect(provider.hint).not.toBeUndefined()
+    expect(provider.explanation).not.toBeUndefined()
+    expect(provider.isCompleted).toBeTrue()
+    expect(provider.isCorrect).toBeTrue()
+    expect(provider.current).not.toBeUndefined()
+    expect(provider.boxIndex).toEqual(1)
+    expect(provider.boxesCount).toEqual(2)
+
   })
 })

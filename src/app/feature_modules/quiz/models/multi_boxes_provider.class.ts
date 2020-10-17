@@ -1,11 +1,11 @@
 // Acts as substitution to `MultiQuestionsProvider`
-import { Box, Phase, PossibleInputAnswer, Question, Submitable } from './interfaces.new'
+import { Box, Phase, PossibleInputAnswer, Submitable } from './interfaces.new'
 import { isNotNullOrUndefined } from 'codelyzer/util/isNotNullOrUndefined'
 import { BoxType } from './enums.new'
 import { QuestionProvider } from './question_provider.class'
-import { isUndefined } from '../../../shared'
+import { isNotUndefined, isUndefined } from '../../../shared'
 
-export abstract class PhaseProvider implements Submitable<PossibleInputAnswer> {
+export abstract class MultiBoxesProvider implements Submitable<PossibleInputAnswer> {
 
   readonly title?: string
 
@@ -16,7 +16,18 @@ export abstract class PhaseProvider implements Submitable<PossibleInputAnswer> {
   // Single box related fields
   abstract get index(): number
 
-  abstract get current(): Box | undefined
+  /**
+   * Contain state of current box.
+   * Try checking for box type before using.
+   * If `current.type` is DISPLAY, use type Box.
+   * If `current.type` is SHORT_ANSWER, parse to `ShortAnswerProvider`.
+   * If `current.type` is MULTIPLE_CHOICES, parse to `MultipleChoicesProvider` to get extra `choices` fields.
+   * This state never returns undefined or null, since if validation fails, `fromPhase` static
+   * method will return undefined.
+   *
+   * @return Box as current box =)) Quite confuse eh?
+   */
+  abstract get current(): Box
 
   abstract get explanation(): string | undefined
 
@@ -24,9 +35,7 @@ export abstract class PhaseProvider implements Submitable<PossibleInputAnswer> {
 
   abstract get submission(): PossibleInputAnswer | undefined
 
-  abstract get help(): string | undefined
-
-  abstract get isHelpExist(): boolean | undefined
+  abstract get hint(): string | undefined
 
   // Navigate-able
   abstract get isCompleted(): boolean
@@ -40,25 +49,44 @@ export abstract class PhaseProvider implements Submitable<PossibleInputAnswer> {
     this.content = phase?.content
   }
 
-  static fromPhase(phase: Phase): PhaseProvider | undefined {
-    return isNotNullOrUndefined(phase) ?
-      new DefaultMultiBoxesProvider(phase) :
-      undefined
+  /**
+   * Init `PhaseProvider` instance from `Phase` raw data.
+   * Use this static method instead of class constructor to provide input validation.
+   *
+   * @param phase: Phase. Raw data of a phase.
+   * @return PhaseProvider. If `phase` data is not null or undefined and has at least one valid box.
+   * @return undefined. If `phase` data is null or undefined or has no valid box.
+   */
+  static fromPhase(phase: Phase): MultiBoxesProvider | undefined {
+    if (
+      isNotNullOrUndefined(phase) &&
+      phase.boxes?.length === 0) return undefined
+    const provider = new DefaultMultiBoxesProvider(phase)
+    return provider.count > 0 ? provider : undefined
   }
 
   abstract next()
 
   abstract previous()
 
+  /**
+   * Allow user to submit answer to current `question`.
+   * It should return false and do nothing if `current.type` is DISPLAY.
+   *
+   * @param answer: number | string. Provide user input.
+   * @return true. If `answer` param meets valid type.
+   * @return false. If `answer` param is not valid.
+   */
   abstract submit(answer: PossibleInputAnswer): boolean
 }
 
-class DefaultMultiBoxesProvider extends PhaseProvider {
+class DefaultMultiBoxesProvider extends MultiBoxesProvider {
 
   constructor(phase: Phase) {
     super(phase)
     this._boxes = phase?.boxes
-      ?.map(QuestionProvider.fromBox) ?? []
+      ?.map(QuestionProvider.fromBox)
+      .filter(isNotUndefined) ?? []
   }
 
   get count(): number {
@@ -66,9 +94,8 @@ class DefaultMultiBoxesProvider extends PhaseProvider {
   }
 
   // Single box related fields
-  get current(): Box | undefined {
-    return this._boxes.length > 0
-      ? this._boxes[this.index] : undefined
+  get current(): Box {
+    return this._boxes[this.index]
   }
 
   get explanation(): string | undefined {
@@ -85,12 +112,8 @@ class DefaultMultiBoxesProvider extends PhaseProvider {
     return this._currentBoxAsProvider.isCorrect
   }
 
-  get help(): string | undefined {
-    return this._currentBoxAsProvider?.help
-  }
-
-  get isHelpExist(): boolean {
-    return this._currentBoxAsProvider?.isHelpExist ?? false
+  get hint(): string | undefined {
+    return this._currentBoxAsProvider.hint
   }
 
   // Navigate-able
@@ -129,19 +152,20 @@ class DefaultMultiBoxesProvider extends PhaseProvider {
 
   next() {
     if (this.nextAvailable) this._index++
-    else console.error('Next question is not available')
+    else console.error('Next box is not available')
   }
 
   previous() {
     if (this.prevAvailable) this._index--
-    else console.error('Previous question is not available')
+    else console.error('Previous box is not available')
   }
 
   submit(answer: PossibleInputAnswer): boolean {
-    return this._currentBoxAsProvider?.submit(answer) ?? false
+    if (this.current.type === BoxType.DISPLAY) return false
+    return this._currentBoxAsProvider.submit(answer)
   }
 
-  private get _currentBoxAsProvider(): QuestionProvider | undefined {
+  private get _currentBoxAsProvider(): QuestionProvider {
     return this.current as QuestionProvider
   }
 
