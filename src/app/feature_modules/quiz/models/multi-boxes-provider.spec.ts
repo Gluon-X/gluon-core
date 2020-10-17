@@ -29,14 +29,16 @@ const boxes: Box[] = [
       isCorrect: false,
       explanation: 'D'
     }],
-    hint: 'Hello'
+    hint: 'Hello',
+    type: BoxType.MULTIPLE_CHOICES
   } as MultipleChoices,
 
   {
     content: 'Content',
     imageURL: 'https://somewhereonearth.com/cat.jpeg',
     answer: 'Hello',
-    hint: 'Hello'
+    hint: 'Hello',
+    type: BoxType.SHORT_ANSWER
   } as ShortAnswer
 ]
 
@@ -46,7 +48,7 @@ const samplePhase: Phase = {
   boxes
 }
 
-describe('MultiQuestionsProvider test suite', () => {
+describe('MultiBoxesProvider test suite', () => {
   it('should return undefined when passing null param', () => {
     const provider = MultiBoxesProvider.fromPhase(null)
     expect(provider).toBeUndefined()
@@ -58,7 +60,13 @@ describe('MultiQuestionsProvider test suite', () => {
   })
 
   it('should return undefined when passing empty param', () => {
-    const provider = MultiBoxesProvider.fromPhase(samplePhase)
+    const sampleEmptyPhase: Phase = {
+      title: 'Sample',
+      content: 'Sample',
+      boxes: []
+    }
+
+    const provider = MultiBoxesProvider.fromPhase(sampleEmptyPhase)
     expect(provider).toBeUndefined()
   })
 
@@ -152,8 +160,8 @@ describe('MultiQuestionsProvider test suite', () => {
     }
 
     const provider = MultiBoxesProvider.fromPhase(samplePhase)
-    provider.submit(0)
     provider.next()
+    provider.submit(0)
 
     assertSecondQuestionAnswerIncorrectly()
 
