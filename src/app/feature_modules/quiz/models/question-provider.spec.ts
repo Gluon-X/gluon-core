@@ -428,55 +428,162 @@ describe('New QuestionProvider test suite', () => {
       describe('with `answer` is of numeric type', () => {
 
         it('should not mark as complete when submit wrong answer', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndNoApprox) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit(11)
+
+          expect(provider.submission).toEqual('11')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.isCorrect).toBeFalse()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should mark as complete when submit correct answer', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndNoApprox) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit(10)
+
+          expect(provider.submission).toEqual('10')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should parse string submission to number and conversion successful', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndNoApprox) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit('10')
+
+          expect(provider.submission).toEqual('10')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should parse string submission to number and conversion failed', () => {
-          // TODO implement this
-        })
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndNoApprox) as ShortAnswerProvider
 
-        it('should allow string submission when answer is string', () => {
-          // TODO implement this
+          expect(provider).not.toBeUndefined()
+          provider.submit('10E')
+
+          expect(provider.submission).toBeUndefined()
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.isCorrect).toBeFalse()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should change states when first submit wrong and then submit correct', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndNoApprox) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit(11)
+          provider.submit(10)
+
+          expect(provider.submission).toEqual('10')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should mark as correct when submit with upper approx boundary', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndApprox) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit(11)
+
+          expect(provider.submission).toEqual('11')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should mark as correct when submit with lower approx boundary', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerWithNumericTypeAndApprox) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit(8)
+
+          expect(provider.submission).toEqual('8')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
       })
 
       describe('with `answer` is of string type', () => {
+        it('should allow string submission when answer is string', () => {
+          const provider = QuestionProvider.fromBox(shortAnswerQuestion) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit('Hello')
+
+          expect(provider.submission).toEqual('Hello')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
+        })
 
         it('should not mark as complete when submit wrong answer', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerQuestion) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit('Yoyo')
+
+          expect(provider.submission).toEqual('Yoyo')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.isCorrect).toBeFalse()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should convert numeric submission to string', () => {
-          // TODO implement this
+          const provider = QuestionProvider.fromBox(shortAnswerQuestion) as ShortAnswerProvider
+
+          expect(provider).not.toBeUndefined()
+          provider.submit(120)
+
+          expect(provider.submission).toEqual('120')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeFalse()
+          expect(provider.isCorrect).toBeFalse()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
 
         it('should change states when first submit wrong and then submit correct', () => {
-          // TODO implement this
-        })
+          const provider = QuestionProvider.fromBox(shortAnswerQuestion) as ShortAnswerProvider
 
-        it('should mark as complete when submit correct answer', () => {
-          // TODO implement this
+          expect(provider).not.toBeUndefined()
+          provider.submit(120)
+          provider.submit('Hello')
+
+          expect(provider.submission).toEqual('Hello')
+          expect(provider.explanation).toBeUndefined()
+          expect(provider.hint).toBeUndefined()
+          expect(provider.isCompleted).toBeTrue()
+          expect(provider.isCorrect).toBeTrue()
+          expect(provider.type).toEqual(BoxType.SHORT_ANSWER)
         })
       })
     })

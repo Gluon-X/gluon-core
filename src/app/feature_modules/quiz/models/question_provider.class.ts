@@ -88,11 +88,11 @@ export class ShortAnswerProvider extends QuestionProvider implements Submitable<
 
     if (typeof this._question.answer === 'string' && type === 'string')
       return this._question.answer === answer
-    let lowerBoundary = 0
-    let upperBoundary = 0
+    let lowerBoundary = this._question.answer as number
+    let upperBoundary = this._question.answer as number
     if (isNotUndefined(this._approx)) {
-      lowerBoundary = (this._question.answer as number) - this._approx
-      upperBoundary = (this._question.answer as number) + this._approx
+      lowerBoundary -= this._approx
+      upperBoundary += this._approx
     }
     return lowerBoundary <= answer && answer <= upperBoundary
   }
