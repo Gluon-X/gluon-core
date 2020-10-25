@@ -6,7 +6,8 @@ export const realDummyData = {
     title: 'Nón ánh sáng trong bể nước',
 
     core: {
-      content: `Đặt một bể kính chứa nước lên trên một tờ giấy rồi \
+      content: `Phương trình $\\sum_{i=1}^n(x_i^2 - \\overline{x}^2)$. \
+      Đặt một bể kính chứa nước lên trên một tờ giấy rồi \
       chiếu một chùm tia laser vuông góc tới đáy bình \
       thì thấy xuất hiện một nón sáng (Hình vẽ dưới). \
       Cho biết chiết suất của nước là n1 ≈ 1.33 và kính \

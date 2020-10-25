@@ -3,17 +3,14 @@ import { CommonModule } from '@angular/common'
 import { PhaseIndicatorComponent } from './components/phase-indicator/phase-indicator.component'
 import { QuizHeaderComponent } from './components/quiz-header/quiz-header.component'
 import { QuizAppComponent } from './containers/quiz-app.component'
-import {
-  QUIZ_STATE,
-  QuizHandler,
-  QuizStorage,
-} from './services/quiz-provider.service'
+import { QUIZ_STATE, QuizHandler } from './services'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule } from '@angular/forms'
+import { KatexModule } from 'ng-katex'
 
 @NgModule({
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, KatexModule],
   exports: [QuizAppComponent],
   declarations: [
     // Containers
@@ -23,16 +20,16 @@ import { FormsModule } from '@angular/forms'
     PhaseIndicatorComponent,
     QuizHeaderComponent,
     AnswerCardComponent,
-    QuizShowcaseComponent,
+    QuizShowcaseComponent
 
     // Attribute Directives
   ],
   providers: [
-    QuizStorage,
     {
       provide: QUIZ_STATE,
-      useClass: QuizHandler,
-    },
-  ],
+      useClass: QuizHandler
+    }
+  ]
 })
-export class QuizModule {}
+export class QuizModule {
+}

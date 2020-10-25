@@ -1,6 +1,6 @@
 import { Component, Inject, Input } from '@angular/core'
-import { QuizPlayable } from '../models/interfaces'
-import { QUIZ_STATE } from '../services/quiz-provider.service'
+import { QuizPlayable } from '../models'
+import { QUIZ_STATE } from '../services'
 
 @Component({
   selector: 'app-quiz',
