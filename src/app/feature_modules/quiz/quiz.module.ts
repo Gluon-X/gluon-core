@@ -8,7 +8,7 @@ import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule } from '@angular/forms'
 import { KatexModule } from 'ng-katex'
-
+//
 @NgModule({
   imports: [CommonModule, FormsModule, KatexModule],
   exports: [QuizAppComponent],
@@ -20,16 +20,15 @@ import { KatexModule } from 'ng-katex'
     PhaseIndicatorComponent,
     QuizHeaderComponent,
     AnswerCardComponent,
-    QuizShowcaseComponent
+    QuizShowcaseComponent,
 
     // Attribute Directives
   ],
   providers: [
     {
       provide: QUIZ_STATE,
-      useClass: QuizHandler
-    }
-  ]
+      useClass: QuizHandler,
+    },
+  ],
 })
-export class QuizModule {
-}
+export class QuizModule {}
