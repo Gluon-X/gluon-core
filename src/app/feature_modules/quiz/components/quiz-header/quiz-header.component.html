@@ -1,0 +1,23 @@
+<!-- SPECIFY CSS CLASS [MEANING](PRIMAY NAME) :: [xN](TailWinCSS) -->
+<div class="container-outter bg-blue-600 header-width">
+    <div class="inner-container ml-8 h-full flex flex-row content-center items-center">
+        <div class="chapter-img mr-12">
+            <img [src]="this.chapter_img" alt="" srcset="" class="content-center h-32 w-32">
+        </div>
+        <div>
+            <div class="quiz-title-container h-32 w-full flex flex-col justify-around">
+                <div class="go-back-to-chapter" style="opacity: 0.7;">
+                    <a>
+                        <img [src]="'../..//assets/images/navigation/iso-arrow-back-white.svg'" class="h-3 inline-block"
+                            style="fill: white;">
+                        <div class="inline-block 
+                        text-sm font-bold
+                        " style="color: #F9F9F9; margin-left: 0.2rem;">{{this.go_back_chapter}}</div>
+                    </a>
+                </div>
+                <div style="font-size: 2.2rem;" class="quiz-title text-white font-bold mb-4">{{this.quiz_title}}</div>
+            </div>
+        </div>
+
+    </div>
+</div>

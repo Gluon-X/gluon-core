@@ -1,0 +1,19 @@
+<div style="padding-left: 3rem;">
+  <div class="w-full flex flex-row justify-between p-4">
+    <div class="text-lg font-bold text-center flex items-center">Giải thích ✌️</div>
+    <div class="flex flex-row">
+      <div [ngClass]="{'bg-blue-500' : this.phaseProvider.currentPhaseIndex == i}" style="font-size: 1.2rem;"
+        class="rounded-full h-8 w-8 flex items-center justify-center text-white font-bold"
+        *ngFor="let item of getPhaseList(); let i = index">
+        {{ i }}
+      </div>
+    </div>
+  </div>
+  <div>
+    🐞 Debug Correct Answer : {{getDebugAnswear()}}
+    <app-phase-layout (onSubmit)="this.submitAnswear($event)" [openQuestion]="this.phaseProvider.openQuestion"
+      [phaseQuestions]="[this.phaseProvider.question]">
+    </app-phase-layout>
+  </div>
+
+</div>

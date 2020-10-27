@@ -7,4 +7,21 @@ import { Component } from '@angular/core'
 })
 export class AppComponent {
   qid: string = 'GID11060001'
+  navbarMenu: Array<{
+    router: string
+    title: string
+  }> = [
+    {
+      router: '/daily-problem',
+      title: 'Today',
+    },
+    {
+      router: '/courses',
+      title: 'Courses',
+    },
+    {
+      router: '/practice',
+      title: 'Practice',
+    },
+  ]
 }
