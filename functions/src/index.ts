@@ -2,15 +2,15 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
-
+import * as serviceAccount from './configs/config'
 // App routes
-import { appRoutes } from './routes/app.routes'
-
-const PORT = process.env.PORT || 3000
+const appRoutes = require('./routes/app.routes')
+import * as cors from 'cors'
+const PORT = process.env.PORT || 3001
 
 // Connect with firebase
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  credential: admin.credential.cert(serviceAccount.default as admin.ServiceAccount),
   databaseURL: 'https://enq-mobile.firebaseio.com',
 })
 
@@ -25,17 +25,21 @@ class ExpressApp {
 
   // Init configs
   private _init() {
-    // tslint:disable-next-line: deprecation
+
     this.app.use(bodyParser.json())
-    // tslint:disable-next-line: deprecation
     this.app.use(bodyParser.urlencoded({ extended: false }))
+    this.app.use(cors)
   }
 }
 
 const app = new ExpressApp().app
 
+app.get('/',(req,res)=>{
+  res.send("<h1>Can do </h1>")
+})
 // Use app routes
-app.use('/api/v1', appRoutes)
+// Why this isn't work
+app.use('/api/v1/something', appRoutes)
 
 // Listen Express app
 app.listen(PORT, () => console.log(`server running on port ${PORT}`))
