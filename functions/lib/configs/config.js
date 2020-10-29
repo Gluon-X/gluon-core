@@ -1,7 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // import * as serviceKey from '../../lib/configs/adminKey.json'
 //This file is use for export all the config key, but right now it just has only firebase so I do this
 // Export the serivce key
-export default {
+exports.default = {
     "type": "service_account",
     "project_id": "revolutionize-phycics",
     "private_key_id": "3451ff1441a1cc4a0358c1601348a4f9321843ba",
@@ -12,4 +14,5 @@ export default {
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-mrjpe%40revolutionize-phycics.iam.gserviceaccount.com"
-}
+};
+//# sourceMappingURL=config.js.map
