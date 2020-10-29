@@ -3,9 +3,11 @@ import * as admin from 'firebase-admin'
 import { Quiz } from '../models'
 
 const router = Router()
+
 // Route for question
 const db = admin.firestore()
 const questionCollection = 'Questions'
+
 // GET specific question base on id
 router.get('/question/:questionId', async (req, res) => {
   try {
@@ -17,7 +19,7 @@ router.get('/question/:questionId', async (req, res) => {
     }
 
     res.status(200).json({
-      data: result.data(),
+      data: result.data()
     })
   } catch (err) {
     res.status(500).send(err)
@@ -34,7 +36,7 @@ router.get('/questions', async (req, res) => {
       throw new Error('Database is empty')
     }
     res.status(200).json({
-      data: result,
+      data: result
     })
   } catch (err) {
     res.status(500).send(err)
@@ -61,7 +63,7 @@ router.post('/question', async (req, res) => {
     const question: Quiz = {
       title: req.body['title'],
       core: req.body['core'],
-      helps: req.body['helps'],
+      helps: req.body['helps']
     }
     let result = await db.collection(questionCollection).doc().create(question)
     console.log(result)
