@@ -1,5 +1,6 @@
 import { ThrowStmt } from '@angular/compiler'
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Box, MultipleChoicesProvider, ShortAnswerProvider } from '../../../models'
 import { Question } from '../../../models/interfaces'
 
 @Component({
@@ -9,11 +10,14 @@ import { Question } from '../../../models/interfaces'
 })
 export class PhaseLayoutComponent implements OnInit {
   @Input() openQuestion: string
-  @Input() phaseQuestions: Array<Question>
+  @Input() phaseQuestions: MultipleChoicesProvider | ShortAnswerProvider
   @Output() onSubmit = new EventEmitter()
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // console.log("This is phase Layout")
+    console.log(this.phaseQuestions);
+  }
 
   submit(answear) {
     this.onSubmit.emit(answear)

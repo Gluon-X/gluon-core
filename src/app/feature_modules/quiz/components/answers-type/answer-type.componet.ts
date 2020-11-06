@@ -1,10 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+
+import { BoxType, ShortAnswer, MultipleChoices, MultipleChoicesProvider, ShortAnswerProvider } from '../../models';
 import { AnswerListViewComponent } from './list/answer-type-list.component'
 import { AnswerTextViewComponent } from './input-box/answer-type-input-box.component'
 @Component({
   selector: 'app-quiz-answear-type',
   template: `
-    <div #textView *ngIf="this.answearType == 'TEXT'; else listView">
+  <ng-container *ngIf="this.answearBoxData">
+  🐞 Debug Correct Answer : {{getDebugAnswear()}}
+
+  <div #textView *ngIf="this.answearType == QuestionAnswearType.SHORT_ANSWER; else listView">
+
       <app-quiz-answer-type-input-text
         (writedAnswear)="this.saveAnswear($event)"
       ></app-quiz-answer-type-input-text>
@@ -31,7 +37,7 @@ import { AnswerTextViewComponent } from './input-box/answer-type-input-box.compo
     <ng-template #listView>
       <app-quiz-answer-type-list
         (choosenAnswear)="this.saveAnswear($event)"
-        [listOfQuestions]="this.answearContent"
+        [listOfQuestions]="this.praseMultipleChoicesProvider().choices"
       ></app-quiz-answer-type-list>
       <div
         class="flex flex-row justify-between px-3 m-4"
@@ -52,17 +58,23 @@ import { AnswerTextViewComponent } from './input-box/answer-type-input-box.compo
         </button>
       </div>
     </ng-template>
+  </ng-container>
+    
   `,
 })
-export class AnswearTypeComponent {
-  @Input() answearType: string
+export class AnswearTypeComponent implements OnInit {
+
+
+  @Input() answearType: BoxType
   @Input() hasHelp: boolean
   @Output() onSubmit = new EventEmitter<String | number | number[]>()
 
+  @Input() answearBoxData: MultipleChoicesProvider | ShortAnswerProvider;
+  @Output() enableHelp = new EventEmitter()
   inputAnswear: String | number | number[]
 
-  @Input() answearContent?: string
-  @Output() enableHelp = new EventEmitter()
+  public QuestionAnswearType: typeof BoxType = BoxType;
+
 
   toggleHelp() {
     this.enableHelp.emit()
@@ -70,6 +82,28 @@ export class AnswearTypeComponent {
   saveAnswear(event) {
     this.inputAnswear = event
   }
+
+  ngOnInit(): void {
+  }
+
+  praseMultipleChoicesProvider() {
+    console.log((this.answearBoxData as MultipleChoicesProvider).choices)
+    return this.answearBoxData as MultipleChoicesProvider;
+  }
+
+  praseShortAnswerProvider() {
+    return this.answearBoxData as ShortAnswerProvider;
+
+  }
+
+  getDebugAnswear() {
+    if (this.answearBoxData instanceof ShortAnswerProvider) {
+      return (this.answearBoxData as ShortAnswerProvider).correctAnswear;
+    } else {
+      return (this.answearBoxData as MultipleChoicesProvider).choices.filter(choice => choice.isCorrect)[0].content;
+    }
+  }
+
 
   submitAnswear() {
     this.onSubmit.emit(this.inputAnswear)

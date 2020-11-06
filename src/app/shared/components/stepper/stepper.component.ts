@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 
 // import {  } from ;
 @Component({
@@ -8,4 +8,18 @@ import { Component, Input } from '@angular/core'
 })
 export class StepperComponent {
   @Input() listofContent: Array<String>
+  @Input() activeIndex: number;
+  @Input() phaseCount: number;
+  @Output() onClick = new EventEmitter<number>();
+
+  getPhaseList() {
+    return Array(this.phaseCount).fill(0)
+  }
+
+  onSelect(index: number) {
+    this.onClick.emit(index);
+  }
+
+
+
 }

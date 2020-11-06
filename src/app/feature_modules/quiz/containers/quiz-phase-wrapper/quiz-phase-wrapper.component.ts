@@ -1,10 +1,10 @@
 import { ThrowStmt } from '@angular/compiler'
 import { Component, Input, OnInit } from '@angular/core'
-import { Question } from '../../models/interfaces'
+import { PossibleInputAnswer, Question } from '../../models'
 import {
   MultiPhasesProvider,
-  MultiQuestionsProvider,
-} from '../../models/classes'
+  MultiBoxesProvider,
+} from '../../models'
 import { realDummyData } from '../../models/dummy_data'
 import { PhaseStack } from '../../models/interfaces'
 
@@ -17,19 +17,15 @@ import { PhaseStack } from '../../models/interfaces'
 export class QuizPhaseWrapperComponent implements OnInit {
   @Input() phaseProvider: MultiPhasesProvider
   // @Input() multiQuestionProvider: MultiQuestionsProvider
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   getPhaseList() {
-    return Array(this.phaseProvider.phasesCount).fill(0)
+    return Array(this.phaseProvider.count).fill(0)
   }
 
-  submitAnswear(asnwear: number | number[] | string) {
+  submitAnswear(asnwear: PossibleInputAnswer) {
     this.phaseProvider.submit(asnwear)
     this.phaseProvider.next()
-  }
-  getDebugAnswear() {
-    const answear = (this.phaseProvider.question as Question).correctAnswers
-    return answear
   }
 }

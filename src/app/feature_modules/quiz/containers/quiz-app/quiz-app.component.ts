@@ -1,9 +1,7 @@
 import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core'
-import { QuizPlayable } from '../../models/interfaces'
-import { QuizHandler, QUIZ_STATE } from '../../services/quiz-provider.service'
-import { QuestionType } from '../../models/enums'
+import { QuizPlayable } from '../../models'
+import { QuizHandler, QUIZ_STATE } from '../../services'
 import { realDummyData } from '../../models/dummy_data'
-import { ThrowStmt } from '@angular/compiler'
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz-app.component.html',
@@ -16,10 +14,10 @@ import { ThrowStmt } from '@angular/compiler'
 })
 export class QuizAppComponent {
   fakeData = realDummyData['GID11060001']
-  answearType: QuestionType
+  // answearType: QuestionType
   @ViewChild('helpQuestionRef') quizHelpBox: ElementRef<HTMLElement>
 
-  enableHelp = false;
+  enableHelp = true;
   @Input()
   set quizId(value: string) {
     this.service.qid = value
@@ -27,6 +25,7 @@ export class QuizAppComponent {
   }
 
   get hint(): string {
+
     return this.service.mainQuestion.hint
   }
 
