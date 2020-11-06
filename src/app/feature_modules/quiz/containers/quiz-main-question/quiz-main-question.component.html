@@ -1,5 +1,5 @@
 <div class="border-gray-300" [class.isEnableHelp]="this.isEnableHelp">
-    <app-quiz-header [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'" [go_back_chapter]="'Number Theory'"
+    <app-quiz-header [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'" [go_back_chapter]="'Ánh Sáng'"
         [quiz_title]="quizTitle"></app-quiz-header>
 
     <div class="question-container flex flex-row justify-between" style="min-height: 50vh">
@@ -20,11 +20,8 @@
 
         <div class="answer-box right-area" style="min-width: 30%">
             <!-- TODO IMPLENT INPUT TYPE ANSER -->
-            <div>
-                🐞 Correct Answear : {{ mainQuestionProvider.correctAnswers }}
-            </div>
             <app-quiz-answear-type [answearType]="mainQuestionProvider.type" (enableHelp)="this.enableHelp()"
-                [hasHelp]="true" (onSubmit)="this.submitAnswer($event)" [answearContent]="mainQuestionProvider.answer">
+                [hasHelp]="true" (onSubmit)="this.submitAnswer($event)" [answearBoxData]="mainQuestionProvider">
             </app-quiz-answear-type>
         </div>
     </div>

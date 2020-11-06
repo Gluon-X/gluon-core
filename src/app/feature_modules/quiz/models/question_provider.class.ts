@@ -73,6 +73,9 @@ export abstract class QuestionProvider implements Submitable<PossibleInputAnswer
 export class ShortAnswerProvider extends QuestionProvider implements Submitable<string | number> {
   private _submission?: number | string
 
+  get correctAnswear(): string | number {
+    return this._question.answer;
+  }
   get submission(): string | undefined {
     return isUndefined(this._submission) ? undefined : `${this._submission}`
   }
