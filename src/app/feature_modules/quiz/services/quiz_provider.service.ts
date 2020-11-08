@@ -1,6 +1,6 @@
 import { Injectable, InjectionToken } from '@angular/core'
 import { isNullOrUndefined, isUndefined } from 'src/app/shared'
-import { QuizState } from '../models'
+import { QuizState, realDummyData } from '../models'
 import { Quiz, QuizPlayable } from '../models'
 import { QuestionProvider } from '../models'
 import { MultiPhasesProvider } from '../models'
@@ -15,6 +15,8 @@ interface QuizResponse {
 
 export const QUIZ_STATE = new InjectionToken<QuizPlayable>('quiz.state')
 
+export const useServer = true
+
 @Injectable()
 export class QuizHandler implements QuizPlayable {
   private _qid?: string = null
@@ -27,11 +29,12 @@ export class QuizHandler implements QuizPlayable {
       this._qid = null
       return
     }
-    this._http.get<QuizResponse>(`${environment.serverAPI}/api/v1/questions/test`)
+    if (useServer) this._http.get<QuizResponse>(`${environment.serverAPI}/api/v1/questions/test`)
       .pipe(map(({ data }) => data), map(v => v[0]))
       .toPromise()
       .then(v => this.parse(v))
       .catch(console.error)
+    else this.parse(realDummyData[value])
   }
 
   get qid(): string {
