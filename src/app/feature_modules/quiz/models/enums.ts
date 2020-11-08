@@ -1,7 +1,11 @@
-export enum QuestionType {
-  SINGLE_CHOICE = 'SINGLE_CHOICE',
-  MULTIPLE_CHOICES = 'MULTIPLE_CHOICES',
-  TEXT = 'TEXT',
+export enum BoxType {
+
+  DISPLAY = 'DISPLAY',
+
+  SHORT_ANSWER = 'SHORT_ANSWER',
+
+  MULTIPLE_CHOICES = 'MULTIPLE_CHOICES'
+
 }
 
 export enum QuizState {

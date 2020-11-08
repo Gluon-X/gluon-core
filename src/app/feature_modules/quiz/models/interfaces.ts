@@ -1,34 +1,75 @@
-import {
-  MultiQuestionsProvider,
-  MultiPhasesProvider,
-  QuestionProvider,
-} from './classes'
-import { QuestionType, QuizState } from './enums'
+import { BoxType, QuizState } from './enums'
+import { MultiPhasesProvider } from './multi_phases_provider.class'
+import { QuestionProvider } from './question_provider.class'
+import { MultiBoxesProvider } from './multi_boxes_provider.class'
 
-export interface QuestionControlProvider {
-  isCompleted: boolean
+export type PossibleInputAnswer = number | string
 
-  questionIndex: number
+export interface Choice {
+  content: string
 
-  questionsCount: number
+  isCorrect: boolean
 
+  explanation?: string
+}
+
+export interface Box {
+  content: string
+
+  imageURL?: string
+
+  type: BoxType
+}
+
+export interface Submitable<T> {
+  readonly isCorrect?: boolean
+
+  readonly submission?: T
+
+  readonly explanation?: string
+
+  /**
+   * Submit an answer. The input value must match the type of answer required by the question.
+   * If the question is of type ShortAnswer, input value should be `number` or `string`.
+   * If it is of type MultipleChoices, input value should be `number` or array of `number` indicate the choice's
+   * indices; Method will return a boolean to tell if the input is valid or not.
+   *
+   * @param answer user's answer to the question.
+   * @returns boolean indicate whether or not the input value is valid
+   */
+  submit(answer: T): boolean
+}
+
+export interface Question extends Box {
   hint?: string
+}
 
-  question?: BaseQuestion
+export interface MultipleChoices extends Question {
+  choices: Choice[]
+}
 
-  answer?: number | number[] | string
+export interface ShortAnswer extends Question {
+  answer: string | number,
 
-  isCorrect?: boolean
+  approx?: number
+}
 
-  nextAvailable: boolean
+export interface Phase {
+  title: string
 
-  prevAvailable: boolean
+  content: string
 
-  next()
+  boxes: Box[]
+}
 
-  previous()
+export interface Quiz {
+  title: string
 
-  submit(answer: number | number[] | string)
+  core: Question
+
+  helps: Phase[]
+
+  followUp?: Phase
 }
 
 export interface QuizPlayable {
@@ -43,43 +84,7 @@ export interface QuizPlayable {
 
   readonly helper?: MultiPhasesProvider
 
-  readonly followUpProvider?: MultiQuestionsProvider
+  readonly followUpProvider?: MultiBoxesProvider
 
   enableHelper(): void
-}
-
-export interface BaseQuestion {
-  content: string
-
-  imageURL?: string
-
-  // hold available answers to pick, this field is null if `type` is TEXT.
-  availableAnswers?: string[]
-
-  type: QuestionType
-}
-
-export interface Question extends BaseQuestion {
-  /**
-   * hold data of correct answer
-   * - number: if one correct answer only
-   * - number[]: if multiple correct answers
-   * - string: if correct answer is a text
-   * - string[]: answer is a text, but multiple correct inputs
-   */
-  correctAnswers: number | number[] | string | string[]
-}
-
-export interface PhaseStack {
-  openQuestion: string
-
-  subQuestions: Question[]
-}
-
-export interface MainQuestion extends Question {
-  title: string
-
-  helps: { [phaseName: string]: PhaseStack }
-
-  followUpQuestions: Question[]
 }

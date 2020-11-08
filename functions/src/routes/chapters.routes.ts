@@ -1,11 +1,12 @@
-import {Router} from 'express'
+import { Router } from 'express'
 
+class ChapterRoute {
+  public routes: Router
 
-class ChapterRoute{
-  public routes : Router
-  constructor(){
+  constructor() {
     this.routes = Router()
   }
 
 }
+
 export const chapterRoutes = new ChapterRoute().routes

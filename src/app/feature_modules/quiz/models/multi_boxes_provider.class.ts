@@ -1,7 +1,7 @@
 // Acts as substitution to `MultiQuestionsProvider`
-import { Box, Phase, PossibleInputAnswer, Submitable } from './interfaces.new'
+import { Box, Phase, PossibleInputAnswer, Submitable } from './interfaces'
 import { isNotNullOrUndefined } from 'codelyzer/util/isNotNullOrUndefined'
-import { BoxType } from './enums.new'
+import { BoxType } from './enums'
 import { QuestionProvider } from './question_provider.class'
 import { isNotUndefined, isUndefined } from '../../../shared'
 

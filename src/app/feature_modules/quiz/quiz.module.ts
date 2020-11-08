@@ -4,11 +4,6 @@ import { PhaseIndicatorComponent } from './components/phase/phase-indicator/phas
 import { QuizHeaderComponent } from './components/quiz-header/quiz-header.component'
 import { KatexModule } from 'ng-katex'
 import { QuizAppComponent } from './containers/quiz-app/quiz-app.component'
-import {
-  QUIZ_STATE,
-  QuizHandler,
-  QuizStorage,
-} from './services/quiz-provider.service'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -19,9 +14,11 @@ import { PhaseLayoutComponent } from './components/phase/phase-layout/phase-layo
 import { AnswearTypeComponent } from './components/answers-type/answer-type.componet'
 import { QuizMainQuestionComponent } from './containers/quiz-main-question/quiz-main-question.component'
 import { QuizWikiComponent } from './components/quiz-wiki/quiz-wiki.component'
+import { SharedModule } from 'src/app/shared'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, KatexModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, KatexModule, SharedModule, HttpClientModule],
   exports: [QuizAppComponent],
   declarations: [
     // Containers
@@ -38,16 +35,10 @@ import { QuizWikiComponent } from './components/quiz-wiki/quiz-wiki.component'
     PhaseLayoutComponent,
     AnswearTypeComponent,
     QuizMainQuestionComponent,
-    QuizWikiComponent,
+    QuizWikiComponent
 
     // Attribute Directives
-  ],
-  providers: [
-    QuizStorage,
-    {
-      provide: QUIZ_STATE,
-      useClass: QuizHandler,
-    },
-  ],
+  ]
 })
-export class QuizModule {}
+export class QuizModule {
+}

@@ -1,9 +1,0 @@
-export enum BoxType {
-
-  DISPLAY = 'DISPLAY',
-
-  SHORT_ANSWER = 'SHORT_ANSWER',
-
-  MULTIPLE_CHOICES = 'MULTIPLE_CHOICES'
-
-}
