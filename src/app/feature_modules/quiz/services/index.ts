@@ -1,1 +1,1 @@
-export { QUIZ_STATE, QuizHandler } from './quiz_provider.service.new'
+export { QUIZ_STATE, QuizHandler } from './quiz_provider.service'
