@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { BaseQuestion } from '../../../models/interfaces'
+import { ShortAnswerProvider } from '../../../models'
 
 @Component({
   selector: 'app-quiz-answer-type-input-text',
@@ -7,7 +7,7 @@ import { BaseQuestion } from '../../../models/interfaces'
 })
 export class AnswerTextViewComponent {
   @Input()
-  question: BaseQuestion
+  question: ShortAnswerProvider;
 
   @Output() writedAnswear = new EventEmitter<string>()
 

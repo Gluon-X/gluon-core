@@ -1,6 +1,6 @@
-import { Box, MultipleChoices, Question, ShortAnswer } from './interfaces.new'
+import { Box, MultipleChoices, Question, ShortAnswer } from './interfaces'
 import { MultipleChoicesProvider, QuestionProvider, ShortAnswerProvider } from './question_provider.class'
-import { BoxType } from './enums.new'
+import { BoxType } from './enums'
 
 // BOX
 const box: Box = {

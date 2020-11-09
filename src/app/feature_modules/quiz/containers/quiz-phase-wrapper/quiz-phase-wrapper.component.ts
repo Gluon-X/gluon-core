@@ -1,35 +1,23 @@
-import { ThrowStmt } from '@angular/compiler'
-import { Component, Input, OnInit } from '@angular/core'
-import { Question } from '../../models/interfaces'
-import {
-  MultiPhasesProvider,
-  MultiQuestionsProvider,
-} from '../../models/classes'
-import { realDummyData } from '../../models/dummy_data'
-import { PhaseStack } from '../../models/interfaces'
+import { Component, Input } from '@angular/core'
+import { PossibleInputAnswer } from '../../models'
+import { MultiPhasesProvider } from '../../models'
 
 @Component({
   // Render [subQuestions] xN
   selector: 'app-quiz-phase-wrapper',
   templateUrl: './quiz-phase-wrapper.component.html',
-  styleUrls: ['./quiz-phase-wrapper.component.scss'],
+  styleUrls: ['./quiz-phase-wrapper.component.scss']
 })
-export class QuizPhaseWrapperComponent implements OnInit {
+export class QuizPhaseWrapperComponent {
   @Input() phaseProvider: MultiPhasesProvider
-  // @Input() multiQuestionProvider: MultiQuestionsProvider
-  constructor() {}
 
-  ngOnInit(): void {}
+  // @Input() multiQuestionProvider: MultiQuestionsProvider
   getPhaseList() {
-    return Array(this.phaseProvider.phasesCount).fill(0)
+    return Array(this.phaseProvider.count).fill(0)
   }
 
-  submitAnswear(asnwear: number | number[] | string) {
+  submitAnswear(asnwear: PossibleInputAnswer) {
     this.phaseProvider.submit(asnwear)
     this.phaseProvider.next()
-  }
-  getDebugAnswear() {
-    const answear = (this.phaseProvider.question as Question).correctAnswers
-    return answear
   }
 }

@@ -10,8 +10,7 @@
           </app-quiz-main-question>
         </div>
         <div #helpQuestionRef class="help-container flex row">
-          <div class="hover:bg-blue-700 duration-200" style="min-width: 10%;"></div>
-          <div #quizhelp class="help-box h-screen mt-8" *ngIf="this.enableHelp">
+          <div #quizhelp class="help-box h-screen" *ngIf="this.enableHelp">
             <app-quiz-phase-wrapper [phaseProvider]="service.helper"></app-quiz-phase-wrapper>
           </div>
         </div>
