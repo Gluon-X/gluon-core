@@ -1,7 +1,8 @@
 # Compiled JavaScript files
 #**/*.js
 #**/*.js.map
-
+**/config.js
+**/adminKey.json
 # TypeScript v1 declaration files
 typings/
 src/configs/adminKey.json

@@ -124,7 +124,7 @@ exports.realDummyData = {
                 ]
             },
             {
-                title: 'Phân tích chiến thuật',
+                title: 'e',
                 content: '',
                 boxes: [{
                         content: `Mục đích của chúng ta là tìm được \

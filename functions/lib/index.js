@@ -4,12 +4,14 @@ exports.gluonApi = void 0;
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const express = require("express");
+const cors = require('cors')
 const bodyParser = require("body-parser");
 const serviceAccount = require("./configs/config");
 // App routes
 const app_routes_1 = require("./routes/app.routes");
 const { questionRoutes } = require("./routes/questions.routes");
 const { chapterRoutes } = require("./routes/chapters.routes");
+
 const PORT = process.env.PORT || 3000;
 const VERSION = '/api/v1'
 // Connect with firebase
@@ -30,8 +32,9 @@ class ExpressApp {
     }
 }
 const app = new ExpressApp().app;
+app.use(cors())
 app.get('/', (req, res) => {
-    res.send("<h1>I don't know</h1>");
+    res.send("<h1>This is testing/h1>");
 });
 // Use app routes
 

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.questionRoutes = void 0;
 const express_1 = require("express");
 const admin = require("firebase-admin");
+
 class QuestionRoute {
     constructor() {
         this.routes = express_1.Router();
@@ -10,26 +11,31 @@ class QuestionRoute {
     }
     // Route for question
       questionRoute() {
-        console.log("[*] Question Route works")
-        const questionCollection = "Questions"
+        console.log("[*] Questions Route works")
+        const questionsCollection = "Questions"
         //GET specific question base on id
-        this.routes.get('/question/:questionId', async (req, res) => {
+        this.routes.get('/questions/:questionId', async (req, res) => {
             try {
                 console.log("[*] /GET specific question works")
                 const questionId = req.params.questionId;
+                const questionRef = admin.firestore().collection(questionsCollection)
+                const question = await questionRef.where('questionId','==', questionId).get()
+                const result = []
 
+                question.docs.forEach(doc=>{
+                  result.push(doc.data())
+                })
 
-                const result = await admin.firestore().collection(questionCollection).doc(questionId).get();
-                
-                if (!result.exists) {
+                if (result.exists) {
                     throw new Error("Question not found");
                 }
+
                 res.status(200).json({
-                    data: result.data()
+                    data: result
                 });
             }
-
             catch (err) {
+                console.log(err)
                 res.status(500).json({
                   err: "Little Lamb"
                 })
@@ -37,18 +43,21 @@ class QuestionRoute {
         });
 
         // GET all Question (NOT FINISH)
-        this.routes.get('/question', async (req, res) => {
+        this.routes.get('/questions', async (req, res) => {
             try {
                 // Must have pagination *
                 console.log('[*] /GET all questions works');
-                const snapshot = await admin.firestore().collection(questionCollection).get()
+                const snapshot = await admin.firestore().collection(questionsCollection).get()
                 const result = []
+
                 snapshot.forEach(doc=> {
                   result.push(doc.data())
                 });
+
                 if (result.empty) {
                     throw new Error("Database is empty");
                 }
+
                 res.status(200).json({
                     data: result
                 });
@@ -57,11 +66,11 @@ class QuestionRoute {
                 res.status(500).send(err);
             }
         });
+
         //POST adding question
-        this.routes.post('/question', async (req, res) => {
+        this.routes.post('/questions', async (req, res) => {
             try {
                 console.log("[*] /POST work")
-                // Không biết cái này có đúng không
                 if (!('title' in req.body)) {
                     throw new Error('Title not found');
                 }
@@ -71,14 +80,18 @@ class QuestionRoute {
                 if (!('helps' in req.body)) {
                     throw new Error('Helps not found');
                 }
+                if(!('followUp' in req.body)){
+                  throw new Error('followUp not found');
+                }
 
-                const question = {
+                const newQuestion = {
+                  //Just adding new field call questionId
                     title: req.body['title'],
                     core: req.body['core'],
                     helps: req.body['helps']
                 };
-                let result = await admin.firestore().collection(questionCollection).doc().create(question);
-                console.log(result);
+                const result = await admin.firestore().collection(questionsCollection).add(newQuestion)
+
                 res.status(200).json({
                   msg: "success"
                 })
@@ -92,16 +105,36 @@ class QuestionRoute {
         });
 
 
-        this.routes.put('/question/:questionId', async (req, res) => {
+        this.routes.put('/questions/:questionId', async (req, res) => {
             try {
                 console.log("[*] /PUT question work");
+                const questionId = req.params.questionId
+                //Don't need to check whether it has the field is not
+                if(('questionId' in req.body)){
+                  throw new Error("questionId reasign is not allowed")
+                }
+
+                const questionUpdateInformation = {
+                  title: req.body['title'],
+                  core: req.body['core'],
+                  helps: req.body['helps'],
+                  followUp: req.body['followUP']
+                }
+
+                const questionUpdated = await admin.firestore().collection(questionsCollection).doc(questionId).update(questionUpdateInformation)
+                res.status(201).json({
+                  msg: 'success'
+                })
 
             }
             catch (err) {
-                res.status(500).send(err);
+                console.log(err)
+                res.status(500).json({
+                  error: "Little Lamb"
+                })
             }
         });
     }
 }
 exports.questionRoutes = new QuestionRoute().routes
-//# sourceMappingURL=questions.routes.js.map
+
