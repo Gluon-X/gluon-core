@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core'
+import { QuizModule } from '../quiz';
 
 
 @NgModule({
-  imports:[],
+  imports:[QuizModule],
   exports:[],
   declarations:[]
 })

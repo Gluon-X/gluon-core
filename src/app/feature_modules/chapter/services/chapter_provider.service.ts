@@ -4,9 +4,9 @@ import { Chapter } from '../models/interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../../environments/environment'
 import { map } from 'rxjs/operators'
-import { courses } from '../models/dummy_data'
+import {chapterFakeData} from '../models/dummy_data'
 
-
+// Doing the same as Minh
 export const useServer = true
 
 // The API will always return your data in this manner
@@ -26,8 +26,10 @@ export class ChaptersHandler {
   private _questions : [] = undefined
   private _gradeId: string = undefined
 
-  // Set the chapter id and get the chapter from server cloud function
+
   // SETTER
+
+  // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
     if (this._cid == value) {
       return
@@ -44,12 +46,12 @@ export class ChaptersHandler {
         .then((v) => this.parse(v))
         .catch(console.error)
     }else{
-      console.log("Something is fucked")
-      //should use dummy if something fail
+      this.parse(chapterFakeData)
     }
   }
 
   // GETTER
+
   get cid(){
     return this._cid
   }
@@ -78,8 +80,6 @@ export class ChaptersHandler {
   get relatedResources(){
     return this._relatedResources
   }
-
-
 
   // Parsing the http request to properties of Chapter
   private parse(chapter: Chapter) {
