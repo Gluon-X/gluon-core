@@ -1,7 +1,5 @@
 import { Router } from 'express'
 import * as admin from 'firebase-admin'
-import { Quiz } from '../models'
-
 const router = Router()
 
 // Route for question
@@ -60,13 +58,6 @@ router.post('/question', async (req, res) => {
     }
     // Question interface
     // Mai hỏi minh về cái này
-    const question: Quiz = {
-      title: req.body['title'],
-      core: req.body['core'],
-      helps: req.body['helps']
-    }
-    let result = await db.collection(questionCollection).doc().create(question)
-    console.log(result)
   } catch (err) {
     res.status(500).send(err)
   }

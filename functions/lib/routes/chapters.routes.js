@@ -13,7 +13,7 @@ class ChapterRoute {
 
     chapterRoutes(){
       const chapterCollection = "Chapter"
-
+        //Get all the chapter in one hit
       this.routes.get('/chapters',async (req,res)=>{
         try {
           console.log("[*] GET chapters")

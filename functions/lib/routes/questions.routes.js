@@ -88,7 +88,8 @@ class QuestionRoute {
                   //Just adding new field call questionId
                     title: req.body['title'],
                     core: req.body['core'],
-                    helps: req.body['helps']
+                    helps: req.body['helps'],
+                    followUP: req.body['followUp']
                 };
                 const result = await admin.firestore().collection(questionsCollection).add(newQuestion)
 
