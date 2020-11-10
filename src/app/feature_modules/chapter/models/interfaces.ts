@@ -12,6 +12,6 @@ export interface Chapter{
   questions:[]
 
   //GradeId the chapter belong
-  grade: string
+  gradeId: string
 }
 

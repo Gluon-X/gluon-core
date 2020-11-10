@@ -24,6 +24,7 @@ export class ChaptersHandler {
   private _thumbnailURL?: string = undefined
   private _relatedResources?: [] = undefined
   private _questions : [] = undefined
+  private _gradeId: string = undefined
 
   // Set the chapter id and get the chapter from server cloud function
   // SETTER
@@ -69,6 +70,11 @@ export class ChaptersHandler {
     return this._description
   }
 
+  // TODO: Should check gradeId if it is showable or not
+  // If not then return something that legit for fontend not to render it
+  get gradeId(){
+    return this._gradeId
+  }
   get relatedResources(){
     return this._relatedResources
   }
@@ -83,5 +89,6 @@ export class ChaptersHandler {
     this._thumbnailURL = chapter.thumbnailURL
     this._relatedResources = chapter.relatedResources
     this._questions = chapter.questions
+    this._gradeId = chapter.gradeId
   }
 }

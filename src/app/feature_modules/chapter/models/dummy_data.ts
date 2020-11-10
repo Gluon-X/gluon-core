@@ -14,14 +14,12 @@ export const courses = {
         name: 'Động lực học chất điểm',
         description: 'Fugiat dolor laboris irure do.',
         thumbnailURL: '',
-        creationDate: Date.now,
-        lastEdited: Date.now,
 
         /**
          * 1. Should `problems` field has type `object` or `array`?
          * 2. Exclude `problems` field when querying grades in `Courses` view.
          */
-        problems: {
+        questions: {
           problemId: {
             name: 'Tính vận tốc di chuyển',
             description:
