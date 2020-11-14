@@ -1,10 +1,9 @@
-import { Injectable, InjectionToken } from '@angular/core'
-import { isNull } from 'src/app/shared'
+import { Injectable } from '@angular/core'
 import { Chapter } from '../models/interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../../environments/environment'
 import { map } from 'rxjs/operators'
-import {chapterFakeData} from '../models/dummy_data'
+import { chapterFakeData } from '../models/dummy_data'
 
 // Doing the same as Minh
 export const useServer = true
@@ -16,28 +15,34 @@ interface ChapterResponse {
 
 @Injectable()
 export class ChaptersHandler {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) {
+  }
 
-  private _cid: string = undefined
-  private _description? : string = undefined
-  private _name?: string = undefined
-  private _thumbnailURL?: string = undefined
-  private _relatedResources?: [] = undefined
-  private _questions : [] = undefined
-  private _gradeId: string = undefined
+  private _cid?: string
 
+  private _description?: string
+
+  private _name?: string
+
+  private _thumbnailURL?: string
+
+  private _relatedResources?: []
+
+  private _questions?: []
+
+  private _gradeId?: string
 
   // SETTER
 
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
-    if (this._cid == value) {
+    if (this._cid === value) {
       return
     }
     this._cid = value
     if (useServer) {
       this._http
-        .get<ChapterResponse>(`{environment.serverAPI}/api/v1/chapters`)
+        .get<ChapterResponse>(`${environment.serverAPI}/api/v1/chapters`)
         .pipe(
           map((data) => data),
           map((v) => v[0])
@@ -45,45 +50,46 @@ export class ChaptersHandler {
         .toPromise()
         .then((v) => this.parse(v))
         .catch(console.error)
-    }else{
+    } else {
       this.parse(chapterFakeData)
     }
   }
 
   // GETTER
 
-  get cid(){
+  get cid() {
     return this._cid
   }
 
-  get name(){
+  get name() {
     return this._name
   }
 
-  get thumbnailURL(){
+  get thumbnailURL() {
     return this._thumbnailURL
   }
 
-  get questions(){
+  get questions() {
     return this._questions
   }
 
-  get description(){
+  get description() {
     return this._description
   }
 
   // TODO: Should check gradeId if it is showable or not
   // If not then return something that legit for fontend not to render it
-  get gradeId(){
+  get gradeId() {
     return this._gradeId
   }
-  get relatedResources(){
+
+  get relatedResources() {
     return this._relatedResources
   }
 
   // Parsing the http request to properties of Chapter
   private parse(chapter: Chapter) {
-    console.log("Parsing works!")
+    console.log('Parsing works!')
     this._name = chapter.name
     this._description = chapter.description
     this._thumbnailURL = chapter.thumbnailURL

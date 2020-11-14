@@ -5,9 +5,13 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {},
+    extend: {}
   },
-  variants: {},
+  variants: {
+    borderBottomColor: ['hover'],
+    borderBottomWidth: ['hover'],
+    borderBottomStyle: ['hover']
+  },
   plugins: [
     require('@tailwindcss/custom-forms'),
   ],

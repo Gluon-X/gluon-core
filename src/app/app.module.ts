@@ -7,11 +7,13 @@ import { QuizModule } from './feature_modules/quiz'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SharedModule } from './shared'
 import { RouterModule } from '@angular/router'
+import { ChapterModule } from './feature_modules/chapter'
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    ChapterModule,
     AppRoutingModule,
     FormsModule,
     QuizModule,
@@ -19,6 +21,7 @@ import { RouterModule } from '@angular/router'
     ReactiveFormsModule,
     RouterModule
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
