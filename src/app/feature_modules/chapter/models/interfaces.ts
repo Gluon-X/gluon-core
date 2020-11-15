@@ -1,4 +1,4 @@
-export interface Chapter{
+export interface Chapter {
   chapterId: string
 
   name: string
@@ -7,11 +7,11 @@ export interface Chapter{
 
   thumbnailURL: string
 
-  relatedResources?:[]
+  relatedResources?: []
 
-  questions:[]
+  questions: []
 
-  //GradeId the chapter belong
+  // GradeId the chapter belong
   gradeId: string
 }
 
