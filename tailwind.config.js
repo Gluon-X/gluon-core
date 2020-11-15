@@ -10,9 +10,10 @@ module.exports = {
   variants: {
     borderBottomColor: ['hover'],
     borderBottomWidth: ['hover'],
-    borderBottomStyle: ['hover']
+    borderBottomStyle: ['hover'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'group-hover']
   },
   plugins: [
-    require('@tailwindcss/custom-forms'),
-  ],
+    require('@tailwindcss/custom-forms')
+  ]
 }

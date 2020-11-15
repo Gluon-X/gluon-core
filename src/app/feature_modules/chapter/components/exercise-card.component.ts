@@ -86,10 +86,17 @@ export class ExerciseItemComponent {
     <div class="box transform transition-height duration-200"
          [ngClass]="{ 'h-0 overflow-hidden scale-0': !isActive, 'scale-100': isActive }">
       <div *ngFor="let problem of problems; let i = index" class="flex p-2">
-        <img [src]="problem.imageURL" [alt]="problem.imageURL" class="w-16 h-16">
-        <div class="flex-auto block mx-4" [ngClass]="{ 'border-b-2 border-b-solid border-b-gray-300': i !== problems.length - 1 }">
-          <h4 class="truncate font-semibold">{{ problem.name }}</h4>
-          <p *ngIf="problem.description" class="break-words">{{ problem.description }}</p>
+        <img [src]="problem.imageURL" [alt]="problem.imageURL" class="w-12 h-12">
+        <div class="flex-auto flex justify-between mx-4"
+             [ngClass]="{ 'border-b-2 border-b-solid border-b-gray-300': i !== problems.length - 1 }">
+          <div>
+            <h4 class="truncate font-semibold text-base">{{ problem.name }}</h4>
+            <p *ngIf="problem.description" class="break-words text-sm py-1">{{ problem.description }}</p>
+          </div>
+
+          <button class="my-auto rounded-full py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700">
+            Bắt đầu
+          </button>
         </div>
       </div>
     </div>
