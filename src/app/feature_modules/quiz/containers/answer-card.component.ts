@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { QuestionProvider } from '../models/classes'
+import { QuestionProvider } from '../models'
 
 @Component({
   selector: 'app-answer-card',
   template: `
     <div [ngSwitch]="question.type">
-      <div *ngSwitchCase="'TEXT'">
-        <input type="text" [(ngModel)]="input" (keyup.enter)="submit()" />
+      <div *ngSwitchCase="'DISPLAY'">
+        Nothing to display here.
       </div>
-      <div *ngSwitchCase="'SINGLE_CHOICE'">Single choice not available</div>
+      <div *ngSwitchCase="'SHORT_ANSWER'">Short answer not available</div>
       <div *ngSwitchCase="'MULTIPLE_CHOICES'">
         Multiple choices not available
       </div>
@@ -21,7 +21,7 @@ import { QuestionProvider } from '../models/classes'
       <button (click)="emitHelp()">Help component works!</button>
     </div>
   `,
-  styles: [``],
+  styles: [``]
 })
 export class AnswerCardComponent {
   /**

@@ -1,6 +1,5 @@
-import { ThrowStmt } from '@angular/compiler';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { QuestionProvider } from '../../models/classes';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { QuestionProvider } from '../../models'
 
 @Component({
   selector: 'app-quiz-main-question',
@@ -8,29 +7,28 @@ import { QuestionProvider } from '../../models/classes';
   styleUrls: ['./quiz-main-question.component.scss']
 })
 export class QuizMainQuestionComponent implements OnInit {
-  @Input() mainQuestionProvider: QuestionProvider;
-  @Input() quizTitle: string;
-  @Output() onMainQuestionSubmition = new EventEmitter();
-  @Output() onHelp = new EventEmitter();
+  @Input() mainQuestionProvider: QuestionProvider
+  @Input() quizTitle: string
 
-  isEnableHelp: boolean = false;
-  constructor() {
-  }
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onMainQuestionSubmition = new EventEmitter()
 
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onHelp = new EventEmitter()
 
+  isEnableHelp: boolean = false
 
   ngOnInit(): void {
     // this.enableHelp();
   }
 
   submitAnswer(event) {
-    this.onMainQuestionSubmition.emit(event);
+    this.onMainQuestionSubmition.emit(event)
   }
 
   enableHelp() {
-    this.isEnableHelp = !this.isEnableHelp;
-    this.onHelp.emit();
-
+    this.isEnableHelp = !this.isEnableHelp
+    this.onHelp.emit()
   }
 
 }

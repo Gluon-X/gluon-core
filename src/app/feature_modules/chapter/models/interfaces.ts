@@ -1,9 +1,17 @@
-export interface Chapters{
-  id: string
+export interface Chapter {
+  chapterId: string
 
-  questions: string[]
+  name: string
 
-  grade: number
+  description?: string
 
+  thumbnailURL: string
 
+  relatedResources?: []
+
+  questions: []
+
+  // GradeId the chapter belong
+  gradeId: string
 }
+

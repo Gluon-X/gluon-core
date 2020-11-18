@@ -1,6 +1,6 @@
 import { MultiPhasesProvider } from './multi_phases_provider.class'
-import { Box, MultipleChoices, Phase, ShortAnswer } from './interfaces.new'
-import { BoxType } from './enums.new'
+import { Box, MultipleChoices, Phase, ShortAnswer } from './interfaces'
+import { BoxType } from './enums'
 
 const boxes: Box[] = [
   {
