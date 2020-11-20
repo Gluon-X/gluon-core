@@ -10,15 +10,20 @@ import {
 } from './services/quiz-provider.service'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AnswerListViewComponent } from './components/answers-type/list/answer-type-list.component'
-import { AnswerTextViewComponent } from "./components/answers-type/input-box/answer-type-input-box.component";
-import { QuizPhaseWrapperComponent } from './containers/quiz-phase-wrapper/quiz-phase-wrapper.component';
-import { PhaseLayoutComponent } from './components/phase/phase-layout/phase-layout.component';
-import { AnswearTypeComponent } from './components/answers-type/answer-type.componet';
-import { QuizMainQuestionComponent } from './containers/quiz-main-question/quiz-main-question.component';
+import { AnswerTextViewComponent } from './components/answers-type/input-box/answer-type-input-box.component'
+import { QuizPhaseWrapperComponent } from './containers/quiz-phase-wrapper/quiz-phase-wrapper.component'
+import { PhaseLayoutComponent } from './components/phase/phase-layout/phase-layout.component'
+import { AnswearTypeComponent } from './components/answers-type/answer-type.componet'
+import { QuizMainQuestionComponent } from './containers/quiz-main-question/quiz-main-question.component'
 import { QuizWikiComponent } from './components/quiz-wiki/quiz-wiki.component'
 import { SharedModule } from 'src/app/shared'
+import { QuizAnswersComponent } from './components/quiz-answers/quiz-answers.component'
+import { MultichoicesTypeComponent } from './components/quiz-answers/multichoices-type/multichoices-type.component'
+import { InputTypeComponent } from './components/quiz-answers/input-type/input-type.component'
+import { CheckAnswerTypeComponent } from './components/quiz-answers/check-answer-type/check-answer-type.component'
+import { AnswerPharseHeaderComponent } from './components/quiz-answers/answer-pharse-header/answer-pharse-header.component'
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
@@ -38,12 +43,15 @@ import { SharedModule } from 'src/app/shared'
     PhaseLayoutComponent,
     AnswearTypeComponent,
     QuizMainQuestionComponent,
-    QuizWikiComponent
+    QuizWikiComponent,
+    QuizAnswersComponent,
+    MultichoicesTypeComponent,
+    InputTypeComponent,
+    CheckAnswerTypeComponent,
+    AnswerPharseHeaderComponent
 
     // Attribute Directives
   ],
-  providers: [
-    QuizStorage,
-  ],
+  providers: [QuizStorage],
 })
-export class QuizModule { }
+export class QuizModule {}

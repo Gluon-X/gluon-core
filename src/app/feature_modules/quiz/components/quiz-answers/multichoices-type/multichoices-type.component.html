@@ -1,0 +1,15 @@
+<div class="container" *ngIf="this.listOfQuestions != undefined">
+  <div class="m-4">
+    <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm">
+      <div *ngFor="let question of this.listOfQuestions; let i = index" class="mt-2">
+        <label class="inline-flex items-center">
+          <input type="radio" class="form-radio text-gray-900" name="radio" [value]="question.content" />
+          <span class="ml-2 font-sans font-normal text-gray-900">{{ question.content }}</span>
+        </label>
+      </div>
+    </form>
+  </div>
+  <div class="m-4">
+    <app-check-answer></app-check-answer>
+  </div>
+</div>

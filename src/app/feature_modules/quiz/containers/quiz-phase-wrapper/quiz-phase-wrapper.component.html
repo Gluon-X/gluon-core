@@ -15,6 +15,8 @@
       <app-quiz-answear-type (onSubmit)="this.submitAnswear($event)" [answearBoxData]="this.phaseProvider.current"
         [answearType]="this.phaseProvider.current.type">
       </app-quiz-answear-type>
+      <app-quiz-answers [answersBoxData]="this.phaseProvider.current"
+      [answerType]="this.phaseProvider.current.type"></app-quiz-answers>
     </div>
   </div>
 </div>

@@ -59,7 +59,7 @@ import { AnswerTextViewComponent } from './input-box/answer-type-input-box.compo
       </div>
     </ng-template>
   </ng-container>
-    
+
   `,
 })
 export class AnswearTypeComponent implements OnInit {
@@ -84,6 +84,7 @@ export class AnswearTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.answearType);
   }
 
   praseMultipleChoicesProvider() {
