@@ -4,17 +4,17 @@ import { Component } from '@angular/core'
 @Component({
   selector: 'app-navbar',
   template: `
-    <nav class="h-16 items-center flex justify-between flex-wrap">
+    <nav class="h-16 px-4 items-center flex flex-row justify-between flex-wrap lg:px-0">
 
       <div class="flex items-center flex-shrink-0 mr-6 cursor-pointer">
         <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z" />
         </svg>
-        <span class="font-semibold text-xl tracking-tight">Gluon</span>
+        <span class="font-semibold text-lg tracking-tight lg:text-xl">Gluon</span>
       </div>
 
-      <ul class="w-full flex-grow text-lg lg:flex lg:items-center lg:w-auto space-x-3 h-full">
+      <ul class="flex-grow text-md flex space-x-3 h-full justify-center lg:justify-start lg:text-lg">
         <li *ngFor="let nav of navigations; let i = index"
             (click)="handleItemPick(i)"
             class="group flex flex-col justify-between h-full cursor-pointer font-semibold"
@@ -31,9 +31,11 @@ import { Component } from '@angular/core'
         </li>
       </ul>
 
-      <div class="h-full py-3">
-        <input class="w-56 px-4 h-full rounded-full border-2 border-solid border-gray-300 hover:border-gray-700 focus:w-64" type="text"
-               placeholder="Search">
+      <div class="flex-grow flex-shrink-0 py-3 hidden h-full md:block lg:max-w-xs">
+        <input
+          class="px-4 focus:outline-none h-full w-full rounded-full border-2 border-solid border-gray-300 hover:border-gray-700 focus:border-gray-700"
+          type="text"
+          placeholder="Search">
       </div>
 
     </nav>
