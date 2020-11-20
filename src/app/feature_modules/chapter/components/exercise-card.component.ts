@@ -94,7 +94,8 @@ export class ExerciseItemComponent {
             <p *ngIf="problem.description" class="break-words text-sm py-1">{{ problem.description }}</p>
           </div>
 
-          <button class="my-auto rounded-full py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700">
+          <button
+            class="my-auto rounded-full py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700">
             Bắt đầu
           </button>
         </div>
