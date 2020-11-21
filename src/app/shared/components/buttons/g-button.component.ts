@@ -14,10 +14,10 @@ interface ButtonOption {
   // tslint:disable-next-line: component-selector
   selector: 'g-button',
   template: `
-    <div class="w-100" [ngSwitch]="options.type">
+    <div class="w-full" [ngSwitch]="options.type">
       <button
         *ngSwitchCase="0"
-        class="bg-gray-900 hover:bg-gray-700 text-white py-2 px-4 rounded w-100"
+        class="bg-gray-900 hover:bg-gray-700 text-white py-2 px-4 rounded w-full focus:outline-none"
         type="button"
         style="transition: all .15s ease"
       >
@@ -26,7 +26,7 @@ interface ButtonOption {
 
       <button
         *ngSwitchCase="1"
-        class="bg-white hover:bg-gray-300 border-gray-900 text-gray-900 py-2 px-4 rounded w-100"
+        class="bg-white hover:bg-gray-300 border-2 border-gray-300 text-gray-900 py-2 px-4 rounded w-full focus:outline-none"
         type="button"
         style="transition: all .15s ease"
       >

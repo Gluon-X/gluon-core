@@ -7,11 +7,13 @@ import {
   MultipleChoicesProvider,
   ShortAnswerProvider,
 } from '../../models'
+
 @Component({
   selector: 'app-quiz-answers',
   template: `
-    <div class="m-4">
-      <app-answer-pharse-header></app-answer-pharse-header>
+    <div>
+      <app-answer-phase-header></app-answer-phase-header>
+
       <ng-template
         #inputHeader
         *ngIf="
@@ -25,6 +27,7 @@ import {
           Hãy nhập đáp án đúng
         </p>
       </ng-template>
+
       <ng-template #multichoicesHeader>
         <p
           class="font-sans text-gray-900 flex justify-start text-base font-semibold"
@@ -33,7 +36,8 @@ import {
         </p>
       </ng-template>
     </div>
-    <div class="">
+
+    <div>
       <!-- <ng-template
         #inputView
         *ngIf="
@@ -50,9 +54,10 @@ import {
         ></app-multichoices-answer>
       </ng-template>
     </div>
+
     <div class="flex flex-col w-full">
       <g-button
-        class="flex-grow w-full"
+        class="flex-grow w-full pb-2"
         [options]="{ type: 0, title: 'Kiểm tra' }"
       ></g-button>
       <g-button
@@ -62,7 +67,7 @@ import {
     </div>
   `,
 })
-export class QuizAnswersComponent implements OnInit {
+export class QuizAnswersComponent {
   @Input() answerType: BoxType
 
   @Input() answersBoxData: MultipleChoicesProvider | ShortAnswerProvider
@@ -70,8 +75,6 @@ export class QuizAnswersComponent implements OnInit {
   inputAnswers: string | number | number[]
 
   public QuestionAnswerType: typeof BoxType = BoxType
-
-  ngOnInit(): void {}
 
   praseMultipleChoicesProvider() {
     return this.answersBoxData as MultipleChoicesProvider

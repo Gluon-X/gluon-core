@@ -20,7 +20,7 @@ import { QuizAnswersComponent } from './components/quiz-answers/quiz-answers.com
 import { MultichoicesTypeComponent } from './components/quiz-answers/multichoices-type/multichoices-type.component'
 import { InputTypeComponent } from './components/quiz-answers/input-type/input-type.component'
 import { CheckAnswerTypeComponent } from './components/quiz-answers/check-answer-type/check-answer-type.component'
-import { AnswerPharseHeaderComponent } from './components/quiz-answers/answer-pharse-header/answer-pharse-header.component'
+import { AnswerPhaseHeaderComponent } from './components/quiz-answers/answer-phase-header/answer-phase-header.component'
 
 @NgModule({
   imports: [
@@ -52,7 +52,7 @@ import { AnswerPharseHeaderComponent } from './components/quiz-answers/answer-ph
     MultichoicesTypeComponent,
     InputTypeComponent,
     CheckAnswerTypeComponent,
-    AnswerPharseHeaderComponent,
+    AnswerPhaseHeaderComponent,
   ],
 })
 export class QuizModule {}
