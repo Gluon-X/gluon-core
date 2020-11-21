@@ -4,7 +4,7 @@ import { QuestionProvider } from '../../models'
 @Component({
   selector: 'app-quiz-main-question',
   templateUrl: './quiz-main-question.component.html',
-  styleUrls: ['./quiz-main-question.component.scss']
+  styleUrls: ['./quiz-main-question.component.scss'],
 })
 export class QuizMainQuestionComponent implements OnInit {
   @Input() mainQuestionProvider: QuestionProvider
@@ -30,5 +30,4 @@ export class QuizMainQuestionComponent implements OnInit {
     this.isEnableHelp = !this.isEnableHelp
     this.onHelp.emit()
   }
-
 }
