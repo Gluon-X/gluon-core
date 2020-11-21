@@ -42,7 +42,7 @@ export const grades: GradeNav[] = [
         name: 'Chương 2 - Sóng âm',
       },
       {
-        name: 'Chương 3 - Sóng âm',
+        name: 'Chương 3 - Sóng điện từ',
       },
     ],
   },
