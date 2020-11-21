@@ -1,4 +1,12 @@
-import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core'
 import { QuizPlayable } from '../../models'
 import { QuizHandler, QUIZ_STATE } from '../../services'
 
@@ -22,6 +30,9 @@ export class QuizAppComponent {
   set quizId(value: string) {
     this.service.qid = value
   }
+
+  @Output()
+  return = new EventEmitter()
 
   get hint(): string {
     return this.service.mainQuestion.hint

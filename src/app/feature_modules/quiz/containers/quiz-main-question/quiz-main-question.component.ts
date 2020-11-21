@@ -10,6 +10,9 @@ export class QuizMainQuestionComponent implements OnInit {
   @Input()
   isMainQuestion = true
 
+  @Output()
+  return = new EventEmitter()
+
   @Input() mainQuestionProvider: QuestionProvider
 
   @Input() quizTitle: string

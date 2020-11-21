@@ -34,7 +34,7 @@ import {
     SharedModule,
     HttpClientModule,
   ],
-  exports: [QuizAppComponent, QuizMainQuestionComponent],
+  exports: [QuizAppComponent],
   declarations: [
     // Containers
     QuizAppComponent,

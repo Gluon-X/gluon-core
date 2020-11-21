@@ -23,10 +23,10 @@
   </div>
 </div> -->
 
-<app-quiz-main-question></app-quiz-main-question>
+<app-quiz-main-question (return)="return.emit()"></app-quiz-main-question>
 
 <div class="h-4"></div>
 
 <app-quiz-main-question [isMainQuestion]="false"></app-quiz-main-question>
 
-<div class="h-4"></div>
+<div class="h-8"></div>
