@@ -5,7 +5,7 @@ import {
   ShortAnswer,
   MultipleChoices,
   MultipleChoicesProvider,
-  ShortAnswerProvider,
+  ShortAnswerProvider
 } from '../../models'
 
 @Component({
@@ -19,11 +19,8 @@ import {
         *ngIf="
           this.answerType == QuestionAnswerType.SHORT_ANSWER;
           else multichoicesHeader
-        "
-      >
-        <p
-          class="font-sans text-gray-900 flex justify-start text-base font-semibold"
-        >
+        ">
+        <p class="font-sans text-gray-900 flex justify-start text-base font-semibold">
           Hãy nhập đáp án đúng
         </p>
       </ng-template>
@@ -65,7 +62,7 @@ import {
         [options]="{ type: 1, title: 'Trợ giúp' }"
       ></g-button>
     </div>
-  `,
+  `
 })
 export class QuizAnswersComponent {
   @Input() answerType: BoxType

@@ -8,6 +8,7 @@ import { QuestionProvider } from '../../models'
 })
 export class QuizMainQuestionComponent implements OnInit {
   @Input() mainQuestionProvider: QuestionProvider
+
   @Input() quizTitle: string
 
   // tslint:disable-next-line:no-output-on-prefix
