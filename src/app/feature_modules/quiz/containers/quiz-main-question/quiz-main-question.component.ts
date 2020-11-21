@@ -7,7 +7,14 @@ import { QuestionProvider } from '../../models'
   styleUrls: ['./quiz-main-question.component.scss'],
 })
 export class QuizMainQuestionComponent implements OnInit {
+  @Input()
+  isMainQuestion = true
+
+  @Output()
+  return = new EventEmitter()
+
   @Input() mainQuestionProvider: QuestionProvider
+
   @Input() quizTitle: string
 
   // tslint:disable-next-line:no-output-on-prefix

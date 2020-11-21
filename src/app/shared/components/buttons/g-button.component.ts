@@ -17,7 +17,7 @@ interface ButtonOption {
     <div class="w-full" [ngSwitch]="options.type">
       <button
         *ngSwitchCase="0"
-        class="bg-gray-900 hover:bg-gray-700 text-white py-2 px-4 rounded w-full focus:outline-none"
+        class="bg-gray-900 hover:bg-gray-700 text-white text-sm py-2 rounded w-full focus:outline-none"
         type="button"
         style="transition: all .15s ease"
       >
@@ -26,7 +26,7 @@ interface ButtonOption {
 
       <button
         *ngSwitchCase="1"
-        class="bg-white hover:bg-gray-300 border-2 border-gray-300 text-gray-900 py-2 px-4 rounded w-full focus:outline-none"
+        class="bg-white hover:bg-gray-300 border-2 border-gray-300 text-sm text-gray-900 py-2 rounded w-full focus:outline-none"
         type="button"
         style="transition: all .15s ease"
       >
