@@ -1,14 +1,14 @@
-<div class="border-gray-300" [class.isEnableHelp]="this.isEnableHelp">
+<!-- <div class="border-gray-300" [class.isEnableHelp]="this.isEnableHelp">
     <app-quiz-header [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'" [go_back_chapter]="'Ánh Sáng'"
         [quiz_title]="quizTitle"></app-quiz-header>
 
     <div class="question-container flex flex-row justify-between" style="min-height: 50vh">
         <div style="min-width: 10%" class="hover:bg-blue-700 duration-200">
-            <!-- Will be wiki ui -->
+    
         </div>
         <div class="question-content left-area border-gray-300"
             style="padding: 3rem;min-width: 60%;border-right: 2px;border-style: inset;">
-            <!-- <h3>TODO IMPLEMT DIF kind of answear type</h3> -->
+          
             <div style="overflow-wrap: break-word" class="duration-700 text-lg transition: all .15s ease">
                 {{ mainQuestionProvider.content }}
             </div>
@@ -19,10 +19,18 @@
         </div>
 
         <div class="answer-box right-area" style="min-width: 30%">
-            <!-- TODO IMPLENT INPUT TYPE ANSER -->
+         
             <app-quiz-answear-type [answearType]="mainQuestionProvider.type" (enableHelp)="this.enableHelp()"
                 [hasHelp]="true" (onSubmit)="this.submitAnswer($event)" [answearBoxData]="mainQuestionProvider">
             </app-quiz-answear-type>
         </div>
     </div>
+</div> -->
+
+<div class="grid grid-cols-12">
+    <div class="h-20 col-start-1 col-end-13" style="background:#1483CB">Header</div>
+    <div class=" col-start-1 col-end-1" style="background:#7193BC; height: 28rem;">Sidebar</div>
+    <div class=" col-start-2 col-end-10" style="background:#EEFAFF; height: 28rem;">Main</div>
+    <div class=" col-span-3" style="background:#00C2CD; height: 28rem;">Answer</div>
+    <div class="h-40 col-start-1 col-end-13" style="background:#756EC5">Explanation</div>
 </div>
