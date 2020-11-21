@@ -1,4 +1,4 @@
-<div [ngSwitch]="service.state">
+<!-- <div [ngSwitch]="service.state">
   <div class="centering" *ngSwitchCase="'EMPTY'">Loading ...</div>
 
   <div class="centering" *ngSwitchCase="'FOLLOW_UP'">Following up round</div>
@@ -21,4 +21,12 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+<app-quiz-main-question></app-quiz-main-question>
+
+<div class="h-4"></div>
+
+<app-quiz-main-question [isMainQuestion]="false"></app-quiz-main-question>
+
+<div class="h-4"></div>

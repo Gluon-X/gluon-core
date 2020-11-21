@@ -51,22 +51,34 @@
   </div>
 </div> -->
 
-<div class="grid grid-cols-12 shadow-md rounded">
-  <div class="h-20 col-start-1 col-end-13 bg-blue-200 flex flex-col justify-center rounded-t">
+<div
+  class="grid grid-cols-12 shadow-md rounded border-gray-300 border-1 border-solid"
+>
+  <div
+    *ngIf="isMainQuestion"
+    class="h-20 col-start-1 col-end-13 bg-blue-200 flex flex-col justify-center rounded-t"
+  >
     <span class="text-center">@Duy Béo</span>
   </div>
-  <div class="col-start- flex flex-col justify-around">
+  <div
+    class="col-start- flex flex-col justify-around"
+    [class.rounded-t]="!isMainQuestion"
+  >
     <span class="text-center">A</span>
     <span class="text-center">B</span>
     <span class="text-center">C</span>
   </div>
-  <div class="col-start-2 col-end-10 border-l-2 border-l-solid border-l-gray-300 flex flex-col justify-center">
+  <div
+    class="col-start-2 col-end-10 border-l-2 border-l-solid border-l-gray-300 flex flex-col justify-center"
+  >
     <span class="text-center">@Duy Béo</span>
   </div>
   <div class="col-span-3 p-4 border-l-2 border-l-solid border-l-gray-300">
-    <app-quiz-answers></app-quiz-answers>
+    <app-quiz-answers [isMainQuestion]="isMainQuestion"></app-quiz-answers>
   </div>
-  <div class="h-20 col-start-1 col-end-13 p-4 border-t-2 border-t-solid border-t-gray-300">
+  <div
+    class="h-20 col-start-1 col-end-13 p-4 border-t-2 border-t-solid border-t-gray-300"
+  >
     Explanation
   </div>
 </div>

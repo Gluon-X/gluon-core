@@ -22,8 +22,8 @@ import { InputTypeComponent } from './components/quiz-answers/input-type/input-t
 import { CheckAnswerTypeComponent } from './components/quiz-answers/check-answer-type/check-answer-type.component'
 import {
   AnswerPhaseHeaderComponent,
-  QuestionIndicatorComponent
-} from './components/quiz-answers/answer-phase-header/answer-phase-header.component'
+  QuestionIndicatorComponent,
+} from './components/quiz-answers/answer-phase-header.component'
 
 @NgModule({
   imports: [
@@ -56,7 +56,7 @@ import {
     InputTypeComponent,
     CheckAnswerTypeComponent,
     AnswerPhaseHeaderComponent,
-    QuestionIndicatorComponent
+    QuestionIndicatorComponent,
   ],
 })
 export class QuizModule {}

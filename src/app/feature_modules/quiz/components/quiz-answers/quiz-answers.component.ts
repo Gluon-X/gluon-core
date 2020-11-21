@@ -5,22 +5,27 @@ import {
   ShortAnswer,
   MultipleChoices,
   MultipleChoicesProvider,
-  ShortAnswerProvider
+  ShortAnswerProvider,
 } from '../../models'
 
 @Component({
   selector: 'app-quiz-answers',
   template: `
     <div>
-      <app-answer-phase-header></app-answer-phase-header>
+      <app-answer-phase-header
+        *ngIf="!isMainQuestion"
+      ></app-answer-phase-header>
 
       <ng-template
         #inputHeader
         *ngIf="
           this.answerType == QuestionAnswerType.SHORT_ANSWER;
           else multichoicesHeader
-        ">
-        <p class="font-sans text-gray-900 flex justify-start text-base font-semibold">
+        "
+      >
+        <p
+          class="font-sans text-gray-900 flex justify-start text-base font-semibold"
+        >
           Hãy nhập đáp án đúng
         </p>
       </ng-template>
@@ -59,12 +64,15 @@ import {
       ></g-button>
       <g-button
         class="flex-grow w-full"
-        [options]="{ type: 1, title: 'Trợ giúp' }"
+        [options]="{ type: 1, title: isMainQuestion ? 'Trợ giúp' : 'Gợi ý' }"
       ></g-button>
     </div>
-  `
+  `,
 })
 export class QuizAnswersComponent {
+  @Input()
+  isMainQuestion: boolean
+
   @Input() answerType: BoxType
 
   @Input() answersBoxData: MultipleChoicesProvider | ShortAnswerProvider
