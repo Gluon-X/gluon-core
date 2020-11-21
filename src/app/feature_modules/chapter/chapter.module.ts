@@ -10,9 +10,62 @@ import {
 } from './components/exercise-card.component'
 import { NavbarComponent } from './components/navbar.component'
 import { QuizModule } from '../quiz'
+import { RouterModule, Routes } from '@angular/router'
+import {
+  ChapterDisplayComponent,
+  PracticeComponent,
+  PracticeWelcomeComponent,
+} from './containers/practice.component'
+import { CoursesComponent, TodayComponent } from './containers/today.component'
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/practice',
+  },
+  {
+    path: 'today',
+    pathMatch: 'full',
+    component: TodayComponent,
+  },
+  {
+    path: 'courses',
+    pathMatch: 'full',
+    component: CoursesComponent,
+  },
+  {
+    path: 'practice',
+    component: PracticeComponent,
+    children: [
+      {
+        path: ':grade/:chapter',
+        component: ChapterDisplayComponent,
+      },
+      {
+        path: '',
+        component: PracticeWelcomeComponent,
+      },
+      {
+        path: '**',
+        redirectTo: '',
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '/practice',
+  },
+]
 
 @NgModule({
-  imports: [CommonModule, SharedModule, QuizModule],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  exports: [RouterModule],
+})
+export class ChapterRoutingModule {}
+
+@NgModule({
+  imports: [CommonModule, SharedModule, QuizModule, ChapterRoutingModule],
   exports: [ChapterComponent],
   declarations: [
     ListComponent,
@@ -22,6 +75,11 @@ import { QuizModule } from '../quiz'
     NavbarComponent,
     ExerciseItemComponent,
     ProblemListComponent,
+    PracticeComponent,
+    TodayComponent,
+    CoursesComponent,
+    PracticeWelcomeComponent,
+    ChapterDisplayComponent,
   ],
 })
 export class ChapterModule {}

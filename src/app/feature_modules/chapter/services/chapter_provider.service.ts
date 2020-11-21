@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core'
-import { Chapter } from '../models/interfaces'
+import { Chapter, Exercise } from '../models/interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../../environments/environment'
 import { map } from 'rxjs/operators'
-import { chapterFakeData } from '../models/dummy_data'
+import { chapterFakeData, sampleExercises } from '../models/dummy_data'
 
 // Doing the same as Minh
-export const useServer = true
+export const useServer = false
 
 // The API will always return your data in this manner
 interface ChapterResponse {
   data: []
 }
 
+export interface ExercisePickable {
+  qid?: string
+
+  exercises: Exercise[]
+}
+
 @Injectable()
-export class ChaptersHandler {
-  constructor(private _http: HttpClient) {
-  }
+export class ChaptersHandler implements ExercisePickable {
+  public qid?: string
+
+  exercises: Exercise[] = sampleExercises
+
+  constructor(private _http: HttpClient) {}
 
   private _cid?: string
 
@@ -56,7 +65,6 @@ export class ChaptersHandler {
   }
 
   // GETTER
-
   get cid() {
     return this._cid
   }
@@ -89,7 +97,6 @@ export class ChaptersHandler {
 
   // Parsing the http request to properties of Chapter
   private parse(chapter: Chapter) {
-    console.log('Parsing works!')
     this._name = chapter.name
     this._description = chapter.description
     this._thumbnailURL = chapter.thumbnailURL
