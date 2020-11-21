@@ -2,7 +2,7 @@
 import { Chapter, Exercise, GradeNav } from './interfaces'
 
 export const chapterFakeData: Chapter = {
-  name: 'Blame Khuong',
+  name: 'Sóng âm',
   chapterId: '',
   // This gradeId should be like number or someshit for better rendering
   gradeId: 'Lớp 11',
