@@ -3,11 +3,16 @@ import { CommonModule } from '@angular/common'
 import { SharedModule } from '../../shared'
 import { ChapterComponent } from './containers/chapter.component'
 import { ListComponent, ListItemComponent } from './components/list.component'
-import { ExerciseCardComponent, ExerciseItemComponent, ProblemListComponent } from './components/exercise-card.component'
+import {
+  ExerciseCardComponent,
+  ExerciseItemComponent,
+  ProblemListComponent,
+} from './components/exercise-card.component'
 import { NavbarComponent } from './components/navbar.component'
+import { QuizModule } from '../quiz'
 
 @NgModule({
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, QuizModule],
   exports: [ChapterComponent],
   declarations: [
     ListComponent,
@@ -16,8 +21,7 @@ import { NavbarComponent } from './components/navbar.component'
     ExerciseCardComponent,
     NavbarComponent,
     ExerciseItemComponent,
-    ProblemListComponent
-  ]
+    ProblemListComponent,
+  ],
 })
-export class ChapterModule {
-}
+export class ChapterModule {}

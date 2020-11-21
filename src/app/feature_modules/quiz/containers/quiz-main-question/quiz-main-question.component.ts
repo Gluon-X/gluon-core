@@ -4,10 +4,17 @@ import { QuestionProvider } from '../../models'
 @Component({
   selector: 'app-quiz-main-question',
   templateUrl: './quiz-main-question.component.html',
-  styleUrls: ['./quiz-main-question.component.scss']
+  styleUrls: ['./quiz-main-question.component.scss'],
 })
 export class QuizMainQuestionComponent implements OnInit {
+  @Input()
+  isMainQuestion = true
+
+  @Output()
+  return = new EventEmitter()
+
   @Input() mainQuestionProvider: QuestionProvider
+
   @Input() quizTitle: string
 
   // tslint:disable-next-line:no-output-on-prefix
@@ -30,5 +37,4 @@ export class QuizMainQuestionComponent implements OnInit {
     this.isEnableHelp = !this.isEnableHelp
     this.onHelp.emit()
   }
-
 }
