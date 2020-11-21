@@ -15,7 +15,7 @@ interface QuizResponse {
 
 export const QUIZ_STATE = new InjectionToken<QuizPlayable>('quiz.state')
 
-export const useServer = true
+export const useServer = false;
 
 @Injectable()
 export class QuizHandler implements QuizPlayable {
