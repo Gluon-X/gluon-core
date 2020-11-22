@@ -1,16 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-
-interface Exercise {
-  name: string
-  isActive: boolean
-  problems: Problem[]
-}
-
-interface Problem {
-  name: string
-  imageURL: string
-  description?: string
-}
+import { Exercise, Problem } from '../models/interfaces'
+import { ExercisePickable } from '../services/chapter_provider.service'
 
 @Component({
   selector: 'app-exercise-list',
@@ -18,73 +8,37 @@ interface Problem {
     <div
       class="my-1 px-3 box bg-gray-100 rounded shadow divide-y-2 divide-gray-300 divide-solid"
     >
-      <div *ngFor="let exercise of exercises; let i = index" class="px-2 box">
-        <app-exercise-item
-          [name]="exercise.name"
-          (click)="handleExerciseItemClick(i)"
-        ></app-exercise-item>
+      <div
+        *ngFor="let exercise of exerciseService.exercises; let i = index"
+        class="px-2 box"
+      >
+        <app-exercise-item [exercise]="exercise"></app-exercise-item>
         <app-problem-list
           [problems]="exercise.problems"
           [isActive]="exercise.isActive"
-          (pick)="problemPick.emit($event)"
+          (pick)="onProblemPick($event)"
         ></app-problem-list>
       </div>
     </div>
   `,
 })
 export class ExerciseCardComponent {
-  @Output()
-  problemPick = new EventEmitter<string>()
+  @Input()
+  exerciseService: ExercisePickable
 
-  exercises: Exercise[] = [
-    {
-      name: 'Bài 1 - Động lực học chất điểm',
-      isActive: true,
-      problems: [
-        {
-          name: 'Problem 1 - Lorem ipsum',
-          imageURL:
-            'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
-          description: 'Lorem ipsum dolor sit amet',
-        },
-        {
-          name: 'Problem 2 - Lorem ipsum',
-          imageURL:
-            'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-torus-tore-01-512.png',
-          description: 'Lorem ipsum dolor sit amet',
-        },
-        {
-          name: 'Problem 3 - Lorem ipsum',
-          imageURL:
-            'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-mobius-strip-512.png',
-          description: 'Lorem ipsum dolor sit amet',
-        },
-      ],
-    },
-    {
-      name: 'Bài 2 - Động lực học chất điểm',
-      isActive: false,
-      problems: [
-        {
-          name: 'Problem 4 - Lorem ipsum',
-          imageURL:
-            'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
-          description: 'Lorem ipsum dolor sit amet',
-        },
-      ],
-    },
-  ]
-
-  handleExerciseItemClick(index: number) {
-    this.exercises[index].isActive = !this.exercises[index].isActive
+  onProblemPick(qid: string) {
+    this.exerciseService.qid = 'GID11060001'
   }
 }
 
 @Component({
   selector: 'app-exercise-item',
   template: `
-    <div class="py-4 flex justify-between cursor-pointer">
-      <span class="truncate">{{ name }}</span>
+    <div
+      class="py-4 flex justify-between cursor-pointer"
+      (click)="exercise.toggleCollapse()"
+    >
+      <span class="truncate">{{ exercise.name }}</span>
       <svg
         class="-mr-1 ml-2 h-5 w-5"
         xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +56,7 @@ export class ExerciseCardComponent {
 })
 export class ExerciseItemComponent {
   @Input()
-  name: string
+  exercise: Exercise
 }
 
 @Component({
