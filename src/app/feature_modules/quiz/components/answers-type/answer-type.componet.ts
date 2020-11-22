@@ -1,15 +1,24 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 
-import { BoxType, MultipleChoicesProvider, ShortAnswerProvider } from '../../models'
+import {
+  BoxType,
+  MultipleChoicesProvider,
+  ShortAnswerProvider,
+} from '../../models'
 
 @Component({
   selector: 'app-quiz-answear-type',
   template: `
     <ng-container *ngIf="this.answearBoxData">
-      🐞 Debug Correct Answer : {{getDebugAnswear()}}
+      🐞 Debug Correct Answer : {{ getDebugAnswear() }}
 
-      <div #textView *ngIf="this.answearType == QuestionAnswearType.SHORT_ANSWER; else listView">
-
+      <div
+        #textView
+        *ngIf="
+          this.answearType == QuestionAnswearType.SHORT_ANSWER;
+          else listView
+        "
+      >
         <app-quiz-answer-type-input-text
           (writedAnswear)="this.saveAnswear($event)"
         ></app-quiz-answer-type-input-text>
@@ -58,22 +67,22 @@ import { BoxType, MultipleChoicesProvider, ShortAnswerProvider } from '../../mod
         </div>
       </ng-template>
     </ng-container>
-
-  `
+  `,
 })
 export class AnswearTypeComponent implements OnInit {
-
-
   @Input() answearType: BoxType
+
   @Input() hasHelp: boolean
+
   @Output() onSubmit = new EventEmitter<string | number | number[]>()
 
   @Input() answearBoxData: MultipleChoicesProvider | ShortAnswerProvider
+
   @Output() enableHelp = new EventEmitter()
+
   inputAnswear: string | number | number[]
 
   public QuestionAnswearType: typeof BoxType = BoxType
-
 
   toggleHelp() {
     this.enableHelp.emit()
@@ -84,6 +93,7 @@ export class AnswearTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.answearType)
   }
 
   praseMultipleChoicesProvider() {
@@ -93,17 +103,17 @@ export class AnswearTypeComponent implements OnInit {
 
   praseShortAnswerProvider() {
     return this.answearBoxData as ShortAnswerProvider
-
   }
 
   getDebugAnswear() {
     if (this.answearBoxData instanceof ShortAnswerProvider) {
       return (this.answearBoxData as ShortAnswerProvider).correctAnswear
     } else {
-      return (this.answearBoxData as MultipleChoicesProvider).choices.filter(choice => choice.isCorrect)[0].content
+      return (this.answearBoxData as MultipleChoicesProvider).choices.filter(
+        (choice) => choice.isCorrect
+      )[0].content
     }
   }
-
 
   submitAnswear() {
     this.onSubmit.emit(this.inputAnswear)

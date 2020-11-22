@@ -1,4 +1,12 @@
-import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core'
 import { QuizPlayable } from '../../models'
 import { QuizHandler, QUIZ_STATE } from '../../services'
 
@@ -8,9 +16,9 @@ import { QuizHandler, QUIZ_STATE } from '../../services'
   providers: [
     {
       provide: QUIZ_STATE,
-      useClass: QuizHandler
-    }
-  ]
+      useClass: QuizHandler,
+    },
+  ],
 })
 export class QuizAppComponent {
   // answearType: QuestionType
@@ -21,11 +29,12 @@ export class QuizAppComponent {
   @Input()
   set quizId(value: string) {
     this.service.qid = value
-    // console.log(this.service.qid)
   }
 
-  get hint(): string {
+  @Output()
+  return = new EventEmitter()
 
+  get hint(): string {
     return this.service.mainQuestion.hint
   }
 
@@ -35,18 +44,16 @@ export class QuizAppComponent {
   }
 
   toggleHelp() {
-    // console.log(this.service)
     this.enableHelp = !this.enableHelp
     setTimeout(() => {
       this.quizHelpBox.nativeElement.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'start',
       })
     }, 100)
   }
 
   checkAnswear(event) {
     this.service.mainQuestion.submit(event)
-    // console.log(this.service.mainQuestion.isCorrect)
   }
 }

@@ -1,44 +1,32 @@
-<div [ngSwitch]="service.state">
-  <div>
-    <!-- <div class="centering" *ngSwitchCase="'EMPTY'">Loading ...</div>
-  <div class="centering" *ngSwitchCase="'FOLLOW_UP'">Following up round  </div> -->
-    <div *ngSwitchDefault>
-      <div #contentBox style="min-width: 1200px" class="shadow-md">
-        <div #mainQuestionRef>
-          <app-quiz-main-question (onHelp)="this.toggleHelp()" (onMainQuestionSubmition)="this.checkAnswear($event)"
-            [mainQuestionProvider]="this.service.mainQuestion" [quizTitle]="this.service.title">
-          </app-quiz-main-question>
-        </div>
-        <div #helpQuestionRef class="help-container flex row">
-          <div #quizhelp class="help-box h-screen" *ngIf="this.enableHelp">
-            <app-quiz-phase-wrapper [phaseProvider]="service.helper"></app-quiz-phase-wrapper>
-          </div>
-        </div>
+<!-- <div [ngSwitch]="service.state">
+  <div class="centering" *ngSwitchCase="'EMPTY'">Loading ...</div>
+
+  <div class="centering" *ngSwitchCase="'FOLLOW_UP'">Following up round</div>
+
+  <div *ngSwitchCase="'READY'">
+    <div #mainQuestionRef>
+      <app-quiz-main-question
+        (onHelp)="this.toggleHelp()"
+        (onMainQuestionSubmition)="this.checkAnswear($event)"
+        [mainQuestionProvider]="this.service.mainQuestion"
+        [quizTitle]="this.service.title"
+      >
+      </app-quiz-main-question>
+    </div>
+    <div #helpQuestionRef class="help-container flex row">
+      <div #quizhelp class="help-box h-screen" *ngIf="this.enableHelp">
+        <app-quiz-phase-wrapper
+          [phaseProvider]="service.helper"
+        ></app-quiz-phase-wrapper>
       </div>
     </div>
   </div>
-
-  <!-- <div [ngSwitch]="service.state">
-<div class="centering" *ngSwitchCase="'EMPTY'">Loading ...</div>
-<div class="centering" *ngSwitchCase="'FOLLOW_UP'">
-Following up round
-</div>
-<div *ngSwitchDefault class="vertical-centering">
-<app-quiz-header
-[chapter_img]="'../../assets/images/dev/quiz-nav-img.png'"
-[go_back_chapter]="'Number Theory'"
-[quiz_title]="'Integer Sequences'"
-></app-quiz-header>
-<app-quiz-showcase
-  [question]="service.mainQuestion"
-></app-quiz-showcase>
-<h5>{{ hint }}</h5>
-<app-answer-card
-  (help)="service.enableHelper()"
-  [question]="service.mainQuestion"
-></app-answer-card>
-
-<div *ngIf="service.state == 'HELP'">Help!!!</div>
-</div>
 </div> -->
-  <!-- </div> -->
+
+<app-quiz-main-question (return)="return.emit()"></app-quiz-main-question>
+
+<div class="h-4"></div>
+
+<app-quiz-main-question [isMainQuestion]="false"></app-quiz-main-question>
+
+<div class="h-8"></div>
