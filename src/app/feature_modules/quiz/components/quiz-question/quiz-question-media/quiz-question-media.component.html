@@ -2,6 +2,7 @@
     <img [src]="this.scrURL" class="imgPicture w-2/4 text-center cursor-pointer" alt="" srcset="">
 
     <div class="control-menu space-y-5">
-        <img *ngFor="let item of ['play','pause','reload']" [src]="mediaButton[item]" class="rounded-full h-7 w-7">
+        <img *ngFor="let item of ['play','pause','reload']" [src]="mediaButton[item]"
+            class="rounded-full h-7 w-7 cursor-pointer">
     </div>
 </div>
