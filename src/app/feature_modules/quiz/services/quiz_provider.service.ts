@@ -1,13 +1,21 @@
 import { Injectable, InjectionToken } from '@angular/core'
 import { isNullOrUndefined, isUndefined } from 'src/app/shared'
-import { QuizState } from '../models'
-import { realDummyData } from '../models'
+import { QuizState, realDummyData } from '../models'
 import { Quiz, QuizPlayable } from '../models'
 import { QuestionProvider } from '../models'
 import { MultiPhasesProvider } from '../models'
 import { MultiBoxesProvider } from '../models'
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../../../environments/environment'
+import { map } from 'rxjs/operators'
+
+interface QuizResponse {
+  data: Quiz[]
+}
 
 export const QUIZ_STATE = new InjectionToken<QuizPlayable>('quiz.state')
+
+export const useServer = false
 
 @Injectable()
 export class QuizHandler implements QuizPlayable {
@@ -21,7 +29,12 @@ export class QuizHandler implements QuizPlayable {
       this._qid = null
       return
     }
-    this.parse(realDummyData[value])
+    if (useServer) this._http.get<QuizResponse>(`${environment.serverAPI}/api/v1/questions/test`)
+      .pipe(map(({ data }) => data), map(v => v[0]))
+      .toPromise()
+      .then(v => this.parse(v))
+      .catch(console.error)
+    else this.parse(realDummyData[value])
   }
 
   get qid(): string {
@@ -65,6 +78,9 @@ export class QuizHandler implements QuizPlayable {
 
   get followUpProvider(): MultiBoxesProvider | undefined {
     return this._followUpProvider
+  }
+
+  constructor(private _http: HttpClient) {
   }
 
   enableHelper() {

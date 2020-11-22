@@ -1,13 +1,12 @@
-import { Router } from 'express'
+const express = require('express')
+const router = express.Router()
+const questionRoute = require('./questions.routes')
 
-class AppRoutes {
-  public routes: Router
-  constructor() {
-    this.routes = Router()
-    this._init()
-  }
 
-  private _init() {}
-}
+//  Need to import model of the question
+//
+router.use('/', questionRoute)
 
-export const appRoutes = new AppRoutes().routes
+// Can I create this thing more easier to modify
+
+module.exports = router

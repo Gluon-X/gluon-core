@@ -14,10 +14,10 @@ interface ButtonOption {
   // tslint:disable-next-line: component-selector
   selector: 'g-button',
   template: `
-    <div class="flex flex-col justify-center">
+    <div class="w-full" [ngSwitch]="options.type">
       <button
-        *ngIf="options.type === 0"
-        class="bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded m-1 w-48"
+        *ngSwitchCase="0"
+        class="bg-gray-900 hover:bg-gray-700 text-white text-sm py-2 rounded w-full focus:outline-none"
         type="button"
         style="transition: all .15s ease"
       >
@@ -25,8 +25,8 @@ interface ButtonOption {
       </button>
 
       <button
-        *ngIf="options.type === 1"
-        class="bg-white hover:bg-gray-300 border-gray-900 text-gray-900 font-bold py-2 px-4 rounded m-1 w-48"
+        *ngSwitchCase="1"
+        class="bg-white hover:bg-gray-300 border-2 border-gray-300 text-sm text-gray-900 py-2 rounded w-full focus:outline-none"
         type="button"
         style="transition: all .15s ease"
       >
@@ -34,7 +34,6 @@ interface ButtonOption {
       </button>
     </div>
   `,
-  styles: [``],
 })
 export class GButtonComponent {
   @Input() options: ButtonOption

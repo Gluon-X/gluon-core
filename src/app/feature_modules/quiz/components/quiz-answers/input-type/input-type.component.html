@@ -1,16 +1,10 @@
-<div class="container">
-  <div class="m-4">
-    <div class="w-full">
-      <input
-        [(ngModel)]="answer"
-        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-green-600"
-        id="grid-last-name"
-        type="text"
-        placeholder="Câu trả lời của bạn ⚡️"
-      />
-    </div>
-  </div>
-  <div class="m-4">
-    <app-check-answer></app-check-answer>
-  </div>
+<div class="py-2">
+  <input
+  [(ngModel)]="answer"
+  class="appearance-none w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring focus:bg-white"
+  id="grid-last-name"
+  type="text"
+  placeholder="Câu trả lời của bạn ⚡️"
+/>
+<app-check-answer></app-check-answer>
 </div>

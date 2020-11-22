@@ -1,26 +1,40 @@
-<div class="border-gray-200 border-t  ">
+<div class="border-gray-200 border-t">
   <div class="w-full flex flex-row justify-between p-4">
-    <div class="text-lg font-bold text-center flex items-center">Giải thích ✌️</div>
-    <custom-stepper [activeIndex]="this.phaseProvider.index" [phaseCount]="this.phaseProvider.count">
+    <div class="text-lg font-bold text-center flex items-center">
+      Giải thích ✌️
+    </div>
+    <custom-stepper
+      [activeIndex]="this.phaseProvider.index"
+      [phaseCount]="this.phaseProvider.count"
+    >
     </custom-stepper>
   </div>
-  <div class="question-left-view flex flex-row justify-between border-gray-300" *ngIf="this.phaseProvider.current"
-    style="min-height: 60%; border-style: inset">
-    <div class="hover:bg-blue-700 duration-200" style="min-width: 10%;"></div>
-    <div class="question-content left-area text-lg border-gray-300 p-4 border-r-2"
-      style="min-width: 60%; border-style: inset">
+  <div
+    class="question-left-view flex flex-row justify-between border-gray-300"
+    *ngIf="this.phaseProvider.current"
+    style="min-height: 60%; border-style: inset"
+  >
+    <div class="hover:bg-blue-700 duration-200" style="min-width: 10%"></div>
+    <div
+      class="question-content left-area text-lg border-gray-300 p-4 border-r-2"
+      style="min-width: 60%; border-style: inset"
+    >
       {{ this.phaseProvider.current.content }}
     </div>
     <div class="answear-right-view" style="min-width: 30%">
-      <app-quiz-answear-type (onSubmit)="this.submitAnswear($event)" [answearBoxData]="this.phaseProvider.current"
-        [answearType]="this.phaseProvider.current.type">
-      </app-quiz-answear-type>
-      <app-quiz-answers [answersBoxData]="this.phaseProvider.current"
-      [answerType]="this.phaseProvider.current.type"></app-quiz-answers>
+      <!-- <app-quiz-answear-type
+        (onSubmit)="this.submitAnswear($event)"
+        [answearBoxData]="this.phaseProvider.current"
+        [answearType]="this.phaseProvider.current.type"
+      >
+      </app-quiz-answear-type> -->
+      <app-quiz-answers
+        [answersBoxData]="this.phaseProvider.current"
+        [answerType]="this.phaseProvider.current.type"
+      ></app-quiz-answers>
     </div>
   </div>
 </div>
-
 
 <!-- <app-phase-layout (onSubmit)="this.submitAnswear($event)" [openQuestion]="this.phaseProvider.title"
       [phaseQuestions]='this.phaseProvider.current'>

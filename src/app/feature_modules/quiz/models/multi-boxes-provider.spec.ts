@@ -1,5 +1,5 @@
-import { Box, MultipleChoices, Phase, ShortAnswer } from './interfaces.new'
-import { BoxType } from './enums.new'
+import { Box, MultipleChoices, Phase, ShortAnswer } from './interfaces'
+import { BoxType } from './enums'
 import { MultiBoxesProvider } from './multi_boxes_provider.class'
 
 const boxes: Box[] = [

@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { PhaseIndicatorComponent } from './components/phase/phase-indicator/phase-indicator.component'
 import { QuizHeaderComponent } from './components/quiz-header/quiz-header.component'
+import { KatexModule } from 'ng-katex'
 import { QuizAppComponent } from './containers/quiz-app/quiz-app.component'
-import {
-  QUIZ_STATE,
-  QuizHandler,
-  QuizStorage,
-} from './services/quiz-provider.service'
 import { AnswerCardComponent } from './containers/answer-card.component'
 import { QuizShowcaseComponent } from './components/quiz-showcase.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -19,14 +15,25 @@ import { AnswearTypeComponent } from './components/answers-type/answer-type.comp
 import { QuizMainQuestionComponent } from './containers/quiz-main-question/quiz-main-question.component'
 import { QuizWikiComponent } from './components/quiz-wiki/quiz-wiki.component'
 import { SharedModule } from 'src/app/shared'
+import { HttpClientModule } from '@angular/common/http'
 import { QuizAnswersComponent } from './components/quiz-answers/quiz-answers.component'
 import { MultichoicesTypeComponent } from './components/quiz-answers/multichoices-type/multichoices-type.component'
 import { InputTypeComponent } from './components/quiz-answers/input-type/input-type.component'
 import { CheckAnswerTypeComponent } from './components/quiz-answers/check-answer-type/check-answer-type.component'
-import { AnswerPharseHeaderComponent } from './components/quiz-answers/answer-pharse-header/answer-pharse-header.component'
+import {
+  AnswerPhaseHeaderComponent,
+  QuestionIndicatorComponent,
+} from './components/quiz-answers/answer-phase-header.component'
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    KatexModule,
+    SharedModule,
+    HttpClientModule,
+  ],
   exports: [QuizAppComponent],
   declarations: [
     // Containers
@@ -48,10 +55,8 @@ import { AnswerPharseHeaderComponent } from './components/quiz-answers/answer-ph
     MultichoicesTypeComponent,
     InputTypeComponent,
     CheckAnswerTypeComponent,
-    AnswerPharseHeaderComponent
-
-    // Attribute Directives
+    AnswerPhaseHeaderComponent,
+    QuestionIndicatorComponent,
   ],
-  providers: [QuizStorage],
 })
 export class QuizModule {}

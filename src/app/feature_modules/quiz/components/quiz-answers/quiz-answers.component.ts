@@ -7,11 +7,15 @@ import {
   MultipleChoicesProvider,
   ShortAnswerProvider,
 } from '../../models'
+
 @Component({
   selector: 'app-quiz-answers',
   template: `
-    <div class="m-4">
-      <app-answer-pharse-header></app-answer-pharse-header>
+    <div>
+      <app-answer-phase-header
+        *ngIf="!isMainQuestion"
+      ></app-answer-phase-header>
+
       <ng-template
         #inputHeader
         *ngIf="
@@ -19,13 +23,23 @@ import {
           else multichoicesHeader
         "
       >
-        <p class="font-sans text-gray-900 flex justify-start text-2xl font-semibold">Hãy nhập đáp án đúng</p>
+        <p
+          class="font-sans text-gray-900 flex justify-start text-base font-semibold"
+        >
+          Hãy nhập đáp án đúng
+        </p>
       </ng-template>
+
       <ng-template #multichoicesHeader>
-        <p class="font-sans text-gray-900 flex justify-start text-2xl font-semibold">Hãy chọn đáp án đúng</p>
+        <p
+          class="font-sans text-gray-900 flex justify-start text-base font-semibold"
+        >
+          Hãy chọn đáp án đúng
+        </p>
       </ng-template>
     </div>
-    <div class="">
+
+    <div>
       <!-- <ng-template
         #inputView
         *ngIf="
@@ -42,21 +56,30 @@ import {
         ></app-multichoices-answer>
       </ng-template>
     </div>
-    <div class="flex flex-col justify-center items-center">
-      <g-button [options]="{ type: 0, title: 'Kiểm tra' }"></g-button>
-      <g-button [options]="{ type: 1, title: 'Trợ giúp' }"></g-button>
+
+    <div class="flex flex-col w-full">
+      <g-button
+        class="flex-grow w-full pb-2"
+        [options]="{ type: 0, title: 'Kiểm tra' }"
+      ></g-button>
+      <g-button
+        class="flex-grow w-full"
+        [options]="{ type: 1, title: isMainQuestion ? 'Trợ giúp' : 'Gợi ý' }"
+      ></g-button>
     </div>
   `,
 })
-export class QuizAnswersComponent implements OnInit {
+export class QuizAnswersComponent {
+  @Input()
+  isMainQuestion: boolean
+
   @Input() answerType: BoxType
 
   @Input() answersBoxData: MultipleChoicesProvider | ShortAnswerProvider
+
   inputAnswers: string | number | number[]
 
   public QuestionAnswerType: typeof BoxType = BoxType
-
-  ngOnInit(): void {}
 
   praseMultipleChoicesProvider() {
     return this.answersBoxData as MultipleChoicesProvider
