@@ -22,6 +22,8 @@ import {
 } from './containers/practice.component'
 import { CoursesComponent, TodayComponent } from './containers/today.component'
 import { FormsModule } from '@angular/forms'
+import { SearchbarComponent } from './components/searchbar.component'
+import { SearchComponent } from './containers/search.component'
 
 const routes: Routes = [
   {
@@ -70,7 +72,13 @@ const routes: Routes = [
 export class ChapterRoutingModule {}
 
 @NgModule({
-  imports: [CommonModule, SharedModule, QuizModule, ChapterRoutingModule, FormsModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    QuizModule,
+    ChapterRoutingModule,
+    FormsModule,
+  ],
   exports: [ChapterComponent],
   declarations: [
     ListComponent,
@@ -87,6 +95,8 @@ export class ChapterRoutingModule {}
     ChapterDisplayComponent,
     SearchIconComponent,
     CrossIconComponent,
+    SearchbarComponent,
+    SearchComponent,
   ],
 })
 export class ChapterModule {}

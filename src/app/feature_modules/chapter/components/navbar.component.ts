@@ -1,6 +1,7 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { NavigationStart, Router } from '@angular/router'
 import { filter } from 'rxjs/operators'
+import { SearchService } from '../services'
 
 interface NavigationControl {
   name: string
@@ -19,32 +20,43 @@ const navigations: NavigationControl[] = [
     <nav
       class="h-16 px-4 items-center flex flex-row justify-between flex-wrap lg:px-0"
     >
-      <div class="flex items-center flex-shrink-0 mr-6 cursor-pointer">
-        <svg
-          class="fill-current h-8 w-8 mr-2"
-          width="54"
-          height="54"
-          viewBox="0 0 54 54"
-          xmlns="http://www.w3.org/2000/svg"
+      <div class="flex flex-col h-full px-4 justify-center cursor-pointer">
+        <div
+          class="flex flex-row items-center justify-center h-full w-full flex-grow"
         >
-          <path
-            d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"
-          />
-        </svg>
-        <span class="font-semibold text-lg tracking-tight lg:text-xl"
-          >Gluon</span
-        >
+          <svg
+            class="fill-current h-8 w-8 mr-2"
+            width="54"
+            height="54"
+            viewBox="0 0 54 54"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"
+            />
+          </svg>
+
+          <span class="text-lg lg:text-xl">
+            <span class="font-normal">Analytical</span>
+            <span class="font-light">Physika</span>
+          </span>
+        </div>
+
+        <span class="flex-initial h-1"></span>
       </div>
 
       <ul
-        class="flex-grow text-md flex space-x-3 h-full justify-center lg:justify-start lg:text-lg"
+        class="flex-grow flex space-x-3 h-full justify-center lg:justify-start"
       >
         <li
           *ngFor="let nav of controls; let i = index"
           [routerLink]="nav.url"
-          class="group flex flex-col justify-between h-full cursor-pointer font-semibold focus:outline-none"
+          class="group flex flex-col justify-between h-full cursor-pointer focus:outline-none"
         >
-          <div class="flex-initial h-full flex flex-col px-4 justify-center">
+          <div
+            class="flex-initial h-full flex flex-col px-4 justify-center text-md lg:text-base"
+            [class.font-semibold]="isMatchRoute(nav.url)"
+          >
             <span>{{ nav.name }}</span>
           </div>
 
@@ -59,29 +71,14 @@ const navigations: NavigationControl[] = [
       <div
         class="flex-grow flex-shrink-0 py-3 hidden h-full md:block lg:max-w-xs"
       >
-        <div
-          class="flex flex-row group items-center h-full rounded-full border-2 border-solid border-gray-300 hover:border-gray-700"
-        >
-          <app-search-icon></app-search-icon>
-          <input
-            class="px-4 flex-grow rounded-full focus:outline-none truncate"
-            type="text"
-            placeholder="Search"
-            [(ngModel)]="searchBoxValue"
-          />
-          <app-cross-component
-            class="h-4 w-4 mr-3 flex-none fill-current text-gray-300 group-focus:text-gray-700"
-            [class.hidden]="searchBoxValue.length === 0"
-            [class.cursor-pointer]="searchBoxValue.length > 0"
-            (click)="searchBoxValue = ''"
-          ></app-cross-component>
-        </div>
+        <app-searchbar [service]="searchService"></app-searchbar>
       </div>
     </nav>
   `,
 })
 export class NavbarComponent {
-  searchBoxValue: string = ''
+  @Input()
+  searchService: SearchService
 
   controls: NavigationControl[] = navigations
 
