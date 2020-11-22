@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { Problem } from '../models/interfaces'
+import { Exercise, Problem } from '../models/interfaces'
 import { ExercisePickable } from '../services/chapter_provider.service'
 
 @Component({
@@ -12,10 +12,7 @@ import { ExercisePickable } from '../services/chapter_provider.service'
         *ngFor="let exercise of exerciseService.exercises; let i = index"
         class="px-2 box"
       >
-        <app-exercise-item
-          [name]="exercise.name"
-          (click)="handleExerciseItemClick(i)"
-        ></app-exercise-item>
+        <app-exercise-item [exercise]="exercise"></app-exercise-item>
         <app-problem-list
           [problems]="exercise.problems"
           [isActive]="exercise.isActive"
@@ -32,18 +29,16 @@ export class ExerciseCardComponent {
   onProblemPick(qid: string) {
     this.exerciseService.qid = 'GID11060001'
   }
-
-  handleExerciseItemClick(index: number) {
-    this.exerciseService.exercises[index].isActive = !this.exerciseService
-      .exercises[index].isActive
-  }
 }
 
 @Component({
   selector: 'app-exercise-item',
   template: `
-    <div class="py-4 flex justify-between cursor-pointer">
-      <span class="truncate">{{ name }}</span>
+    <div
+      class="py-4 flex justify-between cursor-pointer"
+      (click)="exercise.toggleCollapse()"
+    >
+      <span class="truncate">{{ exercise.name }}</span>
       <svg
         class="-mr-1 ml-2 h-5 w-5"
         xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +56,7 @@ export class ExerciseCardComponent {
 })
 export class ExerciseItemComponent {
   @Input()
-  name: string
+  exercise: Exercise
 }
 
 @Component({
