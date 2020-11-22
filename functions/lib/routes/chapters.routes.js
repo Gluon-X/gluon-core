@@ -46,11 +46,8 @@ class ChapterRoute {
             if (!('name ' in req.body)){
               throw new Error('Name not found')
             }
-
-
             // Not adding any question because you need to create a chapter before you can add any question
             const newChapter = {
-
               chapterId: req.body['chapterId'],
               name: req.body['name'],
               //question is contain all the
@@ -61,7 +58,6 @@ class ChapterRoute {
             }
 
             const result = await admin.firestore().collection(chapterCollection).doc().create(newChapter)
-
             res.status(200).json({
               msg: 'success'
             })
