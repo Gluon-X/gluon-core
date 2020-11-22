@@ -15,12 +15,55 @@ export interface Chapter {
   gradeId: string
 }
 
-export interface Exercise {
+export abstract class Exercise {
   name: string
 
   isActive: boolean
 
   problems: Problem[]
+
+  static builder(): ExerciseBuilder {
+    return new ExerciseBuilder()
+  }
+
+  abstract toggleCollapse()
+}
+
+class ExerciseBuilder {
+  name: string
+
+  isActive: boolean = false
+
+  problems: Problem[] = []
+
+  addProblem(problem: Problem): ExerciseBuilder {
+    this.problems.push(problem)
+    return this
+  }
+
+  setName(name: string): ExerciseBuilder {
+    this.name = name
+    return this
+  }
+
+  setActive(state: boolean): ExerciseBuilder {
+    this.isActive = state
+    return this
+  }
+
+  build(): Exercise {
+    const instance = new ConcreteExercise()
+    instance.name = this.name
+    instance.isActive = this.isActive
+    instance.problems = this.problems
+    return instance
+  }
+}
+
+class ConcreteExercise extends Exercise {
+  toggleCollapse() {
+    this.isActive = !this.isActive
+  }
 }
 
 export interface Problem {

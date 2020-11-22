@@ -64,40 +64,37 @@ export const grades: GradeNav[] = [
 ]
 
 export const sampleExercises: Exercise[] = [
-  {
-    name: 'Bài 1 - Động lực học chất điểm',
-    isActive: true,
-    problems: [
-      {
-        name: 'Problem 1 - Lorem ipsum',
-        imageURL:
-          'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
-        description: 'Lorem ipsum dolor sit amet',
-      },
-      {
-        name: 'Problem 2 - Lorem ipsum',
-        imageURL:
-          'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-torus-tore-01-512.png',
-        description: 'Lorem ipsum dolor sit amet',
-      },
-      {
-        name: 'Problem 3 - Lorem ipsum',
-        imageURL:
-          'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-mobius-strip-512.png',
-        description: 'Lorem ipsum dolor sit amet',
-      },
-    ],
-  },
-  {
-    name: 'Bài 2 - Động lực học chất điểm',
-    isActive: false,
-    problems: [
-      {
-        name: 'Problem 4 - Lorem ipsum',
-        imageURL:
-          'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
-        description: 'Lorem ipsum dolor sit amet',
-      },
-    ],
-  },
+  Exercise.builder()
+    .setName('Bài 1 - Động lực học chất điểm')
+    .setActive(true)
+    .addProblem({
+      name: 'Problem 1 - Lorem ipsum',
+      imageURL:
+        'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
+      description: 'Lorem ipsum dolor sit amet',
+    })
+    .addProblem({
+      name: 'Problem 2 - Lorem ipsum',
+      imageURL:
+        'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-torus-tore-01-512.png',
+      description: 'Lorem ipsum dolor sit amet',
+    })
+    .addProblem({
+      name: 'Problem 3 - Lorem ipsum',
+      imageURL:
+        'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-mobius-strip-512.png',
+      description: 'Lorem ipsum dolor sit amet',
+    })
+    .build(),
+
+  Exercise.builder()
+    .setName('Bài 2 - Động lực học chất điểm')
+    .setActive(false)
+    .addProblem({
+      name: 'Problem 4 - Lorem ipsum',
+      imageURL:
+        'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
+      description: 'Lorem ipsum dolor sit amet',
+    })
+    .build(),
 ]

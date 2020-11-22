@@ -8,7 +8,11 @@ import {
   ExerciseItemComponent,
   ProblemListComponent,
 } from './components/exercise-card.component'
-import { NavbarComponent } from './components/navbar.component'
+import {
+  CrossIconComponent,
+  NavbarComponent,
+  SearchIconComponent,
+} from './components/navbar.component'
 import { QuizModule } from '../quiz'
 import { RouterModule, Routes } from '@angular/router'
 import {
@@ -17,6 +21,7 @@ import {
   PracticeWelcomeComponent,
 } from './containers/practice.component'
 import { CoursesComponent, TodayComponent } from './containers/today.component'
+import { FormsModule } from '@angular/forms'
 
 const routes: Routes = [
   {
@@ -65,7 +70,7 @@ const routes: Routes = [
 export class ChapterRoutingModule {}
 
 @NgModule({
-  imports: [CommonModule, SharedModule, QuizModule, ChapterRoutingModule],
+  imports: [CommonModule, SharedModule, QuizModule, ChapterRoutingModule, FormsModule],
   exports: [ChapterComponent],
   declarations: [
     ListComponent,
@@ -80,6 +85,8 @@ export class ChapterRoutingModule {}
     CoursesComponent,
     PracticeWelcomeComponent,
     ChapterDisplayComponent,
+    SearchIconComponent,
+    CrossIconComponent,
   ],
 })
 export class ChapterModule {}
