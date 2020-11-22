@@ -1,0 +1,20 @@
+.image-container {
+    display: flex;
+    justify-content: center;
+  }
+
+.image-container .control-menu{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.image-container:hover .control-menu{
+    visibility: visible;
+}
+
+.control-menu{
+    visibility: hidden;
+}
+.imgPicture{
+    
+}

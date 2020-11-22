@@ -23,7 +23,9 @@ import { CheckAnswerTypeComponent } from './components/quiz-answers/check-answer
 import {
   AnswerPhaseHeaderComponent,
   QuestionIndicatorComponent,
-} from './components/quiz-answers/answer-phase-header.component'
+} from './components/quiz-answers/answer-phase-header.component';
+import { QuizQuestionComponent } from './components/quiz-question/quiz-question/quiz-question.component';
+import { QuizQuestionMediaComponent } from './components/quiz-question/quiz-question-media/quiz-question-media.component'
 
 @NgModule({
   imports: [
@@ -57,6 +59,8 @@ import {
     CheckAnswerTypeComponent,
     AnswerPhaseHeaderComponent,
     QuestionIndicatorComponent,
+    QuizQuestionComponent,
+    QuizQuestionMediaComponent,
   ],
 })
 export class QuizModule {}

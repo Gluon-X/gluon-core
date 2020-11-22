@@ -116,6 +116,14 @@ export class AnswearTypeComponent implements OnInit {
   }
 
   submitAnswear() {
+    if (this.answearType == this.QuestionAnswearType.SHORT_ANSWER) {
+      (this.answearBoxData as ShortAnswerProvider).submit((String)(this.inputAnswear))
+    } else {
+      (this.answearBoxData as MultipleChoicesProvider).submit((this.inputAnswear as number))
+
+    }
+    console.log(this.answearBoxData.isCorrect)
+
     this.onSubmit.emit(this.inputAnswear)
   }
 }

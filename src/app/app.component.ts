@@ -11,17 +11,17 @@ export class AppComponent {
     router: string
     title: string
   }> = [
-    {
-      router: '/daily-problem',
-      title: 'Today',
-    },
-    {
-      router: '/courses',
-      title: 'Courses',
-    },
-    {
-      router: '/practice',
-      title: 'Practice',
-    },
-  ]
+      {
+        router: '/daily-problem',
+        title: 'Today',
+      },
+      {
+        router: '/courses',
+        title: 'Courses',
+      },
+      {
+        router: '/practice',
+        title: 'Practice',
+      },
+    ]
 }
