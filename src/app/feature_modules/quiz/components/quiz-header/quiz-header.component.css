@@ -6,3 +6,7 @@
     margin-right: auto;
     display: block;
 } */
+
+.logo-img path {
+    fill: #F9F9F9;
+  }
