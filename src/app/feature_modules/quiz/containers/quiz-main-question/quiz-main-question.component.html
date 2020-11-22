@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-<div class="border-gray-300" [class.isEnableHelp]="this.isEnableHelp">
-    <app-quiz-header
-        [chapter_img]="'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-torus-tore-01-512.png'"
-        [go_back_chapter]="'Ánh Sáng'" [quiz_title]="quizTitle"></app-quiz-header>
-    <div class="question-container flex flex-row justify-between" style="min-height: 50vh">
-        <div style="min-width: 10%" class="hover:bg-blue-700 duration-200">
-            <!-- Will be wiki ui -->
-        </div>
-        <div class="question-content left-area border-gray-300"
-            style="padding: 3rem;min-width: 60%;border-right: 2px;border-style: inset;">
-            <!-- <h3>TODO IMPLEMT DIF kind of answear type</h3> -->
-            <div style="overflow-wrap: break-word" class="duration-700 text-lg transition: all .15s ease">
-                {{ mainQuestionProvider.content }}
-            </div>
-            <div class="w-full flex flex-row justify-center">
-                <img style="width: 60%" src="../../../../../assets/images/dev/exercises-11-6-1-center.png" alt=""
-                    srcset="" />
-            </div>
-        </div>
-=======
 <!-- <div class="border-gray-300" [class.isEnableHelp]="this.isEnableHelp">
   <app-quiz-header
     [chapter_img]="'../../assets/images/dev/quiz-nav-img.png'"
@@ -58,7 +37,6 @@
         />
       </div>
     </div>
->>>>>>> c995706ac74d7cd7acde344bdf2648ae36d64e08
 
     <div class="answer-box right-area" style="min-width: 30%">
       <app-quiz-answear-type
@@ -73,35 +51,24 @@
   </div>
 </div> -->
 
-<div
-  class="grid grid-cols-12 shadow-md rounded border-gray-200 border-2 border-solid"
->
-  <div
-    *ngIf="isMainQuestion"
-    class="h-20 col-start-1 col-end-13 bg-blue-200 flex flex-col justify-center rounded-t"
-  >
-    <span class="text-center">@Duy Béo</span>
-    <button type="button" (click)="return.emit()">Back</button>
+<div class="grid grid-cols-12 shadow-md rounded border-gray-200 border-2 border-solid">
+  <div *ngIf="isMainQuestion" class="h-20 col-start-1 col-end-13 rounded-t border-b-2">
+    <app-quiz-header [quiz_title]="'Giao động điều hoà'" [go_back_chapter]="'Sóng âm'"
+      [chapter_img]="'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png'">
+    </app-quiz-header>
   </div>
-  <div
-    class="col-start- flex flex-col justify-around"
-    [class.rounded-t]="!isMainQuestion"
-  >
+  <div class="col-start- flex flex-col justify-around" [class.rounded-t]="!isMainQuestion">
     <span class="text-center">A</span>
     <span class="text-center">B</span>
     <span class="text-center">C</span>
   </div>
-  <div
-    class="col-start-2 col-end-10 border-l-2 border-l-solid border-l-gray-300 flex flex-col justify-center"
-  >
-    <span class="text-center">@Duy Béo</span>
+  <div class="col-start-2 col-end-10 border-l-2 border-l-solid border-l-gray-300 flex flex-col justify-start p-6">
+    <app-quiz-question></app-quiz-question>
   </div>
   <div class="col-span-3 p-4 border-l-2 border-l-solid border-l-gray-300">
     <app-quiz-answers [isMainQuestion]="isMainQuestion"></app-quiz-answers>
   </div>
-  <div
-    class="h-20 col-start-1 col-end-13 p-4 border-t-2 border-t-solid border-t-gray-300"
-  >
+  <div class="h-20 col-start-1 col-end-13 p-4 border-t-2 border-t-solid border-t-gray-300">
     Explanation
   </div>
 </div>
