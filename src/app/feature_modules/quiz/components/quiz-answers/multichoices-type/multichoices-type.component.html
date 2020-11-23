@@ -1,8 +1,8 @@
-<div class="container" *ngIf="this.listOfQuestions != undefined">
+<div class="container" *ngIf="this.multipleChoices != undefined">
   <div class="m-4">
-    <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm">
-      <div *ngFor="let question of this.listOfQuestions; let i = index" class="mt-2">
-        <label class="inline-flex items-center">
+    <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm" (select)="this.saveAnswear($event)">
+      <div *ngFor="let question of this.multipleChoices.choices; let i = index" class="mt-2">
+        <label class="inline-flex items-center" (click)="this.saveAnswear(i)">
           <input type="radio" class="form-radio text-gray-900" name="radio" [value]="question.content" />
           <span class="ml-2 font-sans font-normal text-gray-900">{{ question.content }}</span>
         </label>
@@ -10,6 +10,8 @@
     </form>
   </div>
   <div class="m-4">
-    <app-check-answer></app-check-answer>
+    <app-check-answer *ngIf="this.multipleChoices.isCorrect != undefined"
+      [answearExplaination]='this.multipleChoices.explanation' [checkAnswer]='this.multipleChoices.isCorrect'>
+    </app-check-answer>
   </div>
 </div>
