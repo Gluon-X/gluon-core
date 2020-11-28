@@ -24,7 +24,7 @@ export class ChaptersHandler implements ExercisePickable {
   public qid?: string
 
   // TODO load & parse exercises data here
-  private _exercises: Exercise[] = sampleExercises
+  private _exercises?: Exercise[]
 
   get exercises(): Exercise[] {
     return this._exercises
@@ -50,6 +50,9 @@ export class ChaptersHandler implements ExercisePickable {
 
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
+    this._exercises = undefined
+    setTimeout(() => (this._exercises = sampleExercises), 1500)
+
     if (this._cid === value) {
       return
     }
@@ -100,14 +103,14 @@ export class ChaptersHandler implements ExercisePickable {
     return this._relatedResources
   }
 
-  get path(){
+  get path() {
     return this._path
   }
 
   // Parsing the http request to properties of Chapter
   private parse(chapter: Chapter) {
-    console.log("Parsing works!")
-    const path = chapter.name + "/" + chapter.gradeId
+    console.log('Parsing works!')
+    const path = chapter.name + '/' + chapter.gradeId
     this._name = chapter.name
     this._description = chapter.description
     this._thumbnailURL = chapter.thumbnailURL

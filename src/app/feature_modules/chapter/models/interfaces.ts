@@ -87,5 +87,7 @@ export interface GradeNav {
 export interface ChapterNav {
   name: string
 
+  description?: string
+
   isActive?: boolean
 }

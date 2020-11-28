@@ -8,17 +8,11 @@ import {
   ViewChild,
 } from '@angular/core'
 import { QuizPlayable } from '../../models'
-import { QuizHandler, QUIZ_STATE } from '../../services'
+import { QUIZ_STATE } from '../../services'
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz-app.component.html',
-  providers: [
-    {
-      provide: QUIZ_STATE,
-      useClass: QuizHandler,
-    },
-  ],
 })
 export class QuizAppComponent {
   // answearType: QuestionType

@@ -15,6 +15,10 @@ export const chapterFakeData: Chapter = {
   relatedResources: [],
 }
 
+const dummyText = `For years parents have espoused the health benefits of eating \
+garlic bread with cheese to their children, with the food earning such an iconic \
+status in our culture that kids will often dress up as warm, cheesy loaf for Halloween.`
+
 export const grades: GradeNav[] = [
   {
     name: 'Lớp Mười',
@@ -22,12 +26,15 @@ export const grades: GradeNav[] = [
     chapters: [
       {
         name: 'Chương 1 - Động lực học chất điểm',
+        description: dummyText,
       },
       {
         name: 'Chương 2 - Sóng âm',
+        description: dummyText,
       },
       {
         name: 'Chương 3 - Sóng điện từ',
+        description: dummyText,
       },
     ],
   },
@@ -37,12 +44,15 @@ export const grades: GradeNav[] = [
     chapters: [
       {
         name: 'Chương 1 - Lorem ipsum',
+        description: '',
       },
       {
         name: 'Chương 2 - Sóng âm',
+        description: dummyText,
       },
       {
         name: 'Chương 3 - Sóng điện từ',
+        description: dummyText,
       },
     ],
   },
@@ -72,7 +82,8 @@ export const sampleExercises: Exercise[] = [
       name: 'Problem 1 - Lorem ipsum',
       imageURL:
         'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
-      description: 'Lorem ipsum dolor sit amet',
+      description:
+        'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet overflow-hidden overflow-hidden overflow-hidden',
     })
     .addProblem({
       pid: 'GID11060001',

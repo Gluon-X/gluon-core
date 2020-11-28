@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { filter, switchMap } from 'rxjs/operators'
-import { isNotUndefined } from 'src/app/shared'
+import { isUndefined } from 'src/app/shared'
+import { QuizPlayable, QuizState } from '../../quiz/models'
+import { QUIZ_STATE } from '../../quiz/services'
 import { grades } from '../models/dummy_data'
-import { GradeNav } from '../models/interfaces'
+import { ChapterNav, Exercise, GradeNav } from '../models/interfaces'
 import { ChaptersHandler } from '../services'
-import { ExercisePickable } from '../services/chapter_provider.service'
 
 @Component({
   template: `
@@ -40,11 +41,11 @@ import { ExercisePickable } from '../services/chapter_provider.service'
 })
 export class PracticeComponent implements OnInit, OnDestroy {
   get isQuizReady(): boolean {
-    return isNotUndefined(this._chapterProvider.qid)
+    return this.quizService.state === QuizState.READY
   }
 
   get qid(): string {
-    return this._chapterProvider.qid
+    return this.quizService.qid
   }
 
   get gradesNav(): GradeNav[] {
@@ -66,7 +67,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
   private _routerEventSubcription: Subscription
 
   constructor(
-    private _chapterProvider: ChaptersHandler,
+    @Inject(QUIZ_STATE) public quizService: QuizPlayable,
     private _activeRoute: ActivatedRoute,
     private _router: Router
   ) {}
@@ -111,7 +112,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
   }
 
   onReturn() {
-    this._chapterProvider.qid = undefined
+    this.quizService.qid = undefined
   }
 }
 
@@ -129,41 +130,59 @@ export class PracticeWelcomeComponent {}
 @Component({
   template: `
     <article class="subpixel-antialiased">
-      <h1 class="font-bold font-serif text-2xl md:text-4xl">
-        Chương {{ cid }}: {{ name }}
+      <h1 class="font-bold font-serif text-2xl pb-6 md:text-4xl">
+        {{ name }}
       </h1>
 
-      <p class="text-base font-normal text-justify py-6">
+      <p
+        *ngIf="description?.length > 0"
+        class="text-base font-normal text-justify pb-6"
+      >
         {{ description }}
       </p>
     </article>
 
-    <app-exercise-list [exerciseService]="exerciseService"></app-exercise-list>
+    <app-exercise-list
+      [quizService]="quizService"
+      [exercises]="exercises"
+      [isFetching]="isFetching"
+    ></app-exercise-list>
   `,
 })
 export class ChapterDisplayComponent {
-  get cid(): string {
-    return this.chapterProvider.cid
+  private get _currentChapter(): ChapterNav | undefined {
+    return grades[this._gid]?.chapters[this._cid]
   }
 
   get name(): string {
-    return this.chapterProvider.name
+    return this._currentChapter?.name
   }
 
   get description(): string {
-    return this.chapterProvider.description
+    return this._currentChapter?.description
   }
 
-  get exerciseService(): ExercisePickable {
-    return this.chapterProvider
+  get exercises(): Exercise[] | undefined {
+    return this.chapterProvider.exercises
   }
+
+  get isFetching(): boolean {
+    return isUndefined(this.exercises)
+  }
+
+  private _cid?: number
+
+  private _gid?: number
 
   constructor(
+    @Inject(QUIZ_STATE) public quizService: QuizPlayable,
     private chapterProvider: ChaptersHandler,
     private route: ActivatedRoute
   ) {
-    this.route.params.subscribe(({ chapter }) => {
+    this.route.params.subscribe(({ grade, chapter }) => {
       chapterProvider.cid = `${chapter}`
+      this._gid = parseInt(grade)
+      this._cid = parseInt(chapter)
     })
   }
 }

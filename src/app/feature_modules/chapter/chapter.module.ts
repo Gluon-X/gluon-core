@@ -6,6 +6,7 @@ import { ListComponent, ListItemComponent } from './components/list.component'
 import {
   ExerciseCardComponent,
   ExerciseItemComponent,
+  ExerciseLoadingComponent,
   ProblemListComponent,
 } from './components/exercise-card.component'
 import {
@@ -24,6 +25,7 @@ import { CoursesComponent, TodayComponent } from './containers/today.component'
 import { FormsModule } from '@angular/forms'
 import { SearchbarComponent } from './components/searchbar.component'
 import { SearchComponent } from './containers/search.component'
+import { QUIZ_STATE, QuizHandler } from '../quiz/services'
 
 const routes: Routes = [
   {
@@ -86,6 +88,7 @@ export class ChapterRoutingModule {}
     ChapterComponent,
     ListItemComponent,
     ExerciseCardComponent,
+    ExerciseLoadingComponent,
     NavbarComponent,
     ExerciseItemComponent,
     ProblemListComponent,
@@ -98,6 +101,12 @@ export class ChapterRoutingModule {}
     CrossIconComponent,
     SearchbarComponent,
     SearchComponent,
+  ],
+  providers: [
+    {
+      provide: QUIZ_STATE,
+      useClass: QuizHandler,
+    },
   ],
 })
 export class ChapterModule {}
