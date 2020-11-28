@@ -13,11 +13,11 @@ import { ExercisePickable } from '../services/chapter_provider.service'
         class="px-2 box"
       >
         <app-exercise-item [exercise]="exercise"></app-exercise-item>
-        <app-problem-list
+        <app-problems-list
           [problems]="exercise.problems"
           [isActive]="exercise.isActive"
           (pick)="onProblemPick($event)"
-        ></app-problem-list>
+        ></app-problems-list>
       </div>
     </div>
   `,
@@ -60,37 +60,37 @@ export class ExerciseItemComponent {
 }
 
 @Component({
-  selector: 'app-problem-list',
+  selector: 'app-problems-list',
   template: `
     <div
-      class="box transform transition-height duration-200"
+      class="grid grid-cols-1 gap-x-6 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 transform transition-height duration-200"
       [ngClass]="{
         'h-0 overflow-hidden scale-0': !isActive,
         'scale-100': isActive
       }"
     >
-      <div *ngFor="let problem of problems; let i = index" class="flex p-2">
+      <div *ngFor="let problem of problems; let i = index" class="flex flex-row items-center pb-2">
         <img
           [src]="problem.imageURL"
           [alt]="problem.imageURL"
           class="w-12 h-12"
         />
         <div
-          class="flex-auto flex justify-between mx-4"
+          class="flex-auto flex flex-row sm:flex-col md:flex-row lg:flex-col xl:flex-row justify-between ml-4 pb-2"
           [ngClass]="{
             'border-b-2 border-b-solid border-b-gray-300':
               i !== problems.length - 1
           }"
         >
-          <div>
+          <div class="pb-0 sm:pb-2 md:pb-0 lg:pb-2 xl:pb-0">
             <h4 class="truncate font-semibold text-base">{{ problem.name }}</h4>
-            <p *ngIf="problem.description" class="break-words text-sm py-1">
+            <p *ngIf="problem.description" class="break-words text-sm">
               {{ problem.description }}
             </p>
           </div>
 
           <button
-            class="my-auto rounded-full py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700"
+            class="my-auto rounded-full py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700 sm:rounded md:rounded-full lg:rounded xl:rounded-full"
             (click)="onProblemPick(problem.pid)"
           >
             Bắt đầu
