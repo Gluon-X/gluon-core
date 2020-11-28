@@ -4,6 +4,8 @@ exports.appRoutes = void 0;
 const express_1 = require("express");
 const questions_routes_1 = require("./questions.routes");
 const chapters_routes_1 = require("./chapters.routes");
+const general_routes_1 = require("./general.routes");
+const exercise_routes = require("./exercises.routes");
 //  Need to import model of the question
 //
 class AppRoutes {
@@ -15,6 +17,8 @@ class AppRoutes {
         console.log("API Work")
         this.routes.use('/', questions_routes_1.questionRoutes);
         this.routes.use('/', chapters_routes_1.chapterRoutes);
+        this.routes.use('/', general_routes_1.generalRoutes);
+        this.routes.use('/', exercise_routes.exerciseRoutes);
     }
 }
 

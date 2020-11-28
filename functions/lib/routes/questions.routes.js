@@ -11,7 +11,7 @@ class QuestionRoute {
     }
     // Route for question
       questionRoute() {
-        console.log("[*] Questions Route works")
+        console.log("[*] Questions Route works!")
         const questionsCollection = "Questions"
         //GET specific question base on id
         this.routes.get('/questions/:questionId', async (req, res) => {
@@ -25,10 +25,6 @@ class QuestionRoute {
                 question.docs.forEach(doc=>{
                   result.push(doc.data())
                 })
-
-                if (result.exists) {
-                    throw new Error("Question not found");
-                }
 
                 res.status(200).json({
                     data: result
@@ -63,7 +59,11 @@ class QuestionRoute {
                 });
             }
             catch (err) {
-                res.status(500).send(err);
+              // Should return something meaningful ?
+                console.log(err)
+                res.status(500).jons({
+                  Error: "Little Lamb"
+                })
             }
         });
 
@@ -122,7 +122,11 @@ class QuestionRoute {
                   followUp: req.body['followUP']
                 }
 
-                const questionUpdated = await admin.firestore().collection(questionsCollection).doc(questionId).update(questionUpdateInformation)
+
+                // Update the question information
+                const questionRef  = await admin.firestore().collection(questionCollection).doc(questionId)
+                const questionUpdated = questionRef.update(questionUpdateInformation)
+
                 res.status(201).json({
                   msg: 'success'
                 })

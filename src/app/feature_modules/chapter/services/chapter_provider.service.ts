@@ -46,6 +46,8 @@ export class ChaptersHandler implements ExercisePickable {
 
   private _gradeId?: string
 
+  private _path: string
+
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
     if (this._cid === value) {
@@ -98,13 +100,25 @@ export class ChaptersHandler implements ExercisePickable {
     return this._relatedResources
   }
 
+  get path(){
+    return this._path
+  }
+
   // Parsing the http request to properties of Chapter
   private parse(chapter: Chapter) {
+    console.log("Parsing works!")
+    const path = chapter.name + "/" + chapter.gradeId
     this._name = chapter.name
     this._description = chapter.description
     this._thumbnailURL = chapter.thumbnailURL
     this._relatedResources = chapter.relatedResources
     this._questions = chapter.questions
     this._gradeId = chapter.gradeId
+
+    // Parsing path for Minh
+    // The path is "lop1"+"/"+"chuong1" lop1/chuong1
+    // Path for angular routing
+
+    this._path = path
   }
 }
