@@ -67,6 +67,8 @@ class ConcreteExercise extends Exercise {
 }
 
 export interface Problem {
+  pid: string
+
   name: string
 
   imageURL: string

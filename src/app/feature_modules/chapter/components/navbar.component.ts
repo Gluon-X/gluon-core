@@ -36,7 +36,7 @@ const navigations: NavigationControl[] = [
             />
           </svg>
 
-          <span class="text-lg lg:text-xl">
+          <span class="hidden text-xl md:block">
             <span class="font-normal">Analytical</span>
             <span class="font-light">Physika</span>
           </span>

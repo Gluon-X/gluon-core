@@ -49,13 +49,14 @@ const routes: Routes = [
         path: ':grade/:chapter',
         component: ChapterDisplayComponent,
       },
-      {
-        path: '',
-        component: PracticeWelcomeComponent,
-      },
+      // {
+      //   path: '',
+      //   component: PracticeWelcomeComponent,
+      //   redirectTo: '0/0',
+      // },
       {
         path: '**',
-        redirectTo: '',
+        redirectTo: '0/0',
       },
     ],
   },

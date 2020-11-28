@@ -46,8 +46,6 @@ export class ChaptersHandler implements ExercisePickable {
 
   private _gradeId?: string
 
-  // SETTER
-
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
     if (this._cid === value) {

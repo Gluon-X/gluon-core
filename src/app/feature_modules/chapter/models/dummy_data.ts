@@ -68,18 +68,21 @@ export const sampleExercises: Exercise[] = [
     .setName('Bài 1 - Động lực học chất điểm')
     .setActive(true)
     .addProblem({
+      pid: 'GID11060001',
       name: 'Problem 1 - Lorem ipsum',
       imageURL:
         'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',
       description: 'Lorem ipsum dolor sit amet',
     })
     .addProblem({
+      pid: 'GID11060001',
       name: 'Problem 2 - Lorem ipsum',
       imageURL:
         'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-torus-tore-01-512.png',
       description: 'Lorem ipsum dolor sit amet',
     })
     .addProblem({
+      pid: 'GID11060001',
       name: 'Problem 3 - Lorem ipsum',
       imageURL:
         'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-mobius-strip-512.png',
@@ -91,6 +94,7 @@ export const sampleExercises: Exercise[] = [
     .setName('Bài 2 - Động lực học chất điểm')
     .setActive(false)
     .addProblem({
+      pid: 'GID11060001',
       name: 'Problem 4 - Lorem ipsum',
       imageURL:
         'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png',

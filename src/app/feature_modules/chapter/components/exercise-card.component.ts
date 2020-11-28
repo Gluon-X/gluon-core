@@ -27,7 +27,7 @@ export class ExerciseCardComponent {
   exerciseService: ExercisePickable
 
   onProblemPick(qid: string) {
-    this.exerciseService.qid = 'GID11060001'
+    this.exerciseService.qid = qid
   }
 }
 
@@ -91,7 +91,7 @@ export class ExerciseItemComponent {
 
           <button
             class="my-auto rounded-full py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700"
-            (click)="onProblemPick(i)"
+            (click)="onProblemPick(problem.pid)"
           >
             Bắt đầu
           </button>
@@ -110,7 +110,7 @@ export class ProblemListComponent {
   @Output()
   pick = new EventEmitter<string>()
 
-  onProblemPick(pid: number) {
-    this.pick.emit(`${pid}`)
+  onProblemPick(pid: string) {
+    this.pick.emit(pid)
   }
 }

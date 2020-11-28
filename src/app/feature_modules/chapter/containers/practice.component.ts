@@ -1,5 +1,7 @@
-import { Component } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
+import { filter, switchMap } from 'rxjs/operators'
 import { isNotUndefined } from 'src/app/shared'
 import { grades } from '../models/dummy_data'
 import { GradeNav } from '../models/interfaces'
@@ -36,44 +38,80 @@ import { ExercisePickable } from '../services/chapter_provider.service'
   `,
   providers: [ChaptersHandler],
 })
-export class PracticeComponent {
+export class PracticeComponent implements OnInit, OnDestroy {
   get isQuizReady(): boolean {
-    return isNotUndefined(this.chapterProvider.qid)
+    return isNotUndefined(this._chapterProvider.qid)
   }
 
   get qid(): string {
-    return this.chapterProvider.qid
+    return this._chapterProvider.qid
   }
 
   get gradesNav(): GradeNav[] {
     let navControls = grades
 
     for (let g = 0; g < navControls.length; g++) {
-      for (let c = 0; c < navControls[g].chapters.length; c++)
+      for (let c = 0; c < navControls[g].chapters.length; c++) {
         navControls[g].chapters[c].isActive =
-          g == this.grade && c == this.chapter
+          g == this._grade && c == this._chapter
+      }
     }
     return navControls
   }
 
-  private chapter?: number
+  private _chapter?: number
 
-  private grade?: number
+  private _grade?: number
+
+  private _routerEventSubcription: Subscription
 
   constructor(
-    private chapterProvider: ChaptersHandler,
-    private route: ActivatedRoute
-  ) {
-    this.route.firstChild.params.subscribe(({ chapter, grade }) => {
-      // TODO index route return undefined
-      // console.log(`Route change grade: ${grade} | Chapter: ${chapter}`)
-      this.chapter = chapter
-      this.grade = grade
-    })
+    private _chapterProvider: ChaptersHandler,
+    private _activeRoute: ActivatedRoute,
+    private _router: Router
+  ) {}
+
+  ngOnDestroy() {
+    this._routerEventSubcription?.unsubscribe()
+  }
+
+  ngOnInit() {
+    // Collect `chapter` & `grade` params at first render,
+    // since ActivatedRoute event listener does not
+    // pass NavigationEnd event instance at first render.
+    let subscription: Subscription
+    subscription = this._activeRoute.firstChild.params.subscribe(
+      ({ chapter, grade }) => {
+        subscription?.unsubscribe()
+        this._chapter = parseInt(chapter)
+        this._grade = parseInt(grade)
+      }
+    )
+
+    // Listen to NavigationEnd events to update Chapter navigation panel
+    // whenever child route changes.
+    // Cannot subscribe to `firstChild.params`because it does not emit event in this scenario:
+    // - Navigate to other tab from the top nav (`Today`) -> OnDestroy invokes
+    // - Navigate back to `Practice` tab -> OnInit invokes
+    // - Pick a chapter -> `firstChild.params` subscriber invokes at first, but then stop immediatly.
+    // => Still no idea why?
+    // Reference of this solution: https://github.com/angular/angular/issues/11692
+    this._routerEventSubcription = this._router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        switchMap(
+          () =>
+            this._activeRoute.firstChild && this._activeRoute.firstChild.params
+        )
+      )
+      .subscribe(({ chapter, grade }) => {
+        this._chapter = parseInt(chapter)
+        this._grade = parseInt(grade)
+      })
   }
 
   onReturn() {
-    this.chapterProvider.qid = undefined
+    this._chapterProvider.qid = undefined
   }
 }
 
