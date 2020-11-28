@@ -53,7 +53,7 @@ import {
         ></app-multichoices-answer>
       </div>
     </div>
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full mt-3">
       <g-button *ngIf="this.question.type == QuestionAnswerType.DISPLAY;else normalButtonRender"
       (click)='this.gotoNextAvaibleQuestion()'
         class="flex-grow w-full pb-2"
@@ -91,6 +91,7 @@ import {
       ></g-button> -->
 
       <g-button
+        (click)="onQuizHelp()"
         class="flex-grow w-full"
         [options]="{ type: 1, title: isMainQuestion ? 'Trợ giúp' : 'Gợi ý' }"
       ></g-button>
@@ -98,6 +99,7 @@ import {
   `,
 })
 export class QuizAnswersComponent implements OnInit {
+
   @Input()
   isMainQuestion: boolean
 
@@ -105,6 +107,9 @@ export class QuizAnswersComponent implements OnInit {
 
   @Output()
   onSubmission: EventEmitter<PossibleInputAnswer> = new EventEmitter
+
+  @Output()
+  onHelp: EventEmitter<boolean> = new EventEmitter
 
   @Input()
   question: Box
@@ -115,6 +120,13 @@ export class QuizAnswersComponent implements OnInit {
   ngOnInit() {
     console.log(this.phaseProvider)
     // console.log(this.question);
+  }
+  toggleQuizHelpFlag = false;
+  onQuizHelp() {
+    if (this.isMainQuestion) {
+      this.toggleQuizHelpFlag != this.toggleQuizHelpFlag;
+      this.onHelp.emit(this.toggleQuizHelpFlag)
+    }
   }
 
   choosenAnswear: PossibleInputAnswer;
