@@ -15,6 +15,7 @@ export const realDummyData = {
       của nón sáng này.`,
       answer: 97.5,
       approx: 0.5,
+      imageURL: "../../../../assets/images/dev/exercises-11-6-1-center.png",
       type: BoxType.SHORT_ANSWER
     } as ShortAnswer,
 
