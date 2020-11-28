@@ -18,6 +18,9 @@ export class QuizMainQuestionComponent {
   @Output()
   return = new EventEmitter()
 
+  @Output()
+  onHelp = new EventEmitter();
+
   @Input() quizTitle: string
 
   get instance() {

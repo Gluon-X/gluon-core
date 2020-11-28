@@ -30,13 +30,14 @@
 <div class="h-full w-full" *ngIf="service.state === 'FINISHED'">You have completed the quiz</div>
 
 <div *ngIf="service.state !== 'EMPTY' && service.state !== 'ERROR' && service.state !== 'FINISHED'">
-  <app-quiz-main-question *ngIf="service.state !== 'FOLLOW_UP'" [question]="service.mainQuestion"
-    [quizTitle]='service.title' (return)="return.emit()"></app-quiz-main-question>
+  <app-quiz-main-question (onHelp)="this.service.enableHelper()" *ngIf="service.state !== 'FOLLOW_UP'"
+    [question]="service.mainQuestion" [quizTitle]='service.title' (return)="return.emit()"></app-quiz-main-question>
   <!-- <app-quiz-main-question [question]="service.followUpProvider" *ngIf="service.state === 'FOLLOW_UP'"
     (return)="return.emit()"></app-quiz-main-question> -->
   <div class="h-4"></div>
 
-  <app-quiz-main-question [question]='this.service.helper' [isMainQuestion]="false">
+  <app-quiz-main-question *ngIf='this.service.state ==="HELP"' [question]='this.service.helper'
+    [isMainQuestion]="false">
   </app-quiz-main-question>
 </div>
 

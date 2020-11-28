@@ -66,8 +66,8 @@
     <app-quiz-question [box]="instance"></app-quiz-question>
   </div>
   <div class="col-span-3 p-4 border-l-2 border-l-solid border-l-gray-300">
-    <app-quiz-answers (onSubmission)='this.submission($event)' [question]='instance' [phaseProvider]='this.question'
-      [isMainQuestion]="isMainQuestion">
+    <app-quiz-answers (onHelp)="this.onHelp.emit()" (onSubmission)='this.submission($event)' [question]='instance'
+      [phaseProvider]='this.question' [isMainQuestion]="isMainQuestion">
     </app-quiz-answers>
   </div>
   <div *ngIf="instance.hint != undefined"
