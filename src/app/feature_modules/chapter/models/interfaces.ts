@@ -18,9 +18,9 @@ export interface Chapter {
 export abstract class Exercise {
   name: string
 
-  isActive: boolean
+  isActive?: boolean
 
-  problems: Problem[]
+  questions: Problem[]
 
   static builder(): ExerciseBuilder {
     return new ExerciseBuilder()
@@ -55,7 +55,7 @@ class ExerciseBuilder {
     const instance = new ConcreteExercise()
     instance.name = this.name
     instance.isActive = this.isActive
-    instance.problems = this.problems
+    instance.questions = this.problems
     return instance
   }
 }
@@ -67,11 +67,11 @@ class ConcreteExercise extends Exercise {
 }
 
 export interface Problem {
-  pid: string
+  qid: string
 
   name: string
 
-  imageURL: string
+  image: string
 
   description?: string
 }

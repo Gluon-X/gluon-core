@@ -28,7 +28,7 @@ import { Exercise, Problem } from '../models/interfaces'
       <div *ngFor="let exercise of exercises; let i = index" class="px-2 box">
         <app-exercise-item [exercise]="exercise"></app-exercise-item>
         <app-problems-list
-          [problems]="exercise.problems"
+          [problems]="exercise.questions"
           [isActive]="exercise.isActive"
           (pick)="onProblemPick($event)"
         ></app-problems-list>
@@ -94,8 +94,8 @@ export class ExerciseItemComponent {
         class="flex flex-row items-center pb-2"
       >
         <img
-          [src]="problem.imageURL"
-          [alt]="problem.imageURL"
+          [src]="problem.image"
+          [alt]="problem.image"
           class="w-12 h-12"
         />
         <div
@@ -119,7 +119,7 @@ export class ExerciseItemComponent {
 
           <button
             class="my-auto rounded-full flex-grow-none flex-shrink-0 py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700 sm:rounded md:rounded-full lg:rounded xl:rounded-full"
-            (click)="onProblemPick(problem.pid)"
+            (click)="onProblemPick(problem.qid)"
           >
             Bắt đầu
           </button>
@@ -138,8 +138,8 @@ export class ProblemListComponent {
   @Output()
   pick = new EventEmitter<string>()
 
-  onProblemPick(pid: string) {
-    this.pick.emit(pid)
+  onProblemPick(qid: string) {
+    this.pick.emit(qid)
   }
 }
 
