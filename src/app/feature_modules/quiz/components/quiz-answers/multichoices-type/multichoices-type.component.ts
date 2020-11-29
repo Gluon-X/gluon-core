@@ -43,4 +43,15 @@ export class MultichoicesTypeComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.listOfQuestions)
   }
+
+  isDoneCorrectAnswear(boxId: number) {
+    if (this.multipleChoices.isCompleted) {
+      if (this.multipleChoices.submission == boxId) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+
 }

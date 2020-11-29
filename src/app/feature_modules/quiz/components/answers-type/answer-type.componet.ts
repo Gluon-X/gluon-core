@@ -45,6 +45,7 @@ import {
       <ng-template #listView>
         <app-quiz-answer-type-list
           (choosenAnswear)="this.saveAnswear($event)"
+          [isDone]="this.praseMultipleChoicesProvider()"
           [listOfQuestions]="this.praseMultipleChoicesProvider().choices"
         ></app-quiz-answer-type-list>
         <div
