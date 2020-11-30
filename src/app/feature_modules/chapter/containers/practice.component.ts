@@ -2,8 +2,8 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { filter, switchMap } from 'rxjs/operators'
-import { isUndefined } from 'src/app/shared'
-import { QuizPlayable, QuizState } from '../../quiz/models'
+import { isNotUndefined, isUndefined } from 'src/app/shared'
+import { QuizPlayable } from '../../quiz/models'
 import { QUIZ_STATE } from '../../quiz/services'
 import { grades } from '../models/dummy_data'
 import { ChapterNav, Exercise, GradeNav } from '../models/interfaces'
@@ -37,11 +37,11 @@ import { ChaptersHandler } from '../services'
       (return)="onReturn()"
     ></app-quiz>
   `,
-  providers: [ChaptersHandler],
+  providers: [ChaptersHandler]
 })
 export class PracticeComponent implements OnInit, OnDestroy {
   get isQuizReady(): boolean {
-    return this.quizService.state === QuizState.READY
+    return isNotUndefined(this.quizService.qid)
   }
 
   get qid(): string {
@@ -49,7 +49,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
   }
 
   get gradesNav(): GradeNav[] {
-    let navControls = grades
+    const navControls = grades
 
     for (let g = 0; g < navControls.length; g++) {
       for (let c = 0; c < navControls[g].chapters.length; c++) {
@@ -64,16 +64,17 @@ export class PracticeComponent implements OnInit, OnDestroy {
 
   private _grade?: number
 
-  private _routerEventSubcription: Subscription
+  private _routerEventSubscription: Subscription
 
   constructor(
     @Inject(QUIZ_STATE) public quizService: QuizPlayable,
     private _activeRoute: ActivatedRoute,
     private _router: Router
-  ) {}
+  ) {
+  }
 
   ngOnDestroy() {
-    this._routerEventSubcription?.unsubscribe()
+    this._routerEventSubscription?.unsubscribe()
   }
 
   ngOnInit() {
@@ -84,7 +85,9 @@ export class PracticeComponent implements OnInit, OnDestroy {
     subscription = this._activeRoute.firstChild.params.subscribe(
       ({ chapter, grade }) => {
         subscription?.unsubscribe()
+        // tslint:disable-next-line:radix
         this._chapter = parseInt(chapter)
+        // tslint:disable-next-line:radix
         this._grade = parseInt(grade)
       }
     )
@@ -97,7 +100,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
     // - Pick a chapter -> `firstChild.params` subscriber invokes at first, but then stop immediatly.
     // => Still no idea why?
     // Reference of this solution: https://github.com/angular/angular/issues/11692
-    this._routerEventSubcription = this._router.events
+    this._routerEventSubscription = this._router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         switchMap(
@@ -106,7 +109,9 @@ export class PracticeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(({ chapter, grade }) => {
+        // tslint:disable-next-line:radix
         this._chapter = parseInt(chapter)
+        // tslint:disable-next-line:radix
         this._grade = parseInt(grade)
       })
   }
@@ -123,9 +128,10 @@ export class PracticeComponent implements OnInit, OnDestroy {
         Welcome to practice page
       </h1>
     </article>
-  `,
+  `
 })
-export class PracticeWelcomeComponent {}
+export class PracticeWelcomeComponent {
+}
 
 @Component({
   template: `
@@ -147,7 +153,7 @@ export class PracticeWelcomeComponent {}
       [exercises]="exercises"
       [isFetching]="isFetching"
     ></app-exercise-list>
-  `,
+  `
 })
 export class ChapterDisplayComponent {
   private get _currentChapter(): ChapterNav | undefined {
@@ -181,7 +187,9 @@ export class ChapterDisplayComponent {
   ) {
     this.route.params.subscribe(({ grade, chapter }) => {
       chapterProvider.cid = `${chapter}`
+      // tslint:disable-next-line:radix
       this._gid = parseInt(grade)
+      // tslint:disable-next-line:radix
       this._cid = parseInt(chapter)
     })
   }

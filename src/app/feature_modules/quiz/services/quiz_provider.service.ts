@@ -19,14 +19,14 @@ export const useServer = false
 
 @Injectable()
 export class QuizHandler implements QuizPlayable {
-  private _qid?: string = null
+  private _qid?: string
 
   set qid(value: string) {
     if (this._qid === value) return
     this.reset()
     this._qid = value
     if (isNullOrUndefined(value)) {
-      this._qid = null
+      this._qid = undefined
       return
     }
     if (useServer) this._http.get<QuizResponse>(`${environment.serverAPI}/api/v1/questions/test`)

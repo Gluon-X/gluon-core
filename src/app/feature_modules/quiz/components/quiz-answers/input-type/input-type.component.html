@@ -1,10 +1,11 @@
 <div class="py-2">
-  <input
-  [(ngModel)]="answer"
-  class="appearance-none w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring focus:bg-white"
-  id="grid-last-name"
-  type="text"
-  placeholder="Câu trả lời của bạn ⚡️"
-/>
-<app-check-answer></app-check-answer>
+  <label class="block uppercase tracking-wide text-gray-700 text-justify text-xs font-bold mb-2" for="grid-last-name">
+    Hãy điền vào câu trả lời của bạn
+  </label>
+  <input [(ngModel)]="answer" (ngModelChange)="this.onInputText()"
+    class="appearance-none w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring focus:bg-white"
+    id="grid-last-name" type="text" placeholder="Câu trả lời của bạn ⚡️" />
+  <app-check-answer *ngIf='this.question.isCorrect != undefined' [answearExplaination]='this.question.explanation'
+    [checkAnswer]='this.question.isCorrect'>
+  </app-check-answer>
 </div>

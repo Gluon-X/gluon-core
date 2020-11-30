@@ -53,22 +53,25 @@
 
 <div class="grid grid-cols-12 shadow-md rounded border-gray-200 border-2 border-solid">
   <div *ngIf="isMainQuestion" class="h-20 col-start-1 col-end-13 rounded-t border-b-2">
-    <app-quiz-header [quiz_title]="'Giao động điều hoà'" [go_back_chapter]="'Sóng âm'"
+    <app-quiz-header [quiz_title]='quizTitle' (return)="return.emit()" [quiz_title]="" [go_back_chapter]="'Sóng âm'"
       [chapter_img]="'https://cdn2.iconfinder.com/data/icons/topology-geometric-shapes-blue-line/64/143_topology-mathematics-math-impossible-figure-512.png'">
     </app-quiz-header>
   </div>
   <div class="col-start- flex flex-col justify-around" [class.rounded-t]="!isMainQuestion">
-    <span class="text-center">A</span>
+    <!-- <span class="text-center">A</span>
     <span class="text-center">B</span>
-    <span class="text-center">C</span>
+    <span class="text-center">C</span> -->
   </div>
   <div class="col-start-2 col-end-10 border-l-2 border-l-solid border-l-gray-300 flex flex-col justify-start p-6">
-    <app-quiz-question></app-quiz-question>
+    <app-quiz-question [box]="instance"></app-quiz-question>
   </div>
   <div class="col-span-3 p-4 border-l-2 border-l-solid border-l-gray-300">
-    <app-quiz-answers [isMainQuestion]="isMainQuestion"></app-quiz-answers>
+    <app-quiz-answers (onHelp)="this.onHelp.emit()" (onSubmission)='this.submission($event)' [question]='instance'
+      [phaseProvider]='this.question' [isMainQuestion]="isMainQuestion">
+    </app-quiz-answers>
   </div>
-  <div class="h-20 col-start-1 col-end-13 p-4 border-t-2 border-t-solid border-t-gray-300">
-    Explanation
+  <div *ngIf="instance.hint != undefined"
+    class="h-20 col-start-1 col-end-13 p-4 border-t-2 border-t-solid border-t-gray-300">
+    <ng-katex-paragraph [paragraph]='this.praseMulthiPhaseProvider().hint'></ng-katex-paragraph>
   </div>
 </div>
