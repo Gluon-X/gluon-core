@@ -11,12 +11,13 @@ import { GradeNav } from '../models/interfaces'
       >
         <span class="truncate text-base select-none">{{
           grade?.name || '[undefined]'
-        }}</span>
+          }}</span>
         <svg
           class="-mr-1 ml-2 h-5 w-5"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
+          [ngClass]="{ 'transform rotate-180': grade.isActive }"
         >
           <path
             fill-rule="evenodd"
@@ -42,7 +43,7 @@ import { GradeNav } from '../models/interfaces'
         ></app-list-item>
       </div>
     </div>
-  `,
+  `
 })
 export class ListComponent {
   @Input()
@@ -53,8 +54,6 @@ export class ListComponent {
 
   @Output()
   collapse = new EventEmitter()
-
-  isActive = true
 
   handleCollapseClick() {
     this.collapse.emit()
@@ -73,7 +72,7 @@ export class ListComponent {
     >
       {{ name }}
     </div>
-  `,
+  `
 })
 export class ListItemComponent {
   @Input()

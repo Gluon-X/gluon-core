@@ -93,7 +93,7 @@ export class NavbarComponent {
   }
 
   isMatchRoute(url: string): boolean {
-    let pattern = new RegExp(`${url}(/.*|)`)
+    const pattern = new RegExp(`${url}(/.*|)`)
     return pattern.test(this.currentRoute)
   }
 }

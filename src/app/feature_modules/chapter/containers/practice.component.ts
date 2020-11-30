@@ -15,7 +15,7 @@ import { ChaptersHandler } from '../services'
       *ngIf="!isQuizReady"
       class="flex flex-col px-2 divide-y-2 md:divide-y-0 md:flex-row xl:px-0"
     >
-      <div class="block pb-4 flex-1 md:flex-none md:pb-0">
+      <div class="block pb-4 flex-1 md:flex-none md:pb-0 md:w-1/3 lg:w-1/4">
         <app-list
           *ngFor="let grade of gradesNav; let i = index"
           [index]="i"
@@ -173,7 +173,7 @@ export class ChapterDisplayComponent {
   }
 
   get isFetching(): boolean {
-    return isUndefined(this.exercises)
+    return this.chapterProvider.isProcessing
   }
 
   private _cid?: number
@@ -186,11 +186,12 @@ export class ChapterDisplayComponent {
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(({ grade, chapter }) => {
-      chapterProvider.cid = `${chapter}`
       // tslint:disable-next-line:radix
       this._gid = parseInt(grade)
       // tslint:disable-next-line:radix
       this._cid = parseInt(chapter)
+
+      chapterProvider.cid = `L${this._gid + 10}C${this._cid + 1}`
     })
   }
 }

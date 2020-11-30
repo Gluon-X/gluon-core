@@ -32,7 +32,8 @@ export class ChaptersHandler implements ExercisePickable {
     return this._exercises
   }
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {
+  }
 
   private _cid?: string
 
@@ -50,9 +51,16 @@ export class ChaptersHandler implements ExercisePickable {
 
   // private _path: string
 
+  private _isProcessing = false
+
+  get isProcessing(): boolean {
+    return this._isProcessing
+  }
+
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
     this._exercises = undefined
+    this._isProcessing = true
 
     if (this._cid === value) {
       return
@@ -65,7 +73,7 @@ export class ChaptersHandler implements ExercisePickable {
           map((data) => data.data),
           map((exercise) =>
             exercise.map((v) => {
-              let builder = Exercise.builder()
+              const builder = Exercise.builder()
                 .setName(v.name)
                 .setActive(true)
 
@@ -80,7 +88,15 @@ export class ChaptersHandler implements ExercisePickable {
         .toPromise()
         .then((v) => this.parse(v))
         .catch(console.error)
-    } else setTimeout(() => (this._exercises = sampleExercises), 1500)
+        .finally(() => {
+          this._isProcessing = false
+        })
+    } else {
+      setTimeout(() => {
+        this._exercises = sampleExercises[value]
+        this._isProcessing = false
+      }, 1500)
+    }
   }
 
   // GETTER
