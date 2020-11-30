@@ -18,9 +18,9 @@ const navigations: NavigationControl[] = [
   selector: 'app-navbar',
   template: `
     <nav
-      class="h-16 px-4 items-center flex flex-row justify-between flex-wrap lg:px-0"
+      class="h-16 px-4 items-center flex flex-row justify-between flex-wrap shadow lg:rounded-b-xl lg:px-4"
     >
-      <div class="flex flex-col h-full px-4 justify-center cursor-pointer">
+      <div class="flex flex-col h-full justify-center cursor-pointer">
         <div
           class="flex flex-row items-center justify-center h-full w-full flex-grow"
         >
@@ -36,9 +36,11 @@ const navigations: NavigationControl[] = [
             />
           </svg>
 
-          <span class="text-lg lg:text-xl">
-            <span class="font-normal">Analytical</span>
-            <span class="font-light">Physika</span>
+          <span
+            class="hidden text-md border-solid border-gray-500 md:block md:pr-8 md:border-r-2"
+          >
+            <span class="font-normal select-none">Analytical</span>
+            <span class="font-light select-none">Physika</span>
           </span>
         </div>
 
@@ -46,7 +48,7 @@ const navigations: NavigationControl[] = [
       </div>
 
       <ul
-        class="flex-grow flex space-x-3 h-full justify-center lg:justify-start"
+        class="flex-grow flex space-x-3 h-full justify-center md:space-x-0 md:pl-4 lg:space-x-3 lg:justify-start"
       >
         <li
           *ngFor="let nav of controls; let i = index"
@@ -54,10 +56,10 @@ const navigations: NavigationControl[] = [
           class="group flex flex-col justify-between h-full cursor-pointer focus:outline-none"
         >
           <div
-            class="flex-initial h-full flex flex-col px-4 justify-center text-md lg:text-base"
+            class="flex-initial h-full flex flex-col justify-center text-md lg:text-base"
             [class.font-semibold]="isMatchRoute(nav.url)"
           >
-            <span>{{ nav.name }}</span>
+            <span class="px-4 w-full select-none">{{ nav.name }}</span>
           </div>
 
           <span

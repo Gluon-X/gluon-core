@@ -16,9 +16,8 @@ import { ValueStorable } from '../services/search_provider.service'
         (keyup.enter)="onEnter()"
       />
       <app-cross-component
-        class="h-4 w-4 mr-3 flex-none fill-current text-gray-300 group-focus:text-gray-700"
+        class="h-4 w-4 mr-3 flex-none fill-current text-gray-300 cursor-pointer group-focus:text-gray-700"
         [class.hidden]="searchBoxValue.length === 0"
-        [class.cursor-pointer]="searchBoxValue.length > 0"
         (click)="searchBoxValue = ''"
       ></app-cross-component>
     </div>

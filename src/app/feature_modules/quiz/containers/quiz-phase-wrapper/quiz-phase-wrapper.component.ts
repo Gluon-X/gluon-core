@@ -17,7 +17,8 @@ export class QuizPhaseWrapperComponent {
   }
 
   submitAnswear(asnwear: PossibleInputAnswer) {
-    this.phaseProvider.submit(asnwear)
     this.phaseProvider.next()
+    // this.phaseProvider.submit(asnwear)
+    // this.phaseProvider.next()
   }
 }

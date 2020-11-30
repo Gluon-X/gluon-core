@@ -9,7 +9,7 @@ import { GradeNav } from '../models/interfaces'
         class="py-1 px-3 flex justify-between font-sans font-semibold rounded border-1 border-black cursor-pointer"
         (click)="handleCollapseClick()"
       >
-        <span class="truncate text-base">{{
+        <span class="truncate text-base select-none">{{
           grade?.name || '[undefined]'
         }}</span>
         <svg
@@ -65,7 +65,7 @@ export class ListComponent {
   selector: 'app-list-item',
   template: `
     <div
-      class="my-1 py-2 px-6 font-sans text-sm rounded cursor-pointer break-words"
+      class="my-1 py-2 px-6 font-sans text-sm rounded cursor-pointer break-words select-none"
       [ngClass]="{
         'text-white bg-gray-900': isActive,
         'hover:bg-gray-300': !isActive

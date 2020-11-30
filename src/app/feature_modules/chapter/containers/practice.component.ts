@@ -1,10 +1,13 @@
-import { Component } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
-import { isNotUndefined } from 'src/app/shared'
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
+import { filter, switchMap } from 'rxjs/operators'
+import { isUndefined } from 'src/app/shared'
+import { QuizPlayable, QuizState } from '../../quiz/models'
+import { QUIZ_STATE } from '../../quiz/services'
 import { grades } from '../models/dummy_data'
-import { GradeNav } from '../models/interfaces'
+import { ChapterNav, Exercise, GradeNav } from '../models/interfaces'
 import { ChaptersHandler } from '../services'
-import { ExercisePickable } from '../services/chapter_provider.service'
 
 @Component({
   template: `
@@ -36,44 +39,80 @@ import { ExercisePickable } from '../services/chapter_provider.service'
   `,
   providers: [ChaptersHandler],
 })
-export class PracticeComponent {
+export class PracticeComponent implements OnInit, OnDestroy {
   get isQuizReady(): boolean {
-    return isNotUndefined(this.chapterProvider.qid)
+    return this.quizService.state === QuizState.READY
   }
 
   get qid(): string {
-    return this.chapterProvider.qid
+    return this.quizService.qid
   }
 
   get gradesNav(): GradeNav[] {
     let navControls = grades
 
     for (let g = 0; g < navControls.length; g++) {
-      for (let c = 0; c < navControls[g].chapters.length; c++)
+      for (let c = 0; c < navControls[g].chapters.length; c++) {
         navControls[g].chapters[c].isActive =
-          g == this.grade && c == this.chapter
+          g == this._grade && c == this._chapter
+      }
     }
     return navControls
   }
 
-  private chapter?: number
+  private _chapter?: number
 
-  private grade?: number
+  private _grade?: number
+
+  private _routerEventSubcription: Subscription
 
   constructor(
-    private chapterProvider: ChaptersHandler,
-    private route: ActivatedRoute
-  ) {
-    this.route.firstChild.params.subscribe(({ chapter, grade }) => {
-      // TODO index route return undefined
-      // console.log(`Route change grade: ${grade} | Chapter: ${chapter}`)
-      this.chapter = chapter
-      this.grade = grade
-    })
+    @Inject(QUIZ_STATE) public quizService: QuizPlayable,
+    private _activeRoute: ActivatedRoute,
+    private _router: Router
+  ) {}
+
+  ngOnDestroy() {
+    this._routerEventSubcription?.unsubscribe()
+  }
+
+  ngOnInit() {
+    // Collect `chapter` & `grade` params at first render,
+    // since ActivatedRoute event listener does not
+    // pass NavigationEnd event instance at first render.
+    let subscription: Subscription
+    subscription = this._activeRoute.firstChild.params.subscribe(
+      ({ chapter, grade }) => {
+        subscription?.unsubscribe()
+        this._chapter = parseInt(chapter)
+        this._grade = parseInt(grade)
+      }
+    )
+
+    // Listen to NavigationEnd events to update Chapter navigation panel
+    // whenever child route changes.
+    // Cannot subscribe to `firstChild.params`because it does not emit event in this scenario:
+    // - Navigate to other tab from the top nav (`Today`) -> OnDestroy invokes
+    // - Navigate back to `Practice` tab -> OnInit invokes
+    // - Pick a chapter -> `firstChild.params` subscriber invokes at first, but then stop immediatly.
+    // => Still no idea why?
+    // Reference of this solution: https://github.com/angular/angular/issues/11692
+    this._routerEventSubcription = this._router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        switchMap(
+          () =>
+            this._activeRoute.firstChild && this._activeRoute.firstChild.params
+        )
+      )
+      .subscribe(({ chapter, grade }) => {
+        this._chapter = parseInt(chapter)
+        this._grade = parseInt(grade)
+      })
   }
 
   onReturn() {
-    this.chapterProvider.qid = undefined
+    this.quizService.qid = undefined
   }
 }
 
@@ -91,41 +130,59 @@ export class PracticeWelcomeComponent {}
 @Component({
   template: `
     <article class="subpixel-antialiased">
-      <h1 class="font-bold font-serif text-2xl md:text-4xl">
-        Chương {{ cid }}: {{ name }}
+      <h1 class="font-bold font-serif text-2xl pb-6 md:text-4xl">
+        {{ name }}
       </h1>
 
-      <p class="text-base font-normal text-justify py-6">
+      <p
+        *ngIf="description?.length > 0"
+        class="text-base font-normal text-justify pb-6"
+      >
         {{ description }}
       </p>
     </article>
 
-    <app-exercise-list [exerciseService]="exerciseService"></app-exercise-list>
+    <app-exercise-list
+      [quizService]="quizService"
+      [exercises]="exercises"
+      [isFetching]="isFetching"
+    ></app-exercise-list>
   `,
 })
 export class ChapterDisplayComponent {
-  get cid(): string {
-    return this.chapterProvider.cid
+  private get _currentChapter(): ChapterNav | undefined {
+    return grades[this._gid]?.chapters[this._cid]
   }
 
   get name(): string {
-    return this.chapterProvider.name
+    return this._currentChapter?.name
   }
 
   get description(): string {
-    return this.chapterProvider.description
+    return this._currentChapter?.description
   }
 
-  get exerciseService(): ExercisePickable {
-    return this.chapterProvider
+  get exercises(): Exercise[] | undefined {
+    return this.chapterProvider.exercises
   }
+
+  get isFetching(): boolean {
+    return isUndefined(this.exercises)
+  }
+
+  private _cid?: number
+
+  private _gid?: number
 
   constructor(
+    @Inject(QUIZ_STATE) public quizService: QuizPlayable,
     private chapterProvider: ChaptersHandler,
     private route: ActivatedRoute
   ) {
-    this.route.params.subscribe(({ chapter }) => {
+    this.route.params.subscribe(({ grade, chapter }) => {
       chapterProvider.cid = `${chapter}`
+      this._gid = parseInt(grade)
+      this._cid = parseInt(chapter)
     })
   }
 }

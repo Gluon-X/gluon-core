@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core'
-import { Chapter, Exercise } from '../models/interfaces'
+import { Exercise } from '../models/interfaces'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../../environments/environment'
 import { map } from 'rxjs/operators'
-import { chapterFakeData, sampleExercises } from '../models/dummy_data'
+import { sampleExercises } from '../models/dummy_data'
 
 // Doing the same as Minh
 export const useServer = false
 
 // The API will always return your data in this manner
 interface ChapterResponse {
-  data: []
+  data: Exercise[]
 }
 
 export interface ExercisePickable {
@@ -24,7 +24,7 @@ export class ChaptersHandler implements ExercisePickable {
   public qid?: string
 
   // TODO load & parse exercises data here
-  private _exercises: Exercise[] = sampleExercises
+  private _exercises?: Exercise[]
 
   get exercises(): Exercise[] {
     return this._exercises
@@ -34,40 +34,51 @@ export class ChaptersHandler implements ExercisePickable {
 
   private _cid?: string
 
-  private _description?: string
+  // private _description?: string
 
-  private _name?: string
+  // private _name?: string
 
-  private _thumbnailURL?: string
+  // private _thumbnailURL?: string
 
-  private _relatedResources?: []
+  // private _relatedResources?: []
 
-  private _questions?: []
+  // private _questions?: []
 
-  private _gradeId?: string
+  // private _gradeId?: string
 
-  private _path: string
-  // SETTER
+  // private _path: string
 
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
+    this._exercises = undefined
+
     if (this._cid === value) {
       return
     }
     this._cid = value
     if (useServer) {
       this._http
-        .get<ChapterResponse>(`${environment.serverAPI}/api/v1/chapters`)
+        .get<ChapterResponse>(`${environment.serverAPI}/api/v1/exercises/Hello`)
         .pipe(
-          map((data) => data),
-          map((v) => v[0])
+          map((data) => data.data),
+          map((exercise) =>
+            exercise.map((v) => {
+              let builder = Exercise.builder()
+                .setName(v.name)
+                .setActive(true)
+
+              v.questions.forEach((p) => {
+                builder.addProblem(p)
+              })
+
+              return builder.build()
+            })
+          )
         )
         .toPromise()
         .then((v) => this.parse(v))
         .catch(console.error)
-    } else {
-      this.parse(chapterFakeData)
-    }
+    } else setTimeout(() => (this._exercises = sampleExercises), 1500)
   }
 
   // GETTER
@@ -75,51 +86,55 @@ export class ChaptersHandler implements ExercisePickable {
     return this._cid
   }
 
-  get name() {
-    return this._name
+  private parse(value: Exercise[]) {
+    this._exercises = value
   }
 
-  get thumbnailURL() {
-    return this._thumbnailURL
-  }
+  // get name() {
+  //   return this._name
+  // }
 
-  get questions() {
-    return this._questions
-  }
+  // get thumbnailURL() {
+  //   return this._thumbnailURL
+  // }
 
-  get description() {
-    return this._description
-  }
+  // get questions() {
+  //   return this._questions
+  // }
+
+  // get description() {
+  //   return this._description
+  // }
 
   // TODO: Should check gradeId if it is showable or not
   // If not then return something that legit for fontend not to render it
-  get gradeId() {
-    return this._gradeId
-  }
+  // get gradeId() {
+  //   return this._gradeId
+  // }
 
-  get relatedResources() {
-    return this._relatedResources
-  }
+  // get relatedResources() {
+  //   return this._relatedResources
+  // }
 
-  get path(){
-    return this._path
-  }
+  // get path() {
+  //   return this._path
+  // }
 
   // Parsing the http request to properties of Chapter
-  private parse(chapter: Chapter) {
-    console.log("Parsing works!")
-    const path = chapter.name + "/" + chapter.gradeId
-    this._name = chapter.name
-    this._description = chapter.description
-    this._thumbnailURL = chapter.thumbnailURL
-    this._relatedResources = chapter.relatedResources
-    this._questions = chapter.questions
-    this._gradeId = chapter.gradeId
+  // private parse(chapter: Chapter) {
+  //   console.log('Parsing works!')
+  //   const path = chapter.name + '/' + chapter.gradeId
+  //   this._name = chapter.name
+  //   this._description = chapter.description
+  //   this._thumbnailURL = chapter.thumbnailURL
+  //   this._relatedResources = chapter.relatedResources
+  //   this._questions = chapter.questions
+  //   this._gradeId = chapter.gradeId
 
-    // Parsing path for Minh
-    // The path is "lop1"+"/"+"chuong1" lop1/chuong1
-    // Path for angular routing
+  //   // Parsing path for Minh
+  //   // The path is "lop1"+"/"+"chuong1" lop1/chuong1
+  //   // Path for angular routing
 
-    this._path = path
-  }
+  //   this._path = path
+  // }
 }

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core'
+import { Component, Inject } from '@angular/core'
+import { QuizPlayable } from '../../quiz/models'
+import { QUIZ_STATE } from '../../quiz/services'
 import { SearchService } from '../services'
 
 @Component({
@@ -18,5 +20,8 @@ import { SearchService } from '../services'
   providers: [SearchService],
 })
 export class ChapterComponent {
-  constructor(public searchService: SearchService) {}
+  constructor(
+    @Inject(QUIZ_STATE) public service: QuizPlayable,
+    public searchService: SearchService
+  ) {}
 }
