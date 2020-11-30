@@ -13,7 +13,7 @@
     <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm" (select)="handleChange($event)">
       <div *ngFor="let question of this.listOfQuestions; let i = index" class="mt-2">
         <label class="inline-flex items-center" (click)="this.handleChange(i)">
-          <input type="radio" class="form-radio" name="radio" [value]="question.content" />
+          <input type="radio" class="form-radio" name="radio" [value]="i" checked="this.isDoneCorrectAnswear(i)" />
           <span class="ml-2">{{ question.content }}</span>
         </label>
       </div>

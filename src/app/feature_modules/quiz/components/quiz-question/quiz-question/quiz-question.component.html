@@ -1,9 +1,5 @@
 <div>
-    <div class="block">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-        electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-        Letraset sheets containing Lorem</div>
-    <app-quiz-question-media [scrURL]="'../../../../../../assets/images/dev/exercises-11-6-1-center.png'">
+    <ng-katex-paragraph [paragraph]="box.content" class="block text-justify"></ng-katex-paragraph>
+    <app-quiz-question-media *ngIf="this.box.imageURL != null" [scrURL]="box.imageURL">
     </app-quiz-question-media>
 </div>
