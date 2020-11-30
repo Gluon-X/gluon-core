@@ -5,11 +5,11 @@ import { BoxType } from './enums'
 import { QuestionProvider } from './question_provider.class'
 import { isNotUndefined, isUndefined } from '../../../shared'
 
-export abstract class MultiBoxesProvider implements Submitable<PossibleInputAnswer> {
+export abstract class MultiBoxesProvider implements Submitable<PossibleInputAnswer>, Box {
 
   readonly title?: string
 
-  readonly content?: string
+  readonly content: string
 
   abstract get count(): number
 
@@ -48,6 +48,9 @@ export abstract class MultiBoxesProvider implements Submitable<PossibleInputAnsw
     this.title = phase?.title
     this.content = phase?.content
   }
+  imageURL?: string
+
+  abstract get type(): BoxType
 
   /**
    * Init `PhaseProvider` instance from `Phase` raw data.
@@ -81,6 +84,9 @@ export abstract class MultiBoxesProvider implements Submitable<PossibleInputAnsw
 }
 
 class DefaultMultiBoxesProvider extends MultiBoxesProvider {
+  get type(): BoxType {
+    return this.current.type
+  }
 
   constructor(phase: Phase) {
     super(phase)

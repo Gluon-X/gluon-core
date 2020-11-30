@@ -1,14 +1,14 @@
-<div *ngIf="checkAnswer == true" class="py-4">
-  <p class="font-sans font-semibold text-base text-green-600">Chính xác!</p>
-  <p class="font-sans font-normal text-sm text-justify text-opacity-75 text-gray-900">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
-</div>
-<div *ngIf="checkAnswer == false">
-  <p class="font-sans font-semibold text-xl text-red-600">Không chính xác!</p>
-  <p class="font-sans font-normal text-sm text-justify text-opacity-75 text-gray-900">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
+<div *ngIf="checkAnswer !== undefined">
+  <div *ngIf="checkAnswer == true" class="py-4">
+    <p class="font-sans font-semibold text-base text-green-600">Chính xác!</p>
+    <p class="font-sans font-normal text-sm text-justify text-opacity-75 text-gray-900">
+      {{answearExplaination}}
+    </p>
+  </div>
+  <div *ngIf="checkAnswer == false">
+    <p class="font-sans font-semibold text-xl text-red-600">Không chính xác!</p>
+    <p class="font-sans font-normal text-sm text-justify text-opacity-75 text-gray-900">
+      {{answearExplaination}}
+    </p>
+  </div>
 </div>

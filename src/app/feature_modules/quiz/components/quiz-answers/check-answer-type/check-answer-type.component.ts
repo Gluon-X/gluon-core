@@ -6,5 +6,6 @@ import { ShortAnswerProvider } from '../../../models'
   templateUrl: './check-answer-type.component.html',
 })
 export class CheckAnswerTypeComponent {
-  @Input() checkAnswer: boolean = true
+  @Input() checkAnswer: boolean = undefined;
+  @Input() answearExplaination: string;
 }

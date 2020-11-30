@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { MultiPhasesProvider } from '../../models'
 
 @Component({
   selector: 'app-answer-phase-header',
   template: `
     <div class="flex flex-col">
-      <p class="font-sans text-sm font-medium text-gray-900">Phase 1</p>
-      <p class="font-sans text-xl font-bold text-gray-900">Lorem Ipsum Dolor</p>
+      <p class="font-sans text-sm font-medium text-gray-900">Giai đoạn {{phaseProvider.index+1}}</p>
+      <p class="font-sans text-xl font-bold text-gray-900">{{phaseProvider.title}}</p>
     </div>
     <app-question-indicator
+
       [current]="current"
       [total]="total"
       [isNextAvailable]="isNextAvailable"
@@ -18,23 +20,37 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
   `,
 })
 export class AnswerPhaseHeaderComponent {
-  total = 5
-  current = 0
+
+  @Input()
+  phaseProvider: MultiPhasesProvider;
+
+  get current() {
+    return this.phaseProvider.boxIndex;
+  }
+
+  get total() {
+    return this.phaseProvider.boxesCount;
+  }
 
   get isNextAvailable(): boolean {
-    return this.current < this.total - 1
+    return this.phaseProvider.nextAvailable;
+    // return this.current < this.total - 1
   }
 
   get isPrevAvaialble(): boolean {
-    return this.current > 0
+    return this.phaseProvider.prevAvailable;
+
+    // return this.current > 0
   }
 
   onPrev() {
-    this.current--
+    this.phaseProvider.previous()
+    // this.current--
   }
 
   onNext() {
-    this.current++
+    this.phaseProvider.next()
+    // this.current++
   }
 }
 

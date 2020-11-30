@@ -16,7 +16,7 @@ import {
   FormGroupDirective,
   NgForm,
 } from '@angular/forms'
-import { Choice, MultipleChoicesProvider } from '../../../models'
+import { Choice, MultipleChoicesProvider, PossibleInputAnswer } from '../../../models'
 
 @Component({
   selector: 'app-multichoices-answer',
@@ -26,15 +26,32 @@ export class MultichoicesTypeComponent implements OnInit {
   @ViewChild('radioForm') radioFromGroup: ElementRef<HTMLFormElement>
   choosenString = ''
 
-  @Input() listOfQuestions: Array<Choice>
+  @Input() multipleChoices: MultipleChoicesProvider;
 
   inputForm: FormGroup = new FormGroup({
     inputControl: new FormControl(),
   })
+  @Output() onSelectAnswear: EventEmitter<PossibleInputAnswer> = new EventEmitter;
+
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log(this.listOfQuestions)
+  saveAnswear(answear: PossibleInputAnswer) {
+    console.log(answear)
+    this.onSelectAnswear.emit(answear)
   }
+  ngOnInit(): void {
+    // console.log(this.listOfQuestions)
+  }
+
+  isDoneCorrectAnswear(boxId: number) {
+    if (this.multipleChoices.isCompleted) {
+      if (this.multipleChoices.submission == boxId) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+
 }

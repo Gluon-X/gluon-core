@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { ShortAnswerProvider } from '../../../models'
+import { PossibleInputAnswer, ShortAnswerProvider } from '../../../models'
 
 @Component({
   selector: 'app-input-answer',
@@ -8,6 +8,12 @@ import { ShortAnswerProvider } from '../../../models'
 export class InputTypeComponent {
   @Input()
   question: ShortAnswerProvider
+  @Output() onTextInput: EventEmitter<PossibleInputAnswer> = new EventEmitter;
+  @Input() answearExplaination: string;
+
+  onInputText() {
+    this.onTextInput.emit(this.answer)
+  }
 
   answer: string
 }

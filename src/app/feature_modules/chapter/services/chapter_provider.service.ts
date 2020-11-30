@@ -23,6 +23,8 @@ export interface ExercisePickable {
 export class ChaptersHandler implements ExercisePickable {
   public qid?: string
 
+  // public qid?= "GID11060001"
+
   // TODO load & parse exercises data here
   private _exercises?: Exercise[]
 
@@ -30,7 +32,7 @@ export class ChaptersHandler implements ExercisePickable {
     return this._exercises
   }
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   private _cid?: string
 
