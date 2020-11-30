@@ -5,6 +5,7 @@ import { Exercise, Problem } from '../models/interfaces'
 @Component({
   selector: 'app-exercise-list',
   template: `
+    <!-- Display shimmering effect when service is fetching chapter data from server -->
     <div
       *ngIf="isFetching"
       class="my-1 px-3 pb-2 box bg-gray-100 rounded shadow divide-y-2 divide-gray-300 divide-solid"
@@ -21,6 +22,8 @@ import { Exercise, Problem } from '../models/interfaces'
         <app-exercise-loading></app-exercise-loading>
       </div>
     </div>
+
+    <!-- Display exercises -->
     <div
       *ngIf="!isFetching"
       class="my-1 px-3 box bg-gray-100 rounded shadow divide-y-2 divide-gray-300 divide-solid"
@@ -34,7 +37,7 @@ import { Exercise, Problem } from '../models/interfaces'
         ></app-problems-list>
       </div>
     </div>
-  `,
+  `
 })
 export class ExerciseCardComponent {
   @Input()
@@ -72,7 +75,7 @@ export class ExerciseCardComponent {
         />
       </svg>
     </div>
-  `,
+  `
 })
 export class ExerciseItemComponent {
   @Input()
@@ -126,7 +129,7 @@ export class ExerciseItemComponent {
         </div>
       </div>
     </div>
-  `,
+  `
 })
 export class ProblemListComponent {
   @Input()
@@ -146,67 +149,68 @@ export class ProblemListComponent {
 @Component({
   selector: 'app-exercise-loading',
   template: ` <!-- Exercise collapsible -->
-    <div class="py-4 flex justify-between cursor-pointer">
-      <div class="rounded bg-gray-300 animate-pulse w-64"></div>
-      <svg
-        class="-mr-1 ml-2 h-5 w-5"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </div>
-
-    <div
-      class="grid grid-cols-1 gap-x-6 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+  <div class="py-4 flex justify-between cursor-pointer">
+    <div class="rounded bg-gray-300 animate-pulse w-64"></div>
+    <svg
+      class="-mr-1 ml-2 h-5 w-5"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
     >
-      <!-- Col 1 -->
-      <div class="flex flex-row items-center pb-2">
-        <div class="w-12 h-12 rounded bg-gray-300 animate-pulse"></div>
+      <path
+        fill-rule="evenodd"
+        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </div>
 
-        <div
-          class="flex-auto h-full flex flex-row sm:flex-col md:flex-row lg:flex-col xl:flex-row justify-between ml-4"
-        >
-          <div class="flex flex-col space-y-1 justify-between">
+  <div
+    class="grid grid-cols-1 gap-x-6 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2"
+  >
+    <!-- Col 1 -->
+    <div class="flex flex-row items-center pb-2">
+      <div class="w-12 h-12 rounded bg-gray-300 animate-pulse"></div>
+
+      <div
+        class="flex-auto h-full flex flex-row sm:flex-col md:flex-row lg:flex-col xl:flex-row justify-between ml-4"
+      >
+        <div class="flex flex-col space-y-1 justify-between">
             <span class="rounded-sm h-1/2 bg-gray-300 animate-pulse w-64">
             </span>
-            <span class="rounded-sm h-1/2 bg-gray-300 animate-pulse w-full">
+          <span class="rounded-sm h-1/2 bg-gray-300 animate-pulse w-full">
             </span>
-          </div>
-
-          <button
-            class="my-auto rounded-full flex-grow-none flex-shrink-0 py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700 sm:rounded md:rounded-full lg:rounded xl:rounded-full"
-          >
-            Bắt đầu
-          </button>
         </div>
-      </div>
-      <!-- Col 2 -->
-      <div class="flex flex-row items-center pb-2">
-        <div class="w-12 h-12 rounded bg-gray-300 animate-pulse"></div>
 
-        <div
-          class="flex-auto h-full flex flex-row sm:flex-col md:flex-row lg:flex-col xl:flex-row justify-between ml-4"
+        <button
+          class="my-auto rounded-full flex-grow-none flex-shrink-0 py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700 sm:rounded md:rounded-full lg:rounded xl:rounded-full"
         >
-          <div class="flex flex-col space-y-1 justify-between">
+          Bắt đầu
+        </button>
+      </div>
+    </div>
+    <!-- Col 2 -->
+    <div class="flex flex-row items-center pb-2">
+      <div class="w-12 h-12 rounded bg-gray-300 animate-pulse"></div>
+
+      <div
+        class="flex-auto h-full flex flex-row sm:flex-col md:flex-row lg:flex-col xl:flex-row justify-between ml-4"
+      >
+        <div class="flex flex-col space-y-1 justify-between">
             <span class="rounded-sm h-1/2 bg-gray-300 animate-pulse w-64">
             </span>
-            <span class="rounded-sm h-1/2 bg-gray-300 animate-pulse w-full">
+          <span class="rounded-sm h-1/2 bg-gray-300 animate-pulse w-full">
             </span>
-          </div>
-
-          <button
-            class="my-auto rounded-full flex-grow-none flex-shrink-0 py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700 sm:rounded md:rounded-full lg:rounded xl:rounded-full"
-          >
-            Bắt đầu
-          </button>
         </div>
+
+        <button
+          class="my-auto rounded-full flex-grow-none flex-shrink-0 py-1 px-4 border-2 border-solid border-gray-300 bg-gray-100 hover:bg-gray-300 font-semibold text-sm text-gray-700 sm:rounded md:rounded-full lg:rounded xl:rounded-full"
+        >
+          Bắt đầu
+        </button>
       </div>
-    </div>`,
+    </div>
+  </div>`
 })
-export class ExerciseLoadingComponent {}
+export class ExerciseLoadingComponent {
+}
