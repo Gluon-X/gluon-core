@@ -9,7 +9,7 @@ import { ValueStorable } from '../services/search_provider.service'
     >
       <app-search-icon></app-search-icon>
       <input
-        class="px-4 flex-grow rounded-full focus:outline-none truncate"
+        class="px-4 flex-grow rounded-full focus:outline-none truncate font-sans"
         type="text"
         placeholder="Search"
         [(ngModel)]="searchBoxValue"
@@ -34,6 +34,7 @@ export class SearchbarComponent {
       this.searchBoxValue.length > 0 &&
       this.searchBoxValue !== this.service.value
     ) {
+      // tslint:disable-next-line:no-console
       console.info(`Search for: ${this.searchBoxValue}`)
       this.service.value = this.searchBoxValue
     }

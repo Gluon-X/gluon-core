@@ -5,6 +5,10 @@ module.exports = {
   },
   purge: ['./src/**/*.html', './src/**/*.ts'],
   theme: {
+    fontFamily: {
+      'sans': ['Raleway'],
+      'serif': ['Yeseva One']
+    },
     extend: {}
   },
   variants: {

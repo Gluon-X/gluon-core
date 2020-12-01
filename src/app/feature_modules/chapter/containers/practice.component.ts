@@ -123,7 +123,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
 
 @Component({
   template: `
-    <article class="subpixel-antialiased">
+    <article class="subpixel-antialiased font-sans">
       <h1 class="font-bold font-serif text-2xl md:text-4xl">
         Welcome to practice page
       </h1>
@@ -142,7 +142,7 @@ export class PracticeWelcomeComponent {
 
       <p
         *ngIf="description?.length > 0"
-        class="text-base font-normal text-justify pb-6"
+        class="text-base font-normal text-justify pb-6 font-sans"
       >
         {{ description }}
       </p>
