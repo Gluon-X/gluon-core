@@ -6,7 +6,9 @@ import { map } from 'rxjs/operators'
 import { sampleExercises } from '../models/dummy_data'
 
 // Doing the same as Minh
-export const useServer = false
+const useServer = false
+
+const useTimeout = true
 
 // The API will always return your data in this manner
 interface ChapterResponse {
@@ -59,13 +61,13 @@ export class ChaptersHandler implements ExercisePickable {
 
   // Set the chapter id and get the chapter from server cloud function
   set cid(value: string) {
-    this._exercises = undefined
-    this._isProcessing = true
-
     if (this._cid === value) {
       return
     }
+    this._isProcessing = true
+    this._exercises = undefined
     this._cid = value
+
     if (useServer) {
       this._http
         .get<ChapterResponse>(`${environment.serverAPI}/api/v1/exercises/Hello`)
@@ -91,11 +93,14 @@ export class ChaptersHandler implements ExercisePickable {
         .finally(() => {
           this._isProcessing = false
         })
-    } else {
+    } else if (useTimeout) {
       setTimeout(() => {
         this._exercises = sampleExercises[value]
         this._isProcessing = false
       }, 1500)
+    } else {
+      this._exercises = sampleExercises[value]
+      this._isProcessing = false
     }
   }
 

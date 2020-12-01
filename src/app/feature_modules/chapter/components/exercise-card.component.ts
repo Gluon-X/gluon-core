@@ -40,9 +40,13 @@ import { Exercise, Problem } from '../models/interfaces'
 
     <div
       *ngIf="!isFetching && exercises === undefined"
-      class="flex flex-row justify-center"
+      class="flex flex-col justify-center items-center"
     >
-      <img src="../../../../assets/images/Illustrations/List is Empty.png" alt="Under construction" class="object-contain w-2/3 " />
+      <img src="../../../../assets/images/Illustrations/List is Empty.png" alt="Under construction" class="object-contain w-1/2 " />
+
+      <span class="font-black text-xl lg:text-2xl text-center mb-2 mt-4" style="color: #f15634">Chưa có nội dung cho chương này</span>
+      <span
+        class="text-gray-400 text-sm lg:text-xl text-center font-normal">Xem qua những bài tập khác trong lúc chúng tôi chuẩn bị mọi thứ nhé!</span>
     </div>
   `
 })

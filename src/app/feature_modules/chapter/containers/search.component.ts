@@ -14,7 +14,9 @@ import { SearchService } from '../services'
         (click)="service.dismiss()"
       ></app-cross-component>
     </div>
-  `,
+
+    <app-under-construction></app-under-construction>
+  `
 })
 export class SearchComponent {
   @Input()

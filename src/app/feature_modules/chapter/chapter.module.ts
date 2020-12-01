@@ -7,41 +7,42 @@ import {
   ExerciseCardComponent,
   ExerciseItemComponent,
   ExerciseLoadingComponent,
-  ProblemListComponent,
+  ProblemListComponent
 } from './components/exercise-card.component'
 import {
   CrossIconComponent,
   NavbarComponent,
-  SearchIconComponent,
+  SearchIconComponent
 } from './components/navbar.component'
 import { QuizModule } from '../quiz'
 import { RouterModule, Routes } from '@angular/router'
 import {
   ChapterDisplayComponent,
   PracticeComponent,
-  PracticeWelcomeComponent,
+  PracticeWelcomeComponent
 } from './containers/practice.component'
 import { CoursesComponent, TodayComponent } from './containers/today.component'
 import { FormsModule } from '@angular/forms'
 import { SearchbarComponent } from './components/searchbar.component'
 import { SearchComponent } from './containers/search.component'
 import { QUIZ_STATE, QuizHandler } from '../quiz/services'
+import { UnderConstructionComponent } from './containers/under-construction.component'
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/practice',
+    redirectTo: '/practice'
   },
   {
     path: 'today',
     pathMatch: 'full',
-    component: TodayComponent,
+    component: TodayComponent
   },
   {
     path: 'courses',
     pathMatch: 'full',
-    component: CoursesComponent,
+    component: CoursesComponent
   },
   {
     path: 'practice',
@@ -49,7 +50,7 @@ const routes: Routes = [
     children: [
       {
         path: ':grade/:chapter',
-        component: ChapterDisplayComponent,
+        component: ChapterDisplayComponent
       },
       // {
       //   path: '',
@@ -58,21 +59,22 @@ const routes: Routes = [
       // },
       {
         path: '**',
-        redirectTo: '0/0',
-      },
-    ],
+        redirectTo: '0/0'
+      }
+    ]
   },
   {
     path: '**',
-    redirectTo: '/practice',
-  },
+    redirectTo: '/practice'
+  }
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class ChapterRoutingModule {}
+export class ChapterRoutingModule {
+}
 
 @NgModule({
   imports: [
@@ -80,7 +82,7 @@ export class ChapterRoutingModule {}
     SharedModule,
     QuizModule,
     ChapterRoutingModule,
-    FormsModule,
+    FormsModule
   ],
   exports: [ChapterComponent],
   declarations: [
@@ -101,12 +103,14 @@ export class ChapterRoutingModule {}
     CrossIconComponent,
     SearchbarComponent,
     SearchComponent,
+    UnderConstructionComponent
   ],
   providers: [
     {
       provide: QUIZ_STATE,
-      useClass: QuizHandler,
-    },
-  ],
+      useClass: QuizHandler
+    }
+  ]
 })
-export class ChapterModule {}
+export class ChapterModule {
+}

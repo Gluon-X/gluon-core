@@ -155,7 +155,7 @@ export class PracticeWelcomeComponent {
     ></app-exercise-list>
   `
 })
-export class ChapterDisplayComponent {
+export class ChapterDisplayComponent implements OnInit {
   private get _currentChapter(): ChapterNav | undefined {
     return grades[this._gid]?.chapters[this._cid]
   }
@@ -185,13 +185,16 @@ export class ChapterDisplayComponent {
     private chapterProvider: ChaptersHandler,
     private route: ActivatedRoute
   ) {
+  }
+
+  ngOnInit(): void {
     this.route.params.subscribe(({ grade, chapter }) => {
       // tslint:disable-next-line:radix
       this._gid = parseInt(grade)
       // tslint:disable-next-line:radix
       this._cid = parseInt(chapter)
 
-      chapterProvider.cid = `L${this._gid + 10}C${this._cid + 1}`
+      this.chapterProvider.cid = `L${this._gid + 10}C${this._cid + 1}`
     })
   }
 }
