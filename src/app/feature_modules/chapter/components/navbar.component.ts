@@ -18,7 +18,7 @@ const navigations: NavigationControl[] = [
   selector: 'app-navbar',
   template: `
     <nav
-      class="h-16 px-4 items-center flex flex-row justify-between flex-wrap shadow lg:rounded-b-xl lg:px-4"
+      class="h-full px-4 items-center flex flex-row justify-between flex-wrap shadow lg:rounded-b-xl lg:px-4"
     >
       <div class="flex flex-col h-full justify-center cursor-pointer">
         <div
