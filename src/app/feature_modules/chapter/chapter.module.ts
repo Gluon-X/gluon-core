@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/practice'
+    redirectTo: '/practice/0/0'
   },
   {
     path: 'today',
@@ -65,7 +65,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/practice'
+    redirectTo: '/practice/0/0'
   }
 ]
 
