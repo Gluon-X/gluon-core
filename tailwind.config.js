@@ -5,12 +5,16 @@ module.exports = {
   },
   purge: ['./src/**/*.html', './src/**/*.ts'],
   theme: {
+    fontFamily: {
+      'sans': ['Raleway'],
+      'serif': ['Yeseva One']
+    },
     extend: {}
   },
   variants: {
-    borderBottomColor: ['hover'],
-    borderBottomWidth: ['hover'],
-    borderBottomStyle: ['hover'],
+    borderBottomColor: ['responsive', 'hover', 'focus', 'group-hover'],
+    borderBottomWidth: ['responsive', 'hover', 'focus', 'group-hover'],
+    borderBottomStyle: ['responsive', 'hover', 'focus', 'group-hover'],
     backgroundColor: ['responsive', 'hover', 'focus', 'group-hover']
   },
   plugins: [

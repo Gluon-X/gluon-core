@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { filter, switchMap } from 'rxjs/operators'
-import { isNotUndefined, isUndefined } from 'src/app/shared'
+import { isNotUndefined } from 'src/app/shared'
 import { QuizPlayable } from '../../quiz/models'
 import { QUIZ_STATE } from '../../quiz/services'
 import { grades } from '../models/dummy_data'
@@ -13,9 +13,11 @@ import { ChaptersHandler } from '../services'
   template: `
     <div
       *ngIf="!isQuizReady"
-      class="flex flex-col px-2 divide-y-2 md:divide-y-0 md:flex-row xl:px-0"
+      class="flex-grow flex flex-col items-stretch px-2 divide-y-2 md:divide-y-0 md:flex-row xl:px-0"
     >
-      <div class="block pb-4 flex-1 md:flex-none md:pb-0">
+      <div class="overflow-auto block pb-4 flex-1 md:flex-none md:pb-0 md:w-1/3 lg:w-1/4">
+        <div class="h-2 md:h-8"></div>
+
         <app-list
           *ngFor="let grade of gradesNav; let i = index"
           [index]="i"
@@ -24,7 +26,9 @@ import { ChaptersHandler } from '../services'
         ></app-list>
       </div>
 
-      <div class="flex-1 pt-4 px-2 md:pt-0 md:px-0 md:px-4 lg:px-0 lg:pl-8">
+      <div class="overflow-auto flex-1 pt-4 px-2 md:pt-0 md:px-0 md:px-4 lg:px-0 lg:pl-6">
+        <div class="h-2 md:h-8"></div>
+
         <router-outlet></router-outlet>
 
         <div class="h-2 md:h-8"></div>
@@ -54,6 +58,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
     for (let g = 0; g < navControls.length; g++) {
       for (let c = 0; c < navControls[g].chapters.length; c++) {
         navControls[g].chapters[c].isActive =
+          // Do not use triple-equals here. If tslint marks this as error, just ignore it.
           g == this._grade && c == this._chapter
       }
     }
@@ -123,7 +128,7 @@ export class PracticeComponent implements OnInit, OnDestroy {
 
 @Component({
   template: `
-    <article class="subpixel-antialiased">
+    <article class="subpixel-antialiased font-sans">
       <h1 class="font-bold font-serif text-2xl md:text-4xl">
         Welcome to practice page
       </h1>
@@ -142,7 +147,7 @@ export class PracticeWelcomeComponent {
 
       <p
         *ngIf="description?.length > 0"
-        class="text-base font-normal text-justify pb-6"
+        class="text-base font-normal text-justify pb-6 font-sans"
       >
         {{ description }}
       </p>
@@ -155,7 +160,7 @@ export class PracticeWelcomeComponent {
     ></app-exercise-list>
   `
 })
-export class ChapterDisplayComponent {
+export class ChapterDisplayComponent implements OnInit {
   private get _currentChapter(): ChapterNav | undefined {
     return grades[this._gid]?.chapters[this._cid]
   }
@@ -173,7 +178,7 @@ export class ChapterDisplayComponent {
   }
 
   get isFetching(): boolean {
-    return isUndefined(this.exercises)
+    return this.chapterProvider.isProcessing
   }
 
   private _cid?: number
@@ -185,12 +190,16 @@ export class ChapterDisplayComponent {
     private chapterProvider: ChaptersHandler,
     private route: ActivatedRoute
   ) {
+  }
+
+  ngOnInit(): void {
     this.route.params.subscribe(({ grade, chapter }) => {
-      chapterProvider.cid = `${chapter}`
       // tslint:disable-next-line:radix
       this._gid = parseInt(grade)
       // tslint:disable-next-line:radix
       this._cid = parseInt(chapter)
+
+      this.chapterProvider.cid = `L${this._gid + 10}C${this._cid + 1}`
     })
   }
 }

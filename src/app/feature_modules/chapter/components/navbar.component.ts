@@ -18,7 +18,7 @@ const navigations: NavigationControl[] = [
   selector: 'app-navbar',
   template: `
     <nav
-      class="h-16 px-4 items-center flex flex-row justify-between flex-wrap shadow lg:rounded-b-xl lg:px-4"
+      class="h-full px-4 items-center flex flex-row justify-between flex-wrap shadow lg:rounded-b-xl lg:px-4"
     >
       <div class="flex flex-col h-full justify-center cursor-pointer">
         <div
@@ -37,7 +37,7 @@ const navigations: NavigationControl[] = [
           </svg>
 
           <span
-            class="hidden text-md border-solid border-gray-500 md:block md:pr-8 md:border-r-2"
+            class="hidden text-md border-solid border-gray-500 md:block md:pr-8 md:border-r-2 font-sans"
           >
             <span class="font-normal select-none">Analytical</span>
             <span class="font-light select-none">Physika</span>
@@ -93,7 +93,7 @@ export class NavbarComponent {
   }
 
   isMatchRoute(url: string): boolean {
-    let pattern = new RegExp(`${url}(/.*|)`)
+    const pattern = new RegExp(`${url}(/.*|)`)
     return pattern.test(this.currentRoute)
   }
 }

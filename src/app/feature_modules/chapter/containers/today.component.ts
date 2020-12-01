@@ -1,11 +1,15 @@
 import { Component } from '@angular/core'
 
 @Component({
-  template: ` <h1>Not available</h1> `,
+  template: `
+    <app-under-construction></app-under-construction>`
 })
-export class TodayComponent {}
+export class TodayComponent {
+}
 
 @Component({
-  template: ` <h1>Not available</h1> `,
+  template: `
+    <app-under-construction></app-under-construction>`
 })
-export class CoursesComponent {}
+export class CoursesComponent {
+}

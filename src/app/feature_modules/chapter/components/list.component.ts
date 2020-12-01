@@ -4,19 +4,20 @@ import { GradeNav } from '../models/interfaces'
 @Component({
   selector: 'app-list',
   template: `
-    <div class="block my-2">
+    <div class="block my-2 font-sans">
       <div
         class="py-1 px-3 flex justify-between font-sans font-semibold rounded border-1 border-black cursor-pointer"
         (click)="handleCollapseClick()"
       >
         <span class="truncate text-base select-none">{{
           grade?.name || '[undefined]'
-        }}</span>
+          }}</span>
         <svg
           class="-mr-1 ml-2 h-5 w-5"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
+          [ngClass]="{ 'transform rotate-180': grade.isActive }"
         >
           <path
             fill-rule="evenodd"
@@ -42,7 +43,7 @@ import { GradeNav } from '../models/interfaces'
         ></app-list-item>
       </div>
     </div>
-  `,
+  `
 })
 export class ListComponent {
   @Input()
@@ -53,8 +54,6 @@ export class ListComponent {
 
   @Output()
   collapse = new EventEmitter()
-
-  isActive = true
 
   handleCollapseClick() {
     this.collapse.emit()
@@ -73,7 +72,7 @@ export class ListComponent {
     >
       {{ name }}
     </div>
-  `,
+  `
 })
 export class ListItemComponent {
   @Input()
