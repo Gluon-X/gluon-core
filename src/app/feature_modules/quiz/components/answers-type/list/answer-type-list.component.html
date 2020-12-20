@@ -1,0 +1,22 @@
+<!-- <h3>Exercise</h3>
+<p>{{ question.content }}</p>
+
+<div *ngIf="question.availableAnswers">
+  <p *ngFor="let answer of question.availableAnswers; let index = index">
+    {{ index }}) {{ answer }}
+  </p>
+</div> -->
+
+<div class="container" *ngIf="this.listOfQuestions != undefined">
+  <div class="m-4">
+    <!--Hmmm-->
+    <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm" (select)="handleChange($event)">
+      <div *ngFor="let question of this.listOfQuestions; let i = index" class="mt-2">
+        <label class="inline-flex items-center" (click)="this.handleChange(i)">
+          <input type="radio" class="form-radio" name="radio" [value]="i" checked="this.isDoneCorrectAnswear(i)" />
+          <span class="ml-2">{{ question.content }}</span>
+        </label>
+      </div>
+    </form>
+  </div>
+</div>

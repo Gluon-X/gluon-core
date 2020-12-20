@@ -1,0 +1,18 @@
+<div class="container" *ngIf="this.multipleChoices != undefined">
+  <div class="m-4">
+    <form ngNoForm [formGroup]="this.inputForm" #radioForm="ngForm" (select)="this.saveAnswear($event)">
+      <div *ngFor="let question of this.multipleChoices.choices; let i = index" class="mt-2">
+        <label class="inline-flex items-center" (click)="this.saveAnswear(i)">
+          <input type="radio" class="form-radio h-5 w-5 border border-gray-300  text-gray-900" name="radio"
+            [value]="question.content" [checked]="this.isDoneCorrectAnswear(i)" />
+          <span class="ml-2 font-sans font-normal text-gray-900">{{ question.content }}</span>
+        </label>
+      </div>
+    </form>
+  </div>
+  <div class="m-4">
+    <app-check-answer *ngIf="this.multipleChoices.isCorrect != undefined"
+      [answearExplaination]='this.multipleChoices.explanation' [checkAnswer]='this.multipleChoices.isCorrect'>
+    </app-check-answer>
+  </div>
+</div>

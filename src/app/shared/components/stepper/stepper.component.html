@@ -1,0 +1,7 @@
+<div class="flex flex-row">
+  <div (click)="this.onSelect(i)" [ngClass]="{'bg-blue-500' : this.activeIndex == i,'text-white':this.activeIndex == i}"
+    style="font-size: 1.2rem;" class="rounded-full h-8 w-8 flex items-center justify-center text-gray-300 font-bold"
+    *ngFor="let item of getPhaseList(); let i = index">
+    {{ i }}
+  </div>
+</div>

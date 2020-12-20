@@ -1,0 +1,26 @@
+// xin hoat cau lac bo / tuan
+//    Cong nghe moi
+//    Code thieu nhi
+
+
+//      xin hoat
+// hop core teem chia viec
+
+// 1    - chuong trinh hoc nhu the nao dsc se ho tro nhu the nao ( huong dan giup cac ban hoc tot hon )
+// 2 DSC tutier
+// DSC memtor
+// --> biet code => tang cuong kha nang code
+// [ vao hoc cntt de lam gi ✨]
+// 1 thang => 1 major workshop
+
+// Train -> 
+
+// Core teem -> internal trainning ( Core teem viet bai,  ) 
+//    How to write conent
+//    How to run this community
+
+// Chuong trinh voi cac doi tuong khac nhau
+
+
+
+// => how to get the community Active

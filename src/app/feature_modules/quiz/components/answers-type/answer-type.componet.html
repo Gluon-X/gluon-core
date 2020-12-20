@@ -1,0 +1,32 @@
+<ng-container *ngIf="this.answearBoxData">
+    🐞 Debug Correct Answer : {{getDebugAnswear()}}
+
+    <div #textView *ngIf="this.answearType == QuestionAnswearType.SHORT_ANSWER; else listView">
+        <app-quiz-answer-type-input-text (writedAnswear)="this.saveAnswear($event)"></app-quiz-answer-type-input-text>
+        <div class="flex flex-row justify-between px-3 m-4" style="min-width: 300px;">
+            <button (click)="this.submitAnswear()" style="min-width: 170px;"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Kiểm tra kết quả
+            </button>
+            <button *ngIf="this.hasHelp" (click)="toggleHelp()"
+                class="bg-gray-200 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                Trợ giúp
+            </button>
+        </div>
+    </div>
+    <ng-template #listView>
+        <app-quiz-answer-type-list (choosenAnswear)="this.saveAnswear($event)"
+            [listOfQuestions]="this.praseMultipleChoicesProvider().choices"></app-quiz-answer-type-list>
+        <div class="flex flex-row justify-between px-3 m-4" style="min-width: 300px;">
+            <button (click)="this.submitAnswear()" style="min-width: 170px;"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Kiểm tra kết quả
+            </button>
+            <button *ngIf="this.hasHelp == null"
+                class="bg-gray-200 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                Giợi ý
+            </button>
+        </div>
+    </ng-template>
+    <div *ngIf="this.answearBoxData.explanation">Sai ùi : {{this.answearBoxData.explanation}}</div>
+</ng-container>

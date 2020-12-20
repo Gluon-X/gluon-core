@@ -1,0 +1,5 @@
+<div>
+    <ng-katex-paragraph [paragraph]="box.content" class="block text-justify"></ng-katex-paragraph>
+    <app-quiz-question-media *ngIf="this.box.imageURL != null" [scrURL]="box.imageURL">
+    </app-quiz-question-media>
+</div>

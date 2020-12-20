@@ -1,0 +1,67 @@
+<!-- SPECIFY CSS CLASS [MEANING](PRIMAY NAME) :: [xN](TailWinCSS) -->
+<div class="grid grid-cols-12  ">
+    <div class="chapter-img col-start-1 flex flex-col items-center">
+        <img [src]="this.chapter_img" alt="" srcset="" class="h-20 w-20 p-2 block">
+    </div>
+    <div class="col-start-2 col-end-9 border-indigo-800  bg-blue-500">
+        <div class="quiz-title-container h-20 flex flex-col items-start justify-center pl-6">
+            <div class="go-back-to-chapter flex flex-row content-center items-center cursor-pointer"
+                (click)="return.emit()" style="opacity: 0.7;">
+                <img class="h-3 logo-img" src="../../../../../assets/images/dev/left-chevron.svg">
+                <div class="
+                    text-sm font-bold
+                    " style="color: #F9F9F9; margin-left: 0.2rem;">{{this.go_back_chapter}}</div>
+            </div>
+            <div class="quiz-title text-2xl font-bold text-white">{{this.quiz_title}}
+            </div>
+        </div>
+    </div>
+    <div class="col-span-4  bg-blue-500">
+        <div class="quiz-title-container h-20 w-full flex flex-col content-center justify-center">
+            <div class="did-you-know" style="opacity: 0.7;">
+                <div class="inline-block 
+                    text-sm font-bold
+                    " style="color: #F9F9F9;">Did you know</div>
+            </div>
+            <div class="quiz-title text-white font-normal text-sm overflow-ellipsis">Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- SPECIFY CSS CLASS [MEANING](PRIMAY NAME) :: [xN](TailWinCSS)
+<div class="container-outter header-width">
+    <div class="inner-container h-full flex flex-row">
+        <div class="chapter-img w-24 flex-col items-center justify-center" style="min-height: 100%;">
+            <img [src]="this.chapter_img" alt="" srcset="">
+        </div>
+        <div class="chapter-info-box bg-blue-600 w-full flex-row flex items-center">
+            <div class="w-2/3 inline-block">
+                <div class="quiz-title-container header-height w-full flex flex-col items-start justify-center pl-4">
+                    <div class="go-back-to-chapter flex flex-row content-center items-center" style="opacity: 0.7;">
+                        <img class="h-4" src="../../../../../assets/images/dev/left-chevron.svg">
+                        <div class="
+                            text-base font-bold
+                            " style="color: #F9F9F9; margin-left: 0.2rem;">{{this.go_back_chapter}}</div>
+                    </div>
+                    <div class="quiz-title text-2xl font-bold text-white">{{this.quiz_title}}
+                    </div>
+                </div>
+            </div>
+            <div class="border-indigo-700 w-1/4 inline-block">
+                <div class="quiz-title-container header-height w-full flex flex-col content-center">
+                    <div class="did-you-know" style="opacity: 0.7;">
+                        <div class="inline-block 
+                            text-sm font-bold
+                            " style="color: #F9F9F9;">Did you know</div>
+                    </div>
+                    <div class="quiz-title text-white font-thin text-base">Lorem ipsum dolor sit
+                        amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

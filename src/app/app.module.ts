@@ -1,18 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { SharedModule } from './shared'
+import { RouterModule } from '@angular/router'
+import { ChapterModule } from './feature_modules/chapter'
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    ChapterModule,
+    AppRoutingModule,
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+    RouterModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

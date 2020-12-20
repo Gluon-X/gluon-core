@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'gluon-core';
+  qid: string = 'GID11060001'
+  navbarMenu: Array<{
+    router: string
+    title: string
+  }> = [
+      {
+        router: '/daily-problem',
+        title: 'Today',
+      },
+      {
+        router: '/courses',
+        title: 'Courses',
+      },
+      {
+        router: '/practice',
+        title: 'Practice',
+      },
+    ]
 }

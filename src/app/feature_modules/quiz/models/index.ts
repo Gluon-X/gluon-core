@@ -1,0 +1,6 @@
+export { MultiPhasesProvider } from './multi_phases_provider.class'
+export { MultiBoxesProvider } from './multi_boxes_provider.class'
+export { QuestionProvider, ShortAnswerProvider, MultipleChoicesProvider } from './question_provider.class'
+export { BoxType, QuizState } from './enums'
+export * from './dummy_data'
+export * from './interfaces'

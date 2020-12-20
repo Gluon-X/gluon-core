@@ -1,0 +1,12 @@
+li {
+  float: left;
+}
+li div {
+  display: block;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+}
